@@ -1,0 +1,43 @@
+.mom-head {
+    font-size: 24px;
+}
+
+.mom-btn {
+    color: #fff;
+    background-color: #3B5998;
+    border: none;
+    padding: 1%;
+}
+
+.m-auto-2 {
+    margin: 2%;
+}
+
+.width-60 {
+    width: 60%;
+}
+
+#search-bar {
+    border-radius: 0px;
+    background: #FAFAFA;
+}
+
+.drafts-tab {
+    font-size: 14px;
+}
+
+.sents-tab {
+    font-size: 14px;
+}
+
+.tab-wrapper {
+    margin-left: 6%;
+    width: 16%;
+}
+.ui.divider{
+    margin-left: 9%;
+    width: 93%;
+}
+.table-row{
+    border: 2px solide black;
+}
