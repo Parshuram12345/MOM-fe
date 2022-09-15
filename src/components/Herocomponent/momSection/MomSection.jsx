@@ -1,37 +1,13 @@
 import React from "react";
+import { data } from "../../utils";
 import "./MomSection.css";
 
+
 function MomSection() {
-  const data = [
-    {
-      date: "14 may 2022",
-      title: "Discuss Furniture layout",
-      worktag: "Layout",
-      attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed.."
-    },
-    {
-      date: "16 july 2022",
-      title: "Discuss Furniture layout",
-      worktag: "Layout",
-      attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed.."
-    },
-    {
-      date: "10 may 2022",
-      title: "Discuss Furniture layout",
-      worktag: "Layout",
-      attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed.."
-    },
-    {
-      date: "11 Apr 2022",
-      title: "Discuss Furniture layout",
-      worktag: "Layout",
-      attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed.."
-    }
-  ]
+  const dotsArray = Array.from({ length: 3 })
+  const tableHeadings = data.tableHeadings;
+  const Momdata = data.MomContent;
+
   return (
     <div>
       <div className="d-flex-col">
@@ -53,26 +29,28 @@ function MomSection() {
           <div className="sents-tab">Sents</div>
         </div>
         <div className="ui divider"></div>
-        <table className="m-left-9">
+        <table className="content-table m-left-9">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Title</th>
-              <th>Worktag</th>
-              <th>Attendes</th>
-              <th>Points</th>
+              {
+                tableHeadings && tableHeadings.map((elem) => <th className="text-align-left">{elem}</th>)
+              }
             </tr>
           </thead>
-          <tbody>
+          <tbody className="table-body">
             {
-              data && data.map(({ date, title, worktag, attendes, points }) => {
-                return <tr className="table-row">
-                  <td>
-                  <input type="checkbox"/>  {date}</td>
+              Momdata && Momdata.map(({ id,date, title, worktag, attendes, points }) => {
+                return <tr key={id} className="table-row height-10">
+                  <td><input className="checkbox-field" type="checkbox" />{date}</td>
                   <td>{title}</td>
                   <td>{worktag}</td>
                   <td>{attendes}</td>
-                  <td>{points}</td>
+                  <td className="points-head d-flex">{points}
+                    <div className="d-flex-col align-center justify-center m-auto">
+                      {
+                        dotsArray && dotsArray.map((index) => <div key={index} className="dots"></div>)
+                      }
+                    </div></td>
                 </tr>
               })
             }

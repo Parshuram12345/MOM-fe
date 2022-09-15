@@ -1,0 +1,1 @@
+export const tableHeadings =["Date","Title","Worktag","Attendes","Points"]

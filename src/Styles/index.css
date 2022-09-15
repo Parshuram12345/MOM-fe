@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Inter;
 }
 .top-navbar{
     max-width: 100%;
@@ -62,4 +61,13 @@
 }
 .m-left-9{
     margin-left: 9%;
+}
+.text-align-left{
+    text-align: left;
+}
+.height-10{
+    /* height: 8vh; */
+}
+.m-auto{
+    margin:auto;
 }
