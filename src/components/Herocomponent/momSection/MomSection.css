@@ -9,14 +9,10 @@
     padding: 1%;
 }
 
-.m-auto-2 {
-    margin: 2%;
+.momHead-wrapper{
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
-
-.width-60 {
-    width: 60%;
-}
-
 #search-bar {
     border-radius: 0px;
     background: #FAFAFA;
@@ -30,26 +26,8 @@
     font-size: 14px;
 }
 
-.tab-wrapper {
-    margin-left: 6%;
-    width: 16%;
-}
-.ui.divider{
-    margin-left: 9%;
-    width: 93%;
-}
 tr.table-row td{
-    padding: 0 4px;
-}
-/* tr.table-row{
-    border:2px solid #DFDFDF
-} */
-.dots {
-    width: 3px;
-    height: 3px;
-    margin-top: 2px;
-    background-color: #222;
-    border-radius: 50%;
+    /* padding: 0 4px; */
 }
 
 .table-row{
@@ -60,21 +38,25 @@ tr.table-row td{
     margin-right: 10px;
   }
  .content-table{
-    border-collapse: collapse;
-    /* border-collapse:separate; */
-    width: 93%;
-    padding: 10px 12px;
+    border-spacing: 0 15px;
+    border-collapse:separate;
  }
  .padding-r-30{
     padding-right: 30px;
  }
  
- .points-head{
-    margin-top: 4%;
- }
  .checkbox-field{
     margin-right: 5%;
  }
- tr{
-    margin:5px
+
+ .threedots{
+   margin-left: 4%;
+ }
+ .date-cell{
+     border-left:1px solid  #DFDFDF;
+    border-right:0
+}
+.points-cell{
+    border-left:0;
+    border-right:1px solid #DFDFDF; 
  }

@@ -19,9 +19,13 @@
     height: 90vh;
     top:96px;
 }
-.w-75{
-    width: 75vw;
+.width-75{
+    width: 75%;
 }
+.width-50{
+    width: 50%;
+}
+
 .font-w-500{
     font-family: 500;
 }
@@ -53,21 +57,29 @@
 .h-fit-content{
     height: fit-content;
 }
-.m-auto{
-    margin: auto;
-}
 .font-family-Inter{
     font-family: Inter;
-}
-.m-left-9{
-    margin-left: 9%;
 }
 .text-align-left{
     text-align: left;
 }
+.text-align-center{
+    text-align: center;
+}
 .height-10{
-    /* height: 8vh; */
+    height: 8vh;
 }
 .m-auto{
     margin:auto;
 }
+.margin-left-3{
+ margin-left: 3%;
+}
+.border-cells{
+    border-top: 1px solid  #DFDFDF;
+    border-bottom: 1px solid  #DFDFDF;
+}
+.width-15{
+    width: 15%;
+}
+
