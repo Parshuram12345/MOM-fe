@@ -5,6 +5,7 @@
 .mom-btn {
     color: #fff;
     background-color: #3B5998;
+    cursor: pointer;
     border: none;
     padding: 1%;
 }
@@ -22,10 +23,12 @@
     font-size: 18px;
     font-weight: 500;
     color: #3B5998;
+    cursor: pointer;
     border-bottom: 1px solid #3B5998 ;
 }
 
 .sents-tab {
+    cursor: pointer;
     font-size: 18px;
 }
 

@@ -6,13 +6,14 @@ import "./MomSection.css";
 
 function MomSection() {
   const [draftsflag, setDraftsflag] = useState(false)
+  const [opendraftsbox, setOpendraftbox] = useState(false)
   const tableHeadings = data.tableHeadings;
   const Momdata = data.MomContent;
   const handleSharedDocs = (value) => {
     setDraftsflag(value)
   }
-  const openShareDelete=()=>{
-    
+  const openShareDelete = () => {
+    setOpendraftbox(!opendraftsbox)
   }
   return (
     <>
@@ -53,7 +54,7 @@ function MomSection() {
                   <td className="border-cells">{attendes}</td>
                   <td className="points-cell border-cells">
                     <input type="text" className="points-field" value={points} />
-                    <span className="threedots" onClick={() => openShareDelete(true)}>
+                    <span className="threedots" onClick={() => openShareDelete()}>
                       <BsThreeDotsVertical />
                     </span>
                   </td>
@@ -63,12 +64,12 @@ function MomSection() {
           </tbody>
         </table>
       </div>
-      <div className="d-flex-col share-del-wrapper position-absolute">
+      { opendraftsbox && <div className="d-flex-col share-del-wrapper position-absolute">
         <div> <AiOutlineShareAlt /> Share</div>
-        { !draftsflag && <div>
+        {!draftsflag && <div>
           <AiFillDelete /> Delete</div>
         }
-      </div>
+      </div>}
     </>
   );
 }
