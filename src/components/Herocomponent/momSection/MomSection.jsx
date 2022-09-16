@@ -39,8 +39,8 @@ function MomSection() {
           </thead>
           <tbody className="table-body">
             {
-              Momdata && Momdata.map(({ id,date, title, worktag, attendes, points }) => {
-                return <tr key={id} className="table-row height-10">
+              Momdata && Momdata.map(({ id,date, title, worktag, attendes, points },index) => {
+                return <tr key={index} className="table-row height-10">
                   <td className="date-cell text-align-center width-15 border-cells"><input className="checkbox-field" type="checkbox" />{date}</td>
                   <td className="border-cells">{title}</td>
                   <td className="border-cells">{worktag}</td>
