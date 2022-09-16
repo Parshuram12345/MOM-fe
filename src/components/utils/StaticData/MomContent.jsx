@@ -27,7 +27,7 @@ export const MomContent = [
         id:3,
       date: "11 Apr 2022",
       title: "Discuss Furniture layout",
-      worktag: "Layout",
+      worktag: "General Discussion",
       attendes: "Amrit Sunari,Dikshant Negi",
       points: "It is a long established fact that a reader will be directed.."
     }

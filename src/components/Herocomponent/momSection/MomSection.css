@@ -19,15 +19,14 @@
 }
 
 .drafts-tab {
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #3B5998;
+    border-bottom: 1px solid #3B5998 ;
 }
 
 .sents-tab {
-    font-size: 14px;
-}
-
-tr.table-row td{
-    /* padding: 0 4px; */
+    font-size: 18px;
 }
 
 .table-row{
@@ -59,4 +58,13 @@ tr.table-row td{
 .points-cell{
     border-left:0;
     border-right:1px solid #DFDFDF; 
+ }
+ .points-field{
+    border: 0;
+    outline: 0;
+ }
+ .share-del-wrapper{
+    top: 30%;
+    right:30px;
+    position: absolute;
  }
