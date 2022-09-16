@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import axios from "axios";
 
 const BASE_URL = "https://pro-api.idesign.market/";

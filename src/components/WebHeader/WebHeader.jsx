@@ -10,10 +10,10 @@ import { BsPersonCircle, BsCartCheck } from "react-icons/bs";
 import { MdOutlineReviews, MdLogout } from "react-icons/md";
 
 import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const WebHeader = () => {
-  // const profileData = useSelector((state) => state.pmtPersist.profileData);
+  const profileData = useSelector((state) => state?.pmtPersist?.profileData);
 
   return (
     <React.Fragment>
@@ -58,11 +58,11 @@ const WebHeader = () => {
             <Dropdown style={{ display: "flex", alignItems: "center" }}>
               <DropdownToggle style={{ border: "none", backgroundColor: "#ffffff" }} as="button">
                 <div className="d-flex">
-                  {/* <div className={styles.profileImageContainer}>{profileData ? <img src={profileData[0]?.imageUrl?.thumbnail} alt="" /> : <BsPersonCircle />}</div> */}
+                  <div className={styles.profileImageContainer}>{profileData ? <img src={profileData[0]?.imageUrl?.thumbnail} alt="" /> : <BsPersonCircle />}</div>
                   <div className="d-flex flex-column align-items-start">
-                    {/* <div style={{ fontSize: "14px", fontWeight: "500" }}>{profileData && profileData[0]?.companyName}</div> */}
+                    <div style={{ fontSize: "14px", fontWeight: "500" }}>{profileData && profileData[0]?.companyName}</div>
                     <div style={{ fontSize: "12px", backgroundColor: "#17609126", borderRadius: "50px", padding: "0 0.7rem" }}>
-                      {/* {profileData && (profileData[0]?.planId?._id === "6200c35b083dd9b8c3f69391" ? "Free Plan" : "Premium Plan")} */}
+                      {profileData && (profileData[0]?.planId?._id === "6200c35b083dd9b8c3f69391" ? "Free Plan" : "Premium Plan")}
                     </div>
                   </div>
                 </div>

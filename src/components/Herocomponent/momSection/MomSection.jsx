@@ -53,7 +53,7 @@ function MomSection() {
                   <td className="border-cells">{worktag}</td>
                   <td className="border-cells">{attendes}</td>
                   <td className="points-cell border-cells">
-                    <input type="text" className="points-field" value={points} />
+                    <input type="text" className="points-field" defaultValue={points} />
                     <span className="threedots" onClick={() => openShareDelete()}>
                       <BsThreeDotsVertical />
                     </span>

@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./SideNavWeb.module.css";
-import {data } from "../utils"
+import { data } from "../utils"
 // import upgradeMedal from "../Assets/upgradeMedal.svg";
 import { Dropdown } from "react-bootstrap";
 // import CreateNewProjectButton from "../CreateNewProjectButton/CreateNewProjectButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfileData } from "../../Redux/Actions";
 
 const SideNavWeb = () => {
-    const sideNavLinkArray =data.sideNavLinkArray
-  const profileData = useSelector((state) => {
-    return state?.addToCartReducer?.profileData});
-    console.log(profileData)
+  const dispatch = useDispatch();
+  const sideNavLinkArray = data.sideNavLinkArray
+  const authTok = `Bearer ${localStorage.getItem("token")}`
+  const profileData = useSelector((state) =>  state?.pmtPersist?.profileData);
+  console.log(profileData)
   const goToPage = (navigable, towards) => {
     if (navigable) {
       window.location.assign(towards);
     }
   };
+  useEffect(() => {
+    dispatch(fetchProfileData(authTok));
+  }, [])
   return (
     <React.Fragment>
       <div className={styles.sidenavContainer}>
@@ -27,7 +32,7 @@ const SideNavWeb = () => {
           <hr />
 
           {sideNavLinkArray.map(
-            (curElem,index) =>
+            (curElem, index) =>
               curElem.visible && (
                 <div key={index} className={curElem.label === "My Projects" ? styles.sidenavLinkActive : styles.sidenavLinkStyle} onClick={() => goToPage(curElem.navigable, curElem.towards)}>
                   <div className="d-flex align-items-center me-3">{curElem.label === "My Projects" ? curElem.selected : curElem.notSelected}</div>
@@ -40,9 +45,7 @@ const SideNavWeb = () => {
                 </div>
               )
           )}
-
           <hr />
-
           <div className={styles.upgradeButton} onClick={() => goToPage(true, "https://pro.idesign.market/plans")}>
             <button>
               {/* <img src={upgradeMedal} alt="" /> */}
