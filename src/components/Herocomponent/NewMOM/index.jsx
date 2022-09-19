@@ -55,15 +55,13 @@ function NewMOM() {
                 </div>
                 <div className='d-flex-col'>
                     <label htmlFor="points">Points</label>
-                    <div name="points" rows="10" cols="50" className='points-container border-df bg-color-fa padding-5'>
-                        <ul>
+                    <div name="points" className='points-container border-df bg-color-fa padding-5'>
                      {
                          pointOfMom && pointOfMom.map((elem,index)=>{
                              return  <div> <span className='points-counter'>{index+1}.</span>{elem.points}</div>
                     
                             })
                         }
-                    </ul>
                     </div>
                 </div>
                     <button className='submit-btn bg-color border-none padding-5'>Submit</button>

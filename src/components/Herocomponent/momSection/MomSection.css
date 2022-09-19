@@ -36,6 +36,10 @@
       border: 2px solid #DFDFDF;
       margin-bottom: 2;
   }
+  .table-row:hover{
+    cursor: pointer;
+    background: rgba(59, 89, 152, 0.1);
+  }
   .margin-right-10{
     margin-right: 10px;
   }

@@ -1,0 +1,40 @@
+.mom-head {
+    font-size: 24px;
+}
+
+.mom-btn {
+    color: #fff;
+    background-color: #3B5998;
+    cursor: pointer;
+    border: none;
+    padding: 1%;
+}
+
+.momHead-wrapper{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+#search-bar {
+    border-radius: 0px;
+    background: #FAFAFA;
+}
+.share-icon{
+    margin-left: 4px;
+}
+.points-counter{
+    margin-right: 3px;
+}
+.points-container-field{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: justify;
+    background-color: #E5E5E5;
+    padding: 2px;
+}                  
+.share-with-wrapper{
+    width: 10%;
+    position: absolute;
+    margin-top: 7%;
+       
+}
