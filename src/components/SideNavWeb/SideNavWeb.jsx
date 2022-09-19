@@ -24,13 +24,11 @@ const SideNavWeb = () => {
   return (
     <React.Fragment>
       <div className={styles.sidenavContainer}>
-        <div>
+        <div className="d-flex-col justify-around height-60">
           <div className={styles.createProjectButton}>
             {/* <CreateNewProjectButton place="sidebar" /> */}
           </div>
-
           <hr />
-
           {sideNavLinkArray.map(
             (curElem, index) =>
               curElem.visible && (

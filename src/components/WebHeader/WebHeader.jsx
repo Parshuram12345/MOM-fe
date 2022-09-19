@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./WebHeader.module.css";
-// import logo from "../Assets/logo.svg";
+// import logo from "./../../../public/logo.svg";
 // import upgradeMedal from "../Assets/upgradeMedal.svg";
 // import testProfile from "../Assets/testProfile.svg";
 import { AiOutlineBell, AiOutlineInfoCircle, AiOutlineQuestionCircle } from "react-icons/ai";
@@ -19,7 +19,7 @@ const WebHeader = () => {
     <React.Fragment>
       <div className={styles.headerContainer}>
         <div className={styles.logoContainer}>
-          {/* <img src={logo} alt="" /> */}
+          <img src={"/images/logo-idesign.png"} alt="website_logo" />
         </div>
         <div className={styles.navbarIcons}>
           <div className="d-flex align-items-center position-relative">
@@ -55,10 +55,11 @@ const WebHeader = () => {
             </button>
           </div>
           <div>
-            <Dropdown style={{ display: "flex", alignItems: "center" }}>
+            <Dropdown style={{ display: "flex", alignItems: "center" }}
+             >
               <DropdownToggle style={{ border: "none", backgroundColor: "#ffffff" }} as="button">
                 <div className="d-flex">
-                  <div className={styles.profileImageContainer}>{profileData ? <img src={profileData[0]?.imageUrl?.thumbnail} alt="" /> : <BsPersonCircle />}</div>
+                  <div className={styles.profileImageContainer}>{profileData ? <img src={profileData[0]?.imageUrl?.thumbnail} alt="images" /> : <BsPersonCircle />}</div>
                   <div className="d-flex flex-column align-items-start">
                     <div style={{ fontSize: "14px", fontWeight: "500" }}>{profileData && profileData[0]?.companyName}</div>
                     <div style={{ fontSize: "12px", backgroundColor: "#17609126", borderRadius: "50px", padding: "0 0.7rem" }}>
@@ -67,7 +68,7 @@ const WebHeader = () => {
                   </div>
                 </div>
               </DropdownToggle>
-              <Dropdown.Menu>
+              <Dropdown.Menu  className="profile-dropDown d-flex-col justify-around height-50">
                 <Dropdown.Item className={styles.dropDownLinks}>
                   <BsPersonCircle style={{ marginRight: "0.5rem" }} />
                   My Profile

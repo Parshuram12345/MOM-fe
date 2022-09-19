@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter;
+}
+.padding-5{
+    padding: 5px;
+}
+.padding-1{
+    padding: 1px;
+}
+.submit-btn{
+    display: block;
+    width: 13%;
+    height: 6vh;
+    color: white;
+    float: right;
+    margin-left: auto;
+    margin-right: 0;
+}
+.email-field{
+    margin-right: 4px;
+}
+.error-msg{
+ font-size: 16px;
+ font-family: 400;
+}
+.points-container{
+    min-height: 35vh;
+    height: fit-content;
+}
+.points-counter{
+     margin-right: 3px;
+}

@@ -1,5 +1,7 @@
 import React from 'react'
-import MomSection from '../../components/Herocomponent/momSection/MomSection';
+// import MomSection from '../../components/Herocomponent/momSection/MomSection';
+// import MomZeroState from '../../components/Herocomponent/momZeroState';
+import NewMOM from '../../components/Herocomponent/NewMOM';
 import SideNavWeb from '../../components/SideNavWeb/SideNavWeb';
 import WebHeader from '../../components/WebHeader/WebHeader';
 
@@ -13,7 +15,9 @@ export function Home() {
         <div className="side-navbar">
           <SideNavWeb />
         </div>
-        <MomSection />
+        {/* <MomSection /> */}
+        {/* <MomZeroState/> */}
+        <NewMOM/>
       </div>
     </>
   )
