@@ -8,6 +8,8 @@
     cursor: pointer;
     border: none;
     padding: 1%;
+    width: 110px;
+    height: 30px;
 }
 
 .momHead-wrapper{

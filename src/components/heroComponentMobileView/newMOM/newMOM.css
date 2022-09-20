@@ -1,0 +1,9 @@
+.email-field{
+    width: 55%;
+    margin: 2px 4px;
+}
+.submit-btn{
+    /* height: 6vh; */
+    margin-top: 5px;
+    color: white;
+}
