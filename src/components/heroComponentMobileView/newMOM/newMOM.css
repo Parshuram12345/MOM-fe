@@ -1,9 +1,10 @@
 .email-field{
-    width: 55%;
-    margin: 2px 4px;
+    width:fit-content;
+    margin: 4px 4px;
 }
 .submit-btn{
-    /* height: 6vh; */
-    margin-top: 5px;
+    height: 6vh;
+    margin-top: 20px;
     color: white;
+    width: 100%;
 }

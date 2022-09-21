@@ -1,0 +1,52 @@
+.edit-icon,.doublevector-icon{
+    font-size: 2rem;
+    color: #888888;
+}
+
+.mom-head {
+    font-size: 24px;
+}
+.divider-bar{
+    color: #DFDFDF;
+    font-size: 2rem;
+}
+i.search.icon{
+    font-size: 18px;
+    color: #888888;
+}
+.drafts-tab {
+    font-size: 18px;
+    font-weight: 500;
+    color: #3B5998;
+    cursor: pointer;
+    border-bottom: 1px solid #3B5998 ;
+}
+
+.sents-tab {
+    cursor: pointer;
+    font-size: 18px;
+}
+.mom-layout{
+    width:26%;
+    text-align: center;
+    padding: 1%;
+    background: rgba(59, 89, 152, 0.2);
+}
+.mom-field:hover{
+    cursor: pointer;
+    background: rgba(59, 89, 152, 0.2);
+}
+.mom-points{
+    padding: 3%;
+    color: #888888;
+}
+.as-on{
+    background: rgba(59, 89, 152, 0.2);
+    width:30px;
+    padding: 3%;
+    text-align: center;
+}
+.momdata-wrapper{
+    overflow: scroll;
+    overflow-x: hidden;
+}

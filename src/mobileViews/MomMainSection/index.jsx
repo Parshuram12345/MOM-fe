@@ -1,14 +1,15 @@
 import React from 'react'
-import NewMom from '../../components/heroComponentMobileView/newMOM'
-function NewMomMobilePage() {
+import MomSection from '../../components/heroComponentMobileView/momSection'
+
+function MomMainSectionMobilePage() {
   return (
     <>
         <div className='mobile-top-navbar d-flex align-center justify-center'>
               top navbar
         </div>
-        <NewMom/>
+        <MomSection/>
     </>
   )
 }
 
-export default NewMomMobilePage
+export default MomMainSectionMobilePage

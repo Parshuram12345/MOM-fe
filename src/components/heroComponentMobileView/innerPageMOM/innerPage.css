@@ -1,0 +1,26 @@
+.edit-icon,.doublevector-icon{
+    font-size: 2rem;
+    color: #888888;
+}
+.mom-head {
+    font-size: 24px;
+}
+.divider-bar{
+    color: #DFDFDF;
+    font-size: 2rem;
+}
+i.search.icon{
+    font-size: 18px;
+    color: #888888;
+}
+.points-counter{
+    margin-right: 3px;
+}
+.points-container-field{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: justify;
+    background-color: #E5E5E5;
+    padding: 2px;
+}   
