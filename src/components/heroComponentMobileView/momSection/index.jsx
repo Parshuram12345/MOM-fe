@@ -56,7 +56,7 @@ function MomSection() {
                 </div>
                 <hr/>
                 <div className="momdata-wrapper d-flex-col divider-margin">
-                {   Momdata && Momdata.map(({ date, title, worktag, points }, index) => {
+                {   Momdata && Momdata.map(({ date, title, worktag, attendes, points }, index) => {
                 return <div key={index} className="mom-field border-df border-radius-5 divider-margin">
                     <div className="d-flex justify-around align-center padding-3">
                         <input type="checkbox" />

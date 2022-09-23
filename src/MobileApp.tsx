@@ -8,9 +8,6 @@ import { Route, Routes } from 'react-router-dom';
 function MobileApp() {
   return (
     <>
-       {/* */}
-       {/* */}
-       {/**/}
        <Routes>
        <Route path='/' element={  <MomZeroStateMobilePage/> } />
        <Route path='/mom' element={ <MomMainSectionMobilePage/> } />

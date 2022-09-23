@@ -31,8 +31,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     text-align: justify;
-    background-color: #E5E5E5;
-    padding: 2px;
+    padding: 6px;
 }                  
 .share-with-wrapper{
     width: 10%;

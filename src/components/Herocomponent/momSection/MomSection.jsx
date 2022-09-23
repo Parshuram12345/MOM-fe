@@ -1,22 +1,44 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { AiFillDelete, AiOutlineShareAlt } from "react-icons/ai";
 import { data } from "../../utils";
 import "./MomSection.css";
+// import { pointsData } from "../../utils/StaticData/MomContent";
 
 function MomSection() {
   const [draftsflag, setDraftsflag] = useState(false)
   const [opendraftsbox, setOpendraftbox] = useState(false)
-  const { tableHeadings, access_token } = data;
   const [momdata,setMomdata]=useState([])
+  const [points3dots,setPoints3dots]=useState([])
+  const { tableHeadings, access_token,pointsData } = data;
+  const navigate = useNavigate()
   const Momdata = data.MomContent;
+  ///----sharedocs -----
   const handleSharedDocs = (value) => {
     setDraftsflag(value)
   }
+  ///----opensharebox-----///
   const openShareDelete = () => {
     setOpendraftbox(!opendraftsbox)
+  }
+  ///----add three dots after limit out ----///
+  function add3Dots(){
+    let dots = "...";
+    // let newpointsArr=[];
+  let limit =30;
+  for (let i=0;i<pointsData.length;i++){
+    console.log(pointsData[i])
+    if(pointsData[i].length >limit)
+    {
+      // you can also use substr instead of substring
+      setPoints3dots(pointsData[i].substring(0,limit) + dots);
+    }
+  }
+}
+  const navigateInnerPage =()=>{
+       navigate("/mominnerpage")
   }
   async function getApiData() {
      axios.get('https://pmt.idesign.market/api/mom/getMOM', {
@@ -34,6 +56,7 @@ function MomSection() {
   }
   useEffect(() => {
     getApiData()
+    add3Dots()
   },[])
   console.log(momdata)
   return (
@@ -51,14 +74,15 @@ function MomSection() {
             </div>
           </div>
           <Link to="/newmom">
-            <button className="mom-btn">Create a MOM</button>
+            <button className="mom-btn border-radius-4">Create a MOM</button>
           </Link>
         </div>
         <div className="d-flex width-15 justify-between">
           <div className={!draftsflag ? "drafts-tab" : "sents-tab"} onClick={() => handleSharedDocs(false)}>Drafts</div>
           <div className={draftsflag ? "drafts-tab" : "sents-tab"} onClick={() => handleSharedDocs(true)}>Sents</div>
         </div>
-        <div className="ui divider"></div>
+        {/* <div className="ui divider"></div> */}
+        <hr/>
         <table className="content-table">
           <thead>
             <tr>
@@ -69,17 +93,20 @@ function MomSection() {
           </thead>
           <tbody className="table-body position-relative">
             {
-              Momdata && Momdata.map(({ date, title, worktag,category, points }, index) => {
-                return <tr key={index} className="table-row height-10">
-                  <td className="date-cell text-align-center width-15 border-cells"><input className="checkbox-field" type="checkbox" />{date}</td>
+              Momdata && Momdata.map(({ date, title, worktag,attendes, points }, index) => {
+                return <tr key={index}
+                 onClick={()=>navigateInnerPage()}
+                  className="table-row height-10 border-radius-4">
+                  <td className="date-cell text-align-center width-15 border-cells border-radius-left-cells"><input className="checkbox-field" type="checkbox" />{date}</td>
                   <td className="border-cells">{title}</td>
                   <td className="border-cells">{worktag}</td>
-                  <td className="border-cells">{category}</td>
-                  <td className="points-cell border-cells">
-                    <input type="text" className="points-field" defaultValue={points} />
+                  <td className="border-cells">{attendes}</td>
+                  <td className="points-cell border-cells border-radius-right-cells">
+                  <td className="points-field d-flex align-center">{points3dots}
                     <span className="threedots" onClick={() => openShareDelete()}>
                       <BsThreeDotsVertical />
                     </span>
+                  </td>
                   </td>
                 </tr>
               })

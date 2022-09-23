@@ -2,6 +2,7 @@ import React from 'react';
 import { AiOutlineShareAlt, AiFillPlusCircle } from "react-icons/ai";
 import { data } from "../../utils";
 import "./InnerPageMom.css"
+import { Link } from 'react-router-dom';
 
 function InnerPageMom() {
     const pointOfMom = data.MomContent;
@@ -19,14 +20,16 @@ function InnerPageMom() {
                             <div className="results"></div>
                         </div>
                     </div>
+                    <Link to="/newmom">
                     <button className="mom-btn">Create a MOM</button>
+                    </Link>
                 </div>
                 <div className='d-flex-col'>
-                    <div>Discussed layouts for the living and the dining area <span className='share-icon'><AiOutlineShareAlt /></span></div>
+                    <div className='d-flex align-center'>Discussed layouts for the living and the dining area <AiOutlineShareAlt /></div> <span className='share-icon'></span>
                     <div className='d-flex justify-between width-86'>
-                        <div className='opacity-5'>28 may 2022 . Google meet</div>
+                        <div className='color-text-888888'>28 may 2022 . Google meet</div>
                         <div className='d-flex justify-between width-18'>
-                            <div className='opacity-5'>Layout</div>
+                            <div className='color-text-888888'>Layout</div>
                             <div>Share With</div>
                         </div>
                     </div>
@@ -36,7 +39,7 @@ function InnerPageMom() {
                             {
                                 pointOfMom && pointOfMom.map((elem, index) => {
                                     return (
-                                        <div className='d-flex'>
+                                        <div className='d-flex divider-margin'>
                                             <span className='points-counter'>{index + 1}.</span><div className='text-align-justify'>{elem.points}</div>
                                         </div>
                                     )
@@ -46,10 +49,9 @@ function InnerPageMom() {
                         <div className='share-with-wraper'>
                             <hr style={{ width: "75px" }} />
                             <div className='d-flex-col justify-evenly height-20'>
-                                <div style={{ color: "#444444" }}>Amit Sunari</div>
-                                <div style={{ color: "#444444" }}>Parshuram saini</div>
-                                <div style={{ color: "#444444" }}>Anmol Tuli</div>
-                                <div className='color-text'><AiFillPlusCircle /> Add Members</div>
+                                <div>Amit Sunari</div>
+                                <div>Anmol Tuli</div>
+                                <div className='color-text d-flex align-center'><AiFillPlusCircle /> Add Members</div>
                             </div>
                         </div>
                     </div>

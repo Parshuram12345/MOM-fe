@@ -22,6 +22,11 @@
 .email-field{
     margin-right: 4px;
 }
+.email-wrapper{
+   
+    background-color: white;
+    margin: 3px 2px;
+}
 .error-msg{
  font-size: 16px;
  font-family: 400;
@@ -32,4 +37,11 @@
 }
 .points-counter{
      margin-right: 3px;
+}
+.plus-icon{
+    right: 5px;
+    font-size: 20px;
+}
+select:first{
+    color: #888888;
 }

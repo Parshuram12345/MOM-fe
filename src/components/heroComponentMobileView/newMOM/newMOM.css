@@ -1,10 +1,14 @@
-.email-field{
-    width:fit-content;
-    margin: 4px 4px;
+.email-wrapper{
+    background-color: white;
+    margin: 3px 2px;
 }
 .submit-btn{
     height: 6vh;
     margin-top: 20px;
     color: white;
     width: 100%;
+}
+.plus-icon{
+    right: 5px;
+    font-size: 20px;
 }
