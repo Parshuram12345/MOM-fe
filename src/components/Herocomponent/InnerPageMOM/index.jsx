@@ -33,7 +33,7 @@ function InnerPageMom() {
                             <div>Share With</div>
                         </div>
                     </div>
-                    < hr style={{ width: "75%" }} />
+                    <hr style={{ width: "75%" }} />
                     <div className='d-flex justify-between width-89'>
                         <div name="points" className='points-container-field border-none bg-color-fa width-84'>
                             {
