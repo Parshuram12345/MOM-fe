@@ -1,10 +1,14 @@
-.edit-icon,.doublevector-icon{
+.edit-icon{
+    font-size: 2rem;
+    color: #3B5998;
+}
+.doublevector-icon{
     font-size: 2rem;
     color: #888888;
-}
 
+}
 .mom-head {
-    font-size: 24px;
+    font-size: 20px;
 }
 .divider-bar{
     color: #DFDFDF;
@@ -49,4 +53,33 @@ i.search.icon{
 .momdata-wrapper{
     overflow: scroll;
     overflow-x: hidden;
+}
+a,a:hover{
+    text-decoration: none;
+}
+.search-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1px;
+}
+.search-text{
+    width:2rem;
+    border-radius: 5rem;
+    border: none;
+    opacity: 0;
+    transition: all 0.2s linear;
+}
+.search-btn{
+    position: absolute;
+    right: 0.5rem;
+    border: none;
+    background: none;
+}
+.search-box:hover> .search-text{
+    width:12rem;
+    padding:7px;
+    opacity: 1;
+    border: 1px solid #888888;
 }

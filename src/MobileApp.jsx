@@ -1,28 +1,35 @@
-import React, { useState, createContext } from "react";
-import { Route, Routes } from "react-router-dom";
-import "./Styles/index.css";
-import Home from "./views/Home";
-import MomZeroStatePage from "./views/momZeroState";
-import NewMomPage from "./views/newMOM";
-import InnerPage from "./views/InnerPageMOM";
-import {data} from "./components/utils"
-export const MomContext = createContext("context");
-function App() {
-  const [momdate ,setMomdate]= useState(new Date ())
-  const [category, setCategory] = useState();
-  const [location, setLocation] = useState();
-  const [title, setTitle] = useState();
+import React, { useState, createContext } from 'react'
+import NewMomMobilePage from './mobileViews/newMOM';
+import MomZeroStateMobilePage from './mobileViews/momZeroState';
+import MomMainSectionMobilePage from './mobileViews/MomMainSection';
+import InnerMomPage from './mobileViews/InnerPageMom';
+import "./Styles/mobile/mobile.css"
+import { Route, Routes } from 'react-router-dom';
+import {data} from "./components/utils";
+export const momContext = createContext("context");
+
+function MobileApp() {
+  const [selectdate, setSelectdate] = useState("");
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [title, setTitle] = useState("");
   const [emaillist, setEmaillist] = useState([
     "dikshant@gmail.com",
-    "prsaini@gmail.com",
   ]);
-  const [emailvalue, setEmailvalue] = useState();
+  const [emailvalue, setEmailvalue] = useState("");
   const [pointsdata, setPointsdata] = useState(null);
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
   const { MomContent, access_token, pointsData } = data;
-  
+  ///---convert date in readable format ---///
+  function dateFormater(newdate) {
+    console.log("dateformat")
+    const todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
+    setSelectdate(todaydate)
+    console.log(selectdate,typeof selectdate)
+  }
+   
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
 		setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
@@ -35,21 +42,13 @@ function App() {
 			event.target.value = "";
 		}
 	};
-  ///---convert date in readable format ---///
-  function dateFormater(newdate) {
-    console.log("dateformat")
-    const todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
-    setMomdate(todaydate)
-    console.log(momdate,typeof momdate)
-  }
- 
   ///------add the points in field -----///
   const handlePointsField = (e) => {
     setPointsdata(e.target.value.split("\n"));
   };
   const handlePostData = () => {
     const bodyData = JSON.stringify({
-      date: momdate,
+      date: selectdate,
       category: category,
       location: location,
       title: title,
@@ -67,7 +66,7 @@ function App() {
     })
       .then((response) => {
         if (response.ok) {
-          setMomdate("");
+          setSelectdate("");
           setCategory("");
           setLocation("");
           setTitle("");
@@ -83,14 +82,16 @@ function App() {
       });
   };
   const handleSubmitData = () => {
-    if (momdate && category && pointsdata) {
+    console.log("vb", category);
+
+    if (selectdate && category && pointsdata) {
       handlePostData();
       setDateerror(false);
       setCategoryerror(false);
       setPointserror(false);
     }
     // else{
-    if (!momdate) {
+    if (!selectdate) {
       setDateerror(true);
       // setErrormsg({dateflag:true})
     }
@@ -107,9 +108,9 @@ function App() {
   };
   return (
     <>
-      <MomContext.Provider
+    <momContext.Provider
         value={{
-          momdate,
+          selectdate,
           category,
           setCategory,
           location,
@@ -128,18 +129,18 @@ function App() {
           setCategoryerror,
           pointserror,
           setPointserror,
-          dateFormater,
-          addEmail,removeEmail,handlePointsField,handleSubmitData
+          dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
         }}
       >
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/mominnerpage" element={<InnerPage />} />
-          <Route path="/momzerostate" element={<MomZeroStatePage />} />
-          <Route path="/newmom" element={<NewMomPage />} />
-        </Routes>
-      </MomContext.Provider>
+       <Routes>
+       <Route path='/' element={  <MomZeroStateMobilePage/> } />
+       <Route path='/mom' element={ <MomMainSectionMobilePage/> } />
+       <Route path='/newmom' element={ <NewMomMobilePage/> } />
+       <Route path='/mominner' element={ <InnerMomPage/> } />
+       </Routes>
+      </momContext.Provider>
     </>
-  );
+  )
 }
-export default App;
+
+export default MobileApp;

@@ -24,19 +24,22 @@ function MomSection() {
     setOpendraftbox(!opendraftsbox)
   }
   ///----add three dots after limit out ----///
-  function add3Dots(){
+  function add3Dots(pointslist){
+    console.log(pointslist)
     let dots = "...";
-    // let newpointsArr=[];
   let limit =30;
-  for (let i=0;i<pointsData.length;i++){
-    console.log(pointsData[i])
-    if(pointsData[i].length >limit)
+  // for (let i=0;i<pointsData.length;i++){
+    // console.log(pointsData[i])
+    if(pointslist[0].length >limit)
     {
-      // you can also use substr instead of substring
-      setPoints3dots(pointsData[i].substring(0,limit) + dots);
+    //   // you can also use substr instead of substring
+      return (pointslist[0].substring(0,limit) + dots);
     }
-  }
+    else{
+      return pointslist[0]
+    }
 }
+
   const navigateInnerPage =()=>{
        navigate("/mominnerpage")
   }
@@ -56,14 +59,13 @@ function MomSection() {
   }
   useEffect(() => {
     getApiData()
-    add3Dots()
   },[])
   console.log(momdata)
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
         <div className="momHead-wrapper d-flex justify-between align-center">
-          <div className="d-flex width-50 align-center justify-between">
+          <div className="d-flex width-60 align-center justify-between">
             <div className="mom-head font-w-500">Minutes of Meetings</div>
             <div className="ui fluid category search">
               <div className="ui icon input">
@@ -97,12 +99,15 @@ function MomSection() {
                 return <tr key={index}
                  onClick={()=>navigateInnerPage()}
                   className="table-row height-10 border-radius-4">
-                  <td className="date-cell text-align-center width-15 border-cells border-radius-left-cells"><input className="checkbox-field" type="checkbox" />{date}</td>
+                  <td className="date-cell text-align-center width-15 border-cells border-radius-left-cells">
+                     <input className="checkbox-field" type="checkbox" />
+                  {date}
+                  </td>
                   <td className="border-cells">{title}</td>
                   <td className="border-cells">{worktag}</td>
                   <td className="border-cells">{attendes}</td>
                   <td className="points-cell border-cells border-radius-right-cells">
-                  <td className="points-field d-flex align-center">{points3dots}
+                  <td className="points-field d-flex align-center">{add3Dots(points)}
                     <span className="threedots" onClick={() => openShareDelete()}>
                       <BsThreeDotsVertical />
                     </span>

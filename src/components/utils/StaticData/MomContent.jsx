@@ -6,7 +6,9 @@ export const MomContent = [
       worktag: "Layout",
       Location:"Google meet",
       attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed, it is a long established fact that a reder will be distracted by the readable content of a page when looking at its layout, the point of using lorem ipsum"
+      points: ["It is a long established fact that a reader will be directed, it is a long established fact that a reder will be distracted by the readable content of a page when looking at its layout, the point of using lorem ipsum",
+      "It is a long established fact that a reader will be directed",
+      "It is a long established fact that a reader will be directed modi magna"]
     },
     {
         id:1,
@@ -15,7 +17,7 @@ export const MomContent = [
       Location:"Google meet",
       worktag: "Layout",
       attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed.."
+      points: ["It is a long established fact that a reader will be directed..","It is a long established fact that a reader will be directed modi magnam inventore nulla alias sequi dolores excepturi quisquam vero debitis adipisci error quas consequuntur","It is a long established fact that a reader will be directed modi magnam inventor.."]
     },
     {
         id:2,
@@ -24,16 +26,18 @@ export const MomContent = [
       worktag: "Layout",
       Location:"Google meet",
       attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex reiciendis, harum, modi facere ullam illum commodi sunt, sint odit quod aliquid libero nam id maiores quas illo quae voluptas porro.."
+      points: ["It is a long established fact that a reader will be directed.Lorem ipsum dolor sit amet consectetur adipisicing elit"," Ex reiciendis, harum, modi facere ullam illum commodi sunt, sint odit quod aliquid libero nam id maiores quas illo quae voluptas porro..",
+      "It is a long established fact that a reader will be directed",
+    ]
     },
     {
-        id:3,
+      id:3,
       date: "11 Apr 2022",
       title: "Discuss Furniture layout",
       worktag: "General Discussion",
       Location:"Google meet",
       attendes: "Amrit Sunari,Dikshant Negi",
-      points: "It is a long established fact that a reader will be directed modi magnam inventore nulla alias sequi dolores excepturi quisquam vero debitis adipisci error quas consequuntur?.."
+      points: ["It is a long established fact that a reader will be directed modi magnam inventore nulla alias sequi dolores excepturi quisquam vero debitis adipisci error quas consequuntur?..","It is a long established fact that a reader will be directed modi magnam inventore nulla alias sequi dolores excepturi quisquam vero debitis adipisci error quas consequuntur"]
     },
     {
       id:4,
@@ -42,7 +46,10 @@ export const MomContent = [
       worktag: "General Discussion",
       Location:"zoom",
       attendes: "Amrit Sunari,Dikshant Negi",
-      points:"at its layout Ex reiciendis, harum, modi facere ullam illum commodi sunt, sint odit quod aliquid libero nam id maiores quas illo quae voluptas porro.."
+      points:["at its layout Ex reiciendis, harum, modi facere ullam illum commodi sunt, sint odit quod aliquid libero nam id maiores quas illo quae voluptas porro..",
+      "It is a long established fact that a reader will be directed",
+      "It is a long established fact that a reader will be directed modi magnam"
+    ]
     }
   ]
 

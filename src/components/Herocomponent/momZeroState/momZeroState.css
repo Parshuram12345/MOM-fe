@@ -26,7 +26,55 @@
  font-size: 16px;
  font-family: 400;
 }
-.plus-icon{
-    right: 5px;
-    font-size: 20px;
+.label-text{
+    font-size: 13px;
+    font-weight: 400;
+    color:#444444;
 }
+  /* ////--- */
+  .email-container {
+    min-height: 6vh;
+    padding: 0 5px;
+  }
+  .email-input{
+          flex: 1;
+          border: none;
+          height: 4vh;
+          font-size: 14px;
+          padding: 4px 0 0 4px ;
+  }
+  .email-input:hover{
+      border: none;
+  }
+  #tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .email-wrapper {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    color: #000000;
+    padding: 0 8px;
+    font-size: 14px;
+    list-style: none;
+    border-radius: 25px;
+    background: #fff;
+  }
+  
+  .tag-close-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    font-size: 14px;
+    margin-left: 8px;
+    color: #888888;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+  }

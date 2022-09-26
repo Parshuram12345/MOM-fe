@@ -51,6 +51,12 @@
 .width-50{
     width: 50%;
 }
+.width-60{
+    width: 60%;
+}
+.width-22{
+    width: 22%;
+}
 .width-18{
     width:18%
 }
@@ -90,7 +96,10 @@
     font-family: Inter;
 }
 .font-size-24{
-    font-size: 25px;
+    font-size: 24px;
+}
+.font-size-18{
+    font-size: 18px;
 }
 .small-font-9{
     font-size: 9px;
@@ -113,12 +122,36 @@
 .margin-left-3{
  margin-left: 3%;
 }
+.margin-left-10{
+ margin-left: 10%;
+}
+.right-10{
+    right:10px
+}
+.right-2{
+    right: 2px;
+}
 .border-cells{
     border-top: 1px solid  #DFDFDF;
     border-bottom: 1px solid  #DFDFDF;
 }
 .width-15{
     width: 15%;
+}
+.width-25{
+    width: 25%;
+}
+.width-30{
+    width: 30%;
+}
+.width-45{
+    width: 45%;
+}
+.width-66{
+    width: 66%;
+}
+.width-100{
+    width: 100%;
 }
 .position-relative{
     position: relative;
@@ -160,7 +193,10 @@
     width: 84%;
 }
 .divider-margin{
-    margin: 10px 0px;
+    margin: 8px 0px 4px 0;
+}
+.divider-margin-2{
+    margin: 8px 0px 4px 0;
 }
 .color-text-888888{
   color: #888888;
