@@ -4,12 +4,12 @@ import { FaGreaterThan } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
-import { momContext } from "../../../MobileApp.js";
+import { momContext } from "../../../MobileApp.jsx";
 
 function NewMom() {
   const {
-    date,
-    setDate,
+    selectdate,
+    // setDate,
     category,
     setCategory,
     location,
@@ -37,14 +37,14 @@ function NewMom() {
           Create a MOMs
         </div>
         <hr />
-        <div className="d-flex-col justify-around height-14">
+        <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
               <div className="d-flex align-center position-relative width-60">
              <DatePicker
                   className="border-df bg-color-fa padding-5 border-radius-4 width-100"
-                  value={date}
-                  onChange={(selectdate) => setDate(dateFormater(selectdate))}
+                  value={selectdate}
+                  onChange={(selectdate) => dateFormater(selectdate)}
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                   />
@@ -52,7 +52,7 @@ function NewMom() {
                 </div>
           </div>
           {dateerror && (
-              <small style={{ color: "red" }}>date is required</small>
+              <small className="text-align-center margin-left-10" style={{ color: "red" }}>date is required</small>
             )}
           <div className="d-flex justify-between align-center position-relative">
             <label className="label-text">Category:</label>
@@ -69,7 +69,7 @@ function NewMom() {
             <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
           </div>
         {categoryerror && (
-          <small className="text-align margin-left-3"  style={{ color: "red" }}>date is required</small>
+          <small className="text-align-center margin-left-10"  style={{ color: "red" }}>category is required</small>
           )}
           </div>
         <div className="d-flex-col justify-between divider-margin">

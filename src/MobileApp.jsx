@@ -14,7 +14,7 @@ function MobileApp() {
   const [location, setLocation] = useState("");
   const [title, setTitle] = useState("");
   const [emaillist, setEmaillist] = useState([
-    "dikshant@gmail.com",
+    "Praveervilla@gmail.com",
   ]);
   const [emailvalue, setEmailvalue] = useState("");
   const [pointsdata, setPointsdata] = useState(null);
@@ -46,7 +46,13 @@ function MobileApp() {
   const handlePointsField = (e) => {
     setPointsdata(e.target.value.split("\n"));
   };
+  ////---fix error ---///
+
+  // if (selectdate)setDateerror(false)
+  // if (category)setCategoryerror(false)
+  // if (pointsdata) setPointserror(false)
   const handlePostData = () => {
+    console.log("sdfds")
     const bodyData = JSON.stringify({
       date: selectdate,
       category: category,
@@ -90,21 +96,14 @@ function MobileApp() {
       setCategoryerror(false);
       setPointserror(false);
     }
-    // else{
-    if (!selectdate) {
-      setDateerror(true);
-      // setErrormsg({dateflag:true})
-    }
-    if (!category) {
-      // setErrormsg({categoryflag:true})
-      setCategoryerror(true);
-    }
-    if (!pointsdata) {
-      console.log("pointsdata", pointsdata);
-      // setErrormsg({pointsflag:true})
-      setPointserror(true);
-    }
+    else{
+    // if (!selectdate) {
+    //   setDateerror(true);
     // }
+     selectdate ? setDateerror(false):setDateerror(true)
+     category ? setCategoryerror(false):setCategoryerror(true)
+     pointsdata? setPointserror(false):setPointserror(true)
+    }
   };
   return (
     <>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { AiOutlineShareAlt, AiFillPlusCircle } from "react-icons/ai";
+import {AiFillPlusCircle } from "react-icons/ai";
+import {HiOutlineShare} from "react-icons/hi"
 import { data } from "../../utils";
 import "./InnerPageMom.css"
 import { Link } from 'react-router-dom';
@@ -10,11 +11,11 @@ function InnerPageMom() {
         <>
             <div className="d-flex-col width-75 margin-left-3">
                 <div className="momHead-wrapper d-flex justify-between align-center">
-                    <div className="d-flex width-50 align-center justify-between">
+                    <div className="d-flex width-60 align-center justify-between">
                         <div className="mom-head font-w-500">Minutes of Meetings</div>
                         <div className="ui fluid category search">
                             <div className="ui icon input">
-                                <input className="prompt" id="search-bar" type="text" placeholder="Search" />
+                                <input  style={{ borderRadius: "4px" }} className="prompt" id="search-bar" type="text" placeholder="Search" />
                                 <i className="search icon"></i>
                             </div>
                             <div className="results"></div>
@@ -25,7 +26,10 @@ function InnerPageMom() {
                     </Link>
                 </div>
                 <div className='d-flex-col'>
-                    <div className='d-flex align-center'>Discussed layouts for the living and the dining area <AiOutlineShareAlt /></div> <span className='share-icon'></span>
+                    <div className='d-flex align-center'>
+                    <div classNaame="font-size-18 font-weight-400">Discussed layouts for the living and the dining area </div>
+                    <span className='d-flex share-icon align-center'><HiOutlineShare /></span>
+                    </div>
                     <div className='d-flex justify-between width-86'>
                         <div className='color-text-888888'>28 may 2022 . Google meet</div>
                         <div className='d-flex justify-between width-18'>
@@ -35,12 +39,12 @@ function InnerPageMom() {
                     </div>
                     <hr style={{ width: "75%" }} />
                     <div className='d-flex justify-between width-89'>
-                        <div name="points" className='points-container-field border-none bg-color-fa width-84'>
+                        <div name="points" className='points-container-field border-none width-84'>
                             {
                                 pointOfMom && pointOfMom.map((elem, index) => {
                                     return (
                                         <div className='d-flex divider-margin'>
-                                            <span className='points-counter'>{index + 1}.</span><div className='text-align-justify'>{elem.points}</div>
+                                            <span className='points-counter'>{index + 1}.</span><div className='points-field text-align-justify'>{elem.points}</div>
                                         </div>
                                     )
                                 })

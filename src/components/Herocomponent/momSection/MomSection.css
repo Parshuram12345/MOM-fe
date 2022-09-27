@@ -7,9 +7,10 @@
     background-color: #3B5998;
     cursor: pointer;
     border: none;
-    padding: 1%;
-    width: 110px;
-    height: 30px;
+    padding: 2%;
+    width: 150px;
+    height: 43px;
+    font-weight: 400;
 }
 
 .momHead-wrapper{
@@ -18,10 +19,8 @@
 }
 
 #search-bar {
-    border-radius: 4px;
     background: #FAFAFA;
 }
-
 .drafts-tab {
     padding-bottom: 3%;
     font-size: 18px;
@@ -62,9 +61,11 @@
  .threedots{
    margin-left: 4%;
  }
- .date-cell{
+ .checkbox-cell{
      border-left:1px solid  #DFDFDF;
-    border-right:0
+    border-right:0;
+    padding-left: 7px;
+    width:3%
 }
 .points-cell{
     border-left:0;
@@ -78,4 +79,9 @@
     top: 30%;
     right:30px;
     position: absolute;
+ }
+ .table-heading{
+     color:#444444;
+     font-size: 14px;
+     font-weight: 500;
  }

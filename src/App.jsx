@@ -8,7 +8,7 @@ import InnerPage from "./views/InnerPageMOM";
 import {data} from "./components/utils"
 export const MomContext = createContext("context");
 function App() {
-  const [momdate ,setMomdate]= useState(new Date ())
+  const [momdate ,setMomdate]= useState()
   const [category, setCategory] = useState();
   const [location, setLocation] = useState();
   const [title, setTitle] = useState();
@@ -37,6 +37,7 @@ function App() {
 	};
   ///---convert date in readable format ---///
   function dateFormater(newdate) {
+    // setMomdate(newdate)
     console.log("dateformat")
     const todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
     setMomdate(todaydate)
@@ -100,7 +101,6 @@ function App() {
     }
     if (!pointsdata) {
       console.log("pointsdata", pointsdata);
-      // setErrormsg({pointsflag:true})
       setPointserror(true);
     }
     // }
@@ -110,6 +110,7 @@ function App() {
       <MomContext.Provider
         value={{
           momdate,
+          setMomdate,
           category,
           setCategory,
           location,

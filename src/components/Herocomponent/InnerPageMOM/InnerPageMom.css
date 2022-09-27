@@ -7,9 +7,11 @@
     background-color: #3B5998;
     cursor: pointer;
     border: none;
-    padding:0%;
-    width: 120px;
-    height: 30px;
+    padding:3%;
+    font-weight: 400;
+    width: 150px;
+    height: 43px;
+    border-radius: 4px;
 }
 
 .momHead-wrapper{
@@ -21,7 +23,8 @@
     background: #FAFAFA;
 }
 .share-icon{
-    margin-left: 4px;
+    color: #888888;
+    margin-left: 5px;
 }
 .points-counter{
     margin-right: 3px;
@@ -37,5 +40,11 @@
     width: 10%;
     position: absolute;
     margin-top: 7%;
+}
        
+       
+.points-field{
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
 }

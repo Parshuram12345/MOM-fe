@@ -9,6 +9,7 @@ import { MomContext } from "../../../App.jsx";
 function NewMom() {
   const {
     momdate,
+    setMomdate,
     category,
     setCategory,
     location,
@@ -44,8 +45,11 @@ function NewMom() {
               <div className="d-flex align-center position-relative">
                 <DatePicker
                   className="border-df bg-color-fa padding-5 border-radius-4"
-                  value={momdate}
-                  onChange={(newdate) => dateFormater(newdate)}
+                  selected={momdate}
+                  onChange={(newdate) => 
+                    // dateFormater(newdate)
+                    setMomdate(newdate)
+                  }
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                 />
