@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
-import { Link,useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit,FaGreaterThan } from "react-icons/fa";
 import { CgChevronDoubleRightO } from "react-icons/cg";
 import { data } from "../../utils";
 import "./momSection.css";
 
 function MomSection() {
-  const navigate = useNavigate();
   const [draftsflag, setDraftsflag] = useState(false);
   // const [opendraftsbox, setOpendraftbox] = useState(false)
   const { access_token } = data;
@@ -17,9 +16,7 @@ function MomSection() {
   const handleSharedDocs = (value) => {
     setDraftsflag(value);
   };
-  const navigateInnerPage = () => {
-    navigate("/mominner");
-  };
+  
   async function getApiData() {
     axios
       .get("https://pmt.idesign.market/api/mom/getMOM", {
@@ -42,6 +39,13 @@ function MomSection() {
   return (
     <>
       <div className="padding-3 d-flex-col justify-around height-80">
+      <div className="d-flex justify-around width-40 align-center">
+          <div className="font-size-14 color-text-888888 small-font-9">Praveer's villa</div>
+          <div className="d-flex align-center color-text-888888 small-font-9">
+            <FaGreaterThan />
+          </div>
+          <div className="color-text">New MOM</div>
+        </div>
         <div className="d-flex justify-between align-center divider-margin">
           <div className="doublevector-icon">
             <CgChevronDoubleRightO />
@@ -90,7 +94,10 @@ function MomSection() {
                     </div>
                     <BsThreeDotsVertical />
                   </div>
-                  <div className="mom-points text-align-justify"  onClick={() => navigateInnerPage()} >{points}</div>
+                  <div className="mom-points text-align-justify"  
+                  // onClick={() =>
+                    //  gotoInnerpage(index)}
+                      >{points}</div>
                   <div className="d-flex justify-between align-center padding-3">
                     <div>{date}</div>
                     <div className="d-flex justify-between align-center width-20">

@@ -12,7 +12,7 @@ const SideNavWeb = () => {
   const sideNavLinkArray = data.sideNavLinkArray
   const authTok = `Bearer ${localStorage.getItem("token")}`
   const profileData = useSelector((state) =>  state?.pmtPersist?.profileData);
-  console.log(profileData)
+  // console.log(profileData)
   const goToPage = (navigable, towards) => {
     if (navigable) {
       window.location.assign(towards);

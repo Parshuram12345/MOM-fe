@@ -1,5 +1,5 @@
-import React, { useState, createContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState, createContext,useEffect } from "react";
+import { Route, Routes,useNavigate } from "react-router-dom";
 import "./Styles/index.css";
 import Home from "./views/Home";
 import MomZeroStatePage from "./views/momZeroState";
@@ -21,8 +21,12 @@ function App() {
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
-  const { MomContent, access_token, pointsData } = data;
-  
+  const [ pointsdetails,setPoinstdetails]=useState({})
+  const [draftsflag, setDraftsflag] = useState(false);
+  const [sentflag, setSentflag] = useState(false);
+  const {access_token, pointsData } = data;
+  const Momdata = data.MomContent;
+  const navigate = useNavigate();
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
 		setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
@@ -36,18 +40,29 @@ function App() {
 		}
 	};
   ///---convert date in readable format ---///
+  let todaydate
   function dateFormater(newdate) {
     // setMomdate(newdate)
     console.log("dateformat")
-    const todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
-    setMomdate(todaydate)
+     todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
+     setMomdate(todaydate)
+    }
+    // useEffect(()=>{
+    //   // dateFormater(newdate)
+    // },[])
     console.log(momdate,typeof momdate)
-  }
- 
   ///------add the points in field -----///
   const handlePointsField = (e) => {
     setPointsdata(e.target.value.split("\n"));
   };
+
+  ///got to mom inner page ----///
+  const gotoInnerMom=(index)=>{
+    navigate("/mominnerpage");
+    console.log(Momdata[index])
+    setPoinstdetails(Momdata[index])
+  }
+  ////-----post the data ------///
   const handlePostData = () => {
     const bodyData = JSON.stringify({
       date: momdate,
@@ -68,9 +83,10 @@ function App() {
     })
       .then((response) => {
         if (response.ok) {
+          navigate("/")
           setMomdate("");
           setCategory("");
-          setLocation("");
+          setLocation(""); 
           setTitle("");
           setPointsdata(null);
         }
@@ -90,20 +106,9 @@ function App() {
       setCategoryerror(false);
       setPointserror(false);
     }
-    // else{
-    if (!momdate) {
-      setDateerror(true);
-      // setErrormsg({dateflag:true})
-    }
-    if (!category) {
-      // setErrormsg({categoryflag:true})
-      setCategoryerror(true);
-    }
-    if (!pointsdata) {
-      console.log("pointsdata", pointsdata);
-      setPointserror(true);
-    }
-    // }
+    momdate ? setDateerror(false): setDateerror(true);
+    category ? setCategory(false): setCategory(true)
+    pointsdata ? setPointserror(false): setPointserror(true);
   };
   return (
     <>
@@ -129,7 +134,13 @@ function App() {
           setCategoryerror,
           pointserror,
           setPointserror,
+          pointsdetails,
+          draftsflag,
+          setDraftsflag,
+          sentflag,
+          setSentflag,
           dateFormater,
+          gotoInnerMom,
           addEmail,removeEmail,handlePointsField,handleSubmitData
         }}
       >

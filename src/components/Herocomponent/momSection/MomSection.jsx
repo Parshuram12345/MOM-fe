@@ -1,25 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { AiFillDelete, AiOutlineShareAlt } from "react-icons/ai";
+import { AiOutlineDelete} from "react-icons/ai";
+import {HiOutlineShare} from "react-icons/hi"
+import { FaGreaterThan } from "react-icons/fa";
 import { data } from "../../utils";
 import "./MomSection.css";
+import { MomContext } from "../../../App.jsx";
 // import { pointsData } from "../../utils/StaticData/MomContent";
 
 function MomSection() {
-  const [draftsflag, setDraftsflag] = useState(false);
+  const { gotoInnerMom, draftsflag, setDraftsflag, sentflag, setSentflag } =
+    useContext(MomContext);
+  // const [draftsflag, setDraftsflag] = useState(false);
+  // const [sentflag, setSentflag] = useState(false);
   const [opendraftsbox, setOpendraftbox] = useState(false);
   const [momdata, setMomdata] = useState([]);
-  const [points3dots, setPoints3dots] = useState([]);
+  // const [points3dots, setPoints3dots] = useState([]);
   const [users, setUsers] = useState([]);
-  const { tableHeadings, access_token, pointsData } = data;
+  const { access_token, pointsData } = data;
 
-  const navigate = useNavigate();
   const Momdata = data.MomContent;
-  ///----sharedocs -----
-  const handleSharedDocs = (value) => {
-    setDraftsflag(value);
+  ///----draftsdocs -----
+  const handleSharedDocs = () => {
+    setDraftsflag(false);
+    setSentflag(true);
+  };
+  ///=----sentdocs----////
+  const handleSentDocs = () => {
+    setDraftsflag(true);
+    setSentflag(false);
   };
   ///----opensharebox-----///
   const openShareDelete = () => {
@@ -30,8 +41,6 @@ function MomSection() {
     // console.log(pointslist)
     let dots = "...";
     let limit = 30;
-    // for (let i=0;i<pointsData.length;i++){
-    // console.log(pointsData[i])
     if (pointslist[0].length > limit) {
       //   // you can also use substr instead of substring
       return pointslist[0].substring(0, limit) + dots;
@@ -42,24 +51,19 @@ function MomSection() {
   ///-----all checkbox ----///
   ///---checkbox functionlality---///
   const handleSelectAll = (e) => {
-    const {checked } = e.target;
-    const check = document.getElementsByName("datacheck")
-    if(checked){
-      for(let i=0;i<check.length;i++)
-      {
-        check[i].checked= true;
+    const { checked } = e.target;
+    const check = document.getElementsByName("datacheck");
+    if (checked) {
+      for (let i = 0; i < check.length; i++) {
+        check[i].checked = true;
       }
-    }
-    else{
-      for(let i=0;i<check.length;i++)
-      {
-        check[i].checked=false;
+    } else {
+      for (let i = 0; i < check.length; i++) {
+        check[i].checked = false;
       }
     }
   };
-  const navigateInnerPage = () => {
-    navigate("/mominnerpage");
-  };
+
   async function getApiData() {
     axios
       .get("https://pmt.idesign.market/api/mom/getMOM", {
@@ -82,6 +86,15 @@ function MomSection() {
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
+        <div className="d-flex align-center justify-between width-15 divider-margin">
+          <div className="small-font-10 color-text-888888">
+            Ashok rathi residence
+          </div>
+          <span className="d-flex align-center color-text-888888 small-font-10">
+            <FaGreaterThan />
+          </span>
+          <div className="color-text font-weight-500 small-font-10">MOM</div>
+        </div>
         <div className="momHead-wrapper d-flex justify-between align-center">
           <div className="d-flex width-60 align-center justify-between">
             <div className="mom-head font-w-500">Minutes of Meetings</div>
@@ -105,19 +118,23 @@ function MomSection() {
         </div>
         <div className="d-flex width-15 justify-between">
           <div
-            className={!draftsflag ? "drafts-tab" : "sents-tab"}
-            onClick={() => handleSharedDocs(false)}
+            className={`font-weight-500 ${
+              !draftsflag ? "drafts-tab" : "sents-tab"
+            }`}
+            onClick={() => handleSharedDocs()}
           >
             Drafts
           </div>
           <div
-            className={draftsflag ? "drafts-tab" : "sents-tab"}
-            onClick={() => handleSharedDocs(true)}
+            className={`font-weight-500 ${
+              draftsflag ? "drafts-tab" : "sents-tab"
+            }`}
+            onClick={() => handleSentDocs()}
           >
-            Sents
+            Sent
           </div>
         </div>
-        <hr />
+        <div style={{ marginTop: "0%" }} className="ui divider"></div>
         <table className="content-table">
           <thead>
             <tr>
@@ -125,13 +142,16 @@ function MomSection() {
                 <input
                   type="checkbox"
                   name="allselect"
-                  onClick={(e)=>handleSelectAll(e)}
+                  onClick={(e) => handleSelectAll(e)}
                 />
               </th>
-              {tableHeadings &&
-                tableHeadings.map((elem) => (
-                  <th className="table-heading text-align-left">{elem}</th>
-                ))}
+              <th className="table-heading text-align-left">Date</th>
+              <th className="table-heading text-align-left">Title</th>
+              <th className="table-heading text-align-left">Worktag</th>
+              {draftsflag && (
+                <th className="table-heading text-align-left">Attendes</th>
+              )}
+              <th className="table-heading text-align-left">Points</th>
             </tr>
           </thead>
           <tbody className="table-body position-relative">
@@ -141,33 +161,50 @@ function MomSection() {
                   return (
                     <tr
                       key={index}
-                      className="table-row height-10 border-radius-4"
+                      className="table-row height-7 border-radius-4 font-weight-400 color-text-000000"
                     >
                       <td className="checkbox-cell width-4 border-cells border-radius-left-cells">
                         <input
                           className="checkbox-field"
                           type="checkbox"
-                          name="datacheck" value={`name${index}`}
+                          name="datacheck"
+                          value={`name${index}`}
                         />
                       </td>
-                      <td className="border-cells">{date}</td>
-                      <td className="border-cells">{title}</td>
-                      <td className="border-cells">{worktag}</td>
-                      <td className="border-cells">{attendes}</td>
-                      <td className="points-cell border-cells border-radius-right-cells">
-                        <td
-                          className="points-field d-flex align-center"
-                          onClick={() => navigateInnerPage()}
-                        >
-                          {add3Dots(points)}
-                          <span
-                            className="threedots"
-                            onClick={() => openShareDelete()}
-                          >
-                            <BsThreeDotsVertical />
-                          </span>
-                        </td>
+                      <td
+                        className="border-cells"
+                        onClick={() => gotoInnerMom(index)}
+                      >
+                        {date}
                       </td>
+                      <td
+                        className="border-cells"
+                        onClick={() => gotoInnerMom(index)}
+                      >
+                        {title}
+                      </td>
+                      <td
+                        className="border-cells"
+                        onClick={() => gotoInnerMom(index)}
+                      >
+                        {worktag}
+                      </td>
+                      {draftsflag && (
+                        <td className="border-cells">{attendes}</td>
+                      )}
+                      <td
+                        className={`width-23 ${ !sentflag ? "points-cell border-cells border-radius-right-cells":"border-cells"}`}
+                        onClick={() => gotoInnerMom(index)}
+                      >
+                        {add3Dots(points)}
+                      </td>
+                      { !draftsflag && 
+                      <td
+                        className="threedots points-cell border-cells border-radius-right-cells"
+                        onClick={() => openShareDelete()}
+                      >
+                        <BsThreeDotsVertical />
+                      </td>}
                     </tr>
                   );
                 }
@@ -176,14 +213,18 @@ function MomSection() {
         </table>
       </div>
       {opendraftsbox && (
-        <div className="d-flex-col share-del-wrapper position-absolute">
-          <div>
-            {" "}
-            <AiOutlineShareAlt /> Share
+        <div className="d-flex-col share-del-wrapper width-6 position-absolute">
+          <div className="d-flex justify-evenly">
+          <span className="d-flex share-icon align-center">
+              <HiOutlineShare />
+            </span> Share
           </div>
           {!draftsflag && (
-            <div>
-              <AiFillDelete /> Delete
+            <div className="d-flex justify-evenly">
+              <span className="d-flex share-icon align-center">
+              <AiOutlineDelete />
+              </span> 
+               Delete
             </div>
           )}
         </div>

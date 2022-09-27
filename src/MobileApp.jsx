@@ -4,7 +4,7 @@ import MomZeroStateMobilePage from './mobileViews/momZeroState';
 import MomMainSectionMobilePage from './mobileViews/MomMainSection';
 import InnerMomPage from './mobileViews/InnerPageMom';
 import "./Styles/mobile/mobile.css"
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes,useNavigate } from 'react-router-dom';
 import {data} from "./components/utils";
 export const momContext = createContext("context");
 
@@ -21,7 +21,10 @@ function MobileApp() {
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
-  const { MomContent, access_token, pointsData } = data;
+  const [ pointsdetails,setPoinstdetails]=useState({})
+  const {access_token, pointsData } = data;
+  const Momdata = data.MomContent;
+  const navigate = useNavigate();
   ///---convert date in readable format ---///
   function dateFormater(newdate) {
     console.log("dateformat")
@@ -45,6 +48,11 @@ function MobileApp() {
   ///------add the points in field -----///
   const handlePointsField = (e) => {
     setPointsdata(e.target.value.split("\n"));
+  };
+  ///---goto mom innerpage---//
+  const gotoInnerPage = (index) => {
+    navigate("/mominner");
+    setPoinstdetails(Momdata[index])
   };
   ////---fix error ---///
 
@@ -96,20 +104,16 @@ function MobileApp() {
       setCategoryerror(false);
       setPointserror(false);
     }
-    else{
-    // if (!selectdate) {
-    //   setDateerror(true);
-    // }
      selectdate ? setDateerror(false):setDateerror(true)
      category ? setCategoryerror(false):setCategoryerror(true)
      pointsdata? setPointserror(false):setPointserror(true)
-    }
   };
   return (
     <>
     <momContext.Provider
         value={{
           selectdate,
+          setSelectdate,
           category,
           setCategory,
           location,
@@ -127,6 +131,8 @@ function MobileApp() {
           categoryerror,
           setCategoryerror,
           pointserror,
+          gotoInnerPage,
+          pointsdetails,
           setPointserror,
           dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
         }}

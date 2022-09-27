@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import "../newMOM/newMOM.css";
 import { FaGreaterThan } from "react-icons/fa";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
@@ -39,17 +38,11 @@ function MomZeroState() {
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
               <div className="d-flex align-center position-relative width-60">
-             <DatePicker
+             <input type="date"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                   value={selectdate}
-                  onChange={(selecteddate)=>
-                    // dateFormater(selecteddate)
-                    setSelectdate(selecteddate)
-                  }
-                  dateFormat="dd/MM/yyyy"
-                  minDate={new Date()}
+                  onChange={(e)=>setSelectdate(e.target.value)}
                   />
-                <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
                 </div>
           </div>
           {dateerror && (
@@ -67,7 +60,7 @@ function MomZeroState() {
               <option>Layout</option>
               <option>Measurements</option>
             </select>
-            <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
+            <AiFillCaretDown  style={{background:"white"}}  className="position-absolute right-3 color-text-888888" />
           </div>
         {categoryerror && (
           <small className="text-align-center margin-left-10"  style={{ color: "red" }}>category is required</small>

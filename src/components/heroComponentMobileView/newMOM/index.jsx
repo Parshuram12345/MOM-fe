@@ -9,7 +9,7 @@ import { momContext } from "../../../MobileApp.jsx";
 function NewMom() {
   const {
     selectdate,
-    // setDate,
+    setSelectdate,
     category,
     setCategory,
     location,
@@ -27,11 +27,11 @@ function NewMom() {
     <>
       <div className="d-flex-col justify-around padding-3 height-90">
         <div className="d-flex justify-around width-35 align-center">
-          <div className="font-size-14 color-text-888888 small-font-9">MOM</div>
-          <div className="d-flex align-center color-text-888888 small-font-9">
+          <div className="font-size-14 color-text-888888 small-font-10">MOM</div>
+          <div className="d-flex align-center color-text-888888 small-font-10">
             <FaGreaterThan />
           </div>
-          <div className="color-text">New MOM</div>
+          <div className="color-text small-font-10">New MOM</div>
         </div>
         <div className="font-size-16 font-weight-500 divider-margin">
           Create a MOMs
@@ -40,16 +40,14 @@ function NewMom() {
         <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
-              <div className="d-flex align-center position-relative width-60">
-             <DatePicker
+              {/* <div className="d-flex align-center position-relative width-60"> */}
+             <input type="date"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                   value={selectdate}
-                  onChange={(selectdate) => dateFormater(selectdate)}
-                  dateFormat="dd/MM/yyyy"
-                  minDate={new Date()}
+                  onChange={(selectdate) => 
+                    setSelectdate(selectdate)}
                   />
-                <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
-                </div>
+                {/* </div> */}
           </div>
           {dateerror && (
               <small className="text-align-center margin-left-10" style={{ color: "red" }}>date is required</small>

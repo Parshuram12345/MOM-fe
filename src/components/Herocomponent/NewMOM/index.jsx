@@ -2,7 +2,7 @@ import React, { useContext} from "react";
 import "./NewMom.css";
 import { FaGreaterThan } from "react-icons/fa";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
 
@@ -21,40 +21,37 @@ function NewMom() {
     categoryerror,
     pointserror,
     dateFormater,
+    gotoInnerMOm,
     addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(MomContext);
 
   return (
     <>
       <div className=" justify-around margin-left-3 width-75">
-        <div className="d-flex align-center divider-margin">
-          <div className="small-font-9 color-text-888888">MOM</div>
-          <span className="d-flex align-center color-text-888888 small-font-9">
+        <div className="d-flex align-center justify-between width-17 divider-margin">
+          <div className="small-font-10 color-text-888888">Ashok rathi residence</div>
+          <span className="d-flex align-center color-text-888888 small-font-10">
             <FaGreaterThan />
           </span>
-          <span className="color-text">New MOM</span>
+          <div className="color-text small-font-10 font-weight-500">New MOM</div>
         </div>
         <div className="font-size-18 font-w-500 color-text divider-margin">
           Create a MOM
         </div>
-        <hr />
+        <div className="ui divider"></div>
         <div className="divider-margin">
           <div className="d-flex justify-between align-center">
             <div className="d-flex justify-between align-center width-25">
               <label className="label-text">Date:</label>
-              <div className="d-flex align-center position-relative">
-                <DatePicker
-                  className="border-df bg-color-fa padding-5 border-radius-4"
-                  selected={momdate}
-                  onChange={(newdate) => 
-                    // dateFormater(newdate)
-                    setMomdate(newdate)
+              {/* <div className="d-flex justify-between"> */}
+                <input type="date"
+                  className="border-df bg-color-fa padding-5 border-radius-4  width-75"
+                  value={momdate}
+                  onChange={(newdate) => setMomdate(newdate)
                   }
-                  dateFormat="dd/MM/yyyy"
-                  minDate={new Date()}
-                />
-                <AiFillCaretDown className="position-absolute right-10 color-text-888888" />
-              </div>
+                  />
+                  {/* <small style={{ color: "red" }}>date is required</small> */}
+                  {/* </div> */}
             </div>
             <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Category:</label>
@@ -68,7 +65,7 @@ function NewMom() {
                   <option>Layout</option>
                   <option>Measurements</option>
                 </select>
-                <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
+                <AiFillCaretDown  style={{background:"white"}} className="position-absolute right-3  color-text-888888" />
               </div>
             </div>
             <div className="d-flex justify-between align-center width-27">
@@ -134,13 +131,11 @@ function NewMom() {
             Points
           </label>
           <textarea
-            // style={errors.points ? { border: " 1px solid red" } : { border: "" }}
             rows="8"
             cols="50"
             className="points-container border-df bg-color-fa padding-6 border-radius-4"
             onChange={(e) => handlePointsField(e)}
             placeholder="Type something here"
-            // {...register("points", { required: "Write something here"})}
           ></textarea>
         </div>
         {pointserror && (
@@ -152,7 +147,6 @@ function NewMom() {
         >
           Submit
         </button>
-        {/* </form> */}
       </div>
     </>
   );

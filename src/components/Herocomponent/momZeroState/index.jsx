@@ -32,51 +32,28 @@ function MomZeroState() {
     <>
       <div className=" justify-around margin-left-3 width-75">
         <div className="d-flex align-center divider-margin">
-          <div className="small-font-9 color-text-888888">
+          <div className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
-          <span className="d-flex align-center color-text-888888 small-font-9">
+          <span className="d-flex align-center color-text-888888 small-font-10">
             <FaGreaterThan />
           </span>
-          <span className="color-text">New MOM</span>
+          <span className="color-text small-font-10">New MOM</span>
         </div>
         <div className="font-size-18 font-w-500 divider-margin">
           Create a MOM
         </div>
-        <hr />
+        <div className="ui divider"></div>
         <div className="divider-margin">
           <div className="d-flex justify-between align-center">
             <div className="d-flex justify-between align-center width-25">
               <label className="label-text">Date:</label>
-              <div className="d-flex align-center position-relative">
-                <DatePicker
-                  className="border-df bg-color-fa padding-5 border-radius-4"
-                  // value={momdate} onChange={(selectdate)=>
-                  // dateFormater(selectdate)
-                  // setMomdate(selectdate)
-                  // }
-                  dateFormat="dd/MM/yyyy"
-                  minDate={new Date()}
+                <input type="date"
+                  className="border-df bg-color-fa padding-5 border-radius-4 width-75"
+                  placeholder="select date"
+                  value={momdate}
+                   onChange={(e)=>setMomdate(e.target.value)}
                 />
-                <AiFillCaretDown className="position-absolute right-10 color-text-888888" />
-              </div>
-              {/* <input type="date" placeholder="enter the date" onChange={(selectdate)=>
-                  // dateFormater(selectdate)
-                  setMomdate(selectdate.target.value)
-                } /> */}
-              <div class="ui calendar" id="example2">
-                <div class="ui input left icon">
-                  <i class="calendar icon"></i>
-                  <input
-                    type="text"
-                    placeholder="Date"
-                    onChange={(selectdate) =>
-                      // dateFormater(selectdate)
-                      setMomdate(selectdate.target.value)
-                    }
-                  />
-                </div>
-              </div>
             </div>
             <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Category:</label>
@@ -90,7 +67,7 @@ function MomZeroState() {
                   <option>Layout</option>
                   <option>Measurements</option>
                 </select>
-                <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
+                <AiFillCaretDown style={{background:"white"}} className="position-absolute right-3 color-text-888888" />
               </div>
             </div>
             <div className="d-flex justify-between align-center width-27">
