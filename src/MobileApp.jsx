@@ -13,9 +13,7 @@ function MobileApp() {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [title, setTitle] = useState("");
-  const [emaillist, setEmaillist] = useState([
-    "Praveervilla@gmail.com",
-  ]);
+  const [emaillist, setEmaillist] = useState(["Praveervilla@gmail.com"]);
   const [emailvalue, setEmailvalue] = useState("");
   const [pointsdata, setPointsdata] = useState(null);
   const [dateerror, setDateerror] = useState(false);
@@ -49,16 +47,13 @@ function MobileApp() {
   const handlePointsField = (e) => {
     setPointsdata(e.target.value.split("\n"));
   };
-  ///---goto mom innerpage---//
-  const gotoInnerPage = (index) => {
-    navigate("/mominner");
+   ///------navigate to MOM inner page -----///
+  const naviagteInnerPage = (index) => {
+    navigate("/mominnerpage");
     setPoinstdetails(Momdata[index])
   };
   ////---fix error ---///
 
-  // if (selectdate)setDateerror(false)
-  // if (category)setCategoryerror(false)
-  // if (pointsdata) setPointserror(false)
   const handlePostData = () => {
     console.log("sdfds")
     const bodyData = JSON.stringify({
@@ -131,17 +126,17 @@ function MobileApp() {
           categoryerror,
           setCategoryerror,
           pointserror,
-          gotoInnerPage,
+          naviagteInnerPage,
           pointsdetails,
           setPointserror,
           dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
         }}
       >
        <Routes>
-       <Route path='/' element={  <MomZeroStateMobilePage/> } />
-       <Route path='/mom' element={ <MomMainSectionMobilePage/> } />
+       <Route path='/' element={ <MomMainSectionMobilePage/> } />
+       <Route path='/momzerostate' element={  <MomZeroStateMobilePage/> } />
        <Route path='/newmom' element={ <NewMomMobilePage/> } />
-       <Route path='/mominner' element={ <InnerMomPage/> } />
+       <Route path='/mominnerpage' element={ <InnerMomPage/> } />
        </Routes>
       </momContext.Provider>
     </>

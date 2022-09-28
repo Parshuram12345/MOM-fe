@@ -1,7 +1,8 @@
 import React,{useContext} from "react";
 import "./newMOM.css";
-import { FaGreaterThan } from "react-icons/fa";
+import { FiChevronRight } from "react-icons/fi";
 import DatePicker from "react-datepicker";
+import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
@@ -22,14 +23,17 @@ function NewMom() {
     pointserror,
     dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(momContext);
-  
+   const navigate= useNavigate();
+  const navigateHome=()=>{
+    navigate("/")
+  }
   return (
     <>
       <div className="d-flex-col justify-around padding-3 height-90">
-        <div className="d-flex justify-around width-35 align-center">
-          <div className="font-size-14 color-text-888888 small-font-10">MOM</div>
-          <div className="d-flex align-center color-text-888888 small-font-10">
-            <FaGreaterThan />
+        <div className="d-flex justify-around width-fit-content align-center">
+          <div className="font-size-14 color-text-888888 small-font-10" onClick={()=>navigateHome()}>MOM</div>
+          <div className="d-flex align-center color-text-888888 small-font-12">
+            <FiChevronRight />
           </div>
           <div className="color-text small-font-10">New MOM</div>
         </div>
@@ -42,7 +46,7 @@ function NewMom() {
             <label className="label-text">Date:</label>
               {/* <div className="d-flex align-center position-relative width-60"> */}
              <input type="date"
-                  className="border-df bg-color-fa padding-5 border-radius-4 width-100"
+                  className="border-df bg-color-fa padding-5 border-radius-4 width-60"
                   value={selectdate}
                   onChange={(selectdate) => 
                     setSelectdate(selectdate)}
@@ -55,16 +59,15 @@ function NewMom() {
           <div className="d-flex justify-between align-center position-relative">
             <label className="label-text">Category:</label>
             <select
-              className="border-df bg-color-fa padding-5 width-60 border-radius-4"
-              required
+             className={`border-df bg-color-fa padding-5 border-radius-4 width-60 ${category===""? "color-text-888888":null}`}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-              <option name="select">Select your category</option>
-              <option>Layout</option>
-              <option>Measurements</option>
+              <option name="select" value="">Select your category</option>
+              <option value="layout">Layout</option>
+              <option value="Measurements">Measurements</option>
             </select>
-            <AiFillCaretDown className="position-absolute right-2 color-text-888888" />
+            <AiFillCaretDown style={{background:"white"}} className="position-absolute right-5 color-text-888888" />
           </div>
         {categoryerror && (
           <small className="text-align-center margin-left-10"  style={{ color: "red" }}>category is required</small>
@@ -131,7 +134,7 @@ function NewMom() {
         )}
         <button
           type="submit"
-          className="submit-btn bg-color border-none padding-5 border-radius-4"
+          className="submitbtn bg-color border-none padding-5 border-radius-4"
           onClick={() => handleSubmitData()}
         >
           Submit

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AiOutlineDelete} from "react-icons/ai";
 import {HiOutlineShare} from "react-icons/hi"
-import { FaGreaterThan } from "react-icons/fa";
+import { FiChevronRight } from "react-icons/fi";
 import { data } from "../../utils";
 import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
@@ -13,15 +13,14 @@ import { MomContext } from "../../../App.jsx";
 function MomSection() {
   const { gotoInnerMom, draftsflag, setDraftsflag, sentflag, setSentflag } =
     useContext(MomContext);
-  // const [draftsflag, setDraftsflag] = useState(false);
-  // const [sentflag, setSentflag] = useState(false);
   const [opendraftsbox, setOpendraftbox] = useState(false);
   const [momdata, setMomdata] = useState([]);
+  const [MOMdata, setMOMdata] = useState([]);
   // const [points3dots, setPoints3dots] = useState([]);
   const [users, setUsers] = useState([]);
   const { access_token, pointsData } = data;
-
   const Momdata = data.MomContent;
+  const navigate = useNavigate()
   ///----draftsdocs -----
   const handleSharedDocs = () => {
     setDraftsflag(false);
@@ -32,6 +31,13 @@ function MomSection() {
     setDraftsflag(true);
     setSentflag(false);
   };
+  
+  
+  ///---navigate to new mom page -----///
+  const navigateNewMOM=()=>{
+    navigate("/newmom")
+  }
+
   ///----opensharebox-----///
   const openShareDelete = () => {
     setOpendraftbox(!opendraftsbox);
@@ -83,15 +89,16 @@ function MomSection() {
   useEffect(() => {
     getApiData();
   }, []);
+  console.log(momdata,momdata.length)
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
-        <div className="d-flex align-center justify-between width-15 divider-margin">
+        <div className="d-flex align-center justify-between width-fit-content divider-margin">
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
-          <span className="d-flex align-center color-text-888888 small-font-10">
-            <FaGreaterThan />
+          <span className="d-flex align-center color-text-888888 small-font-12">
+            <FiChevronRight />
           </span>
           <div className="color-text font-weight-500 small-font-10">MOM</div>
         </div>
@@ -134,8 +141,19 @@ function MomSection() {
             Sent
           </div>
         </div>
+       
         <div style={{ marginTop: "0%" }} className="ui divider"></div>
-        <table className="content-table">
+     { MOMdata.length<1 ? (
+        <div className="d-flex-col align-center justify-center font-weight-500 m-auto">
+           <div className="add-mom-bg"><img className="add-mom-img" src={"/images/add_mom.svg"} alt="add-notes"/></div>
+          <div className="color-text-888888 small-font-12">
+            you haven't added any MOMs yet
+          </div>
+          <div className="color-text small-font-12"  onClick={()=>navigateNewMOM()}>Add now</div>
+        </div>
+      ):
+       ( 
+         <table className="content-table">
           <thead>
             <tr>
               <th>
@@ -193,7 +211,7 @@ function MomSection() {
                         <td className="border-cells">{attendes}</td>
                       )}
                       <td
-                        className={`width-23 ${ !sentflag ? "points-cell border-cells border-radius-right-cells":"border-cells"}`}
+                        className={`width-23 ${ draftsflag ? "points-cell border-cells border-radius-right-cells":"border-cells"}`}
                         onClick={() => gotoInnerMom(index)}
                       >
                         {add3Dots(points)}
@@ -211,6 +229,7 @@ function MomSection() {
               )}
           </tbody>
         </table>
+        )}
       </div>
       {opendraftsbox && (
         <div className="d-flex-col share-del-wrapper width-6 position-absolute">

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "../newMOM/newMOM.css";
-import { FaGreaterThan } from "react-icons/fa";
+import { FiChevronRight } from "react-icons/fi";
 import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
@@ -23,17 +23,17 @@ function MomZeroState() {
   return (
     <>
        <div className="d-flex-col justify-around padding-3 height-90">
-        <div className="d-flex justify-around width-40 align-center">
+        <div className="d-flex justify-around width-fit-content align-center">
           <div className="font-size-14 color-text-888888 small-font-9">Praveer's villa</div>
-          <div className="d-flex align-center color-text-888888 small-font-9">
-            <FaGreaterThan />
+          <div className="d-flex align-center color-text-888888 small-font-10">
+            <FiChevronRight />
           </div>
           <div className="color-text">New MOM</div>
         </div>
         <div className="font-size-16 font-weight-500 divider-margin">
           Create a MOMs
         </div>
-        <hr />
+        <div className="ui divider"></div>
         <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
@@ -51,14 +51,13 @@ function MomZeroState() {
           <div className="d-flex justify-between align-center position-relative">
             <label className="label-text">Category:</label>
             <select
-              className="border-df bg-color-fa padding-5 width-60 border-radius-4"
-              required
+            className={`border-df bg-color-fa padding-5 border-radius-4 width-60 ${category===""? "color-text-888888":null}`}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-              <option name="select">Select your category</option>
-              <option>Layout</option>
-              <option>Measurements</option>
+              <option name="select" value="">Select your category</option>
+              <option value="layout">Layout</option>
+              <option value="measurements">Measurements</option>
             </select>
             <AiFillCaretDown  style={{background:"white"}}  className="position-absolute right-3 color-text-888888" />
           </div>
@@ -127,7 +126,7 @@ function MomZeroState() {
         )}
         <button
           type="submit"
-          className="submit-btn bg-color border-none padding-5 border-radius-4"
+          className="submitbtn bg-color border-none padding-5 border-radius-4"
           onClick={() => handleSubmitData()}
         >
           Submit

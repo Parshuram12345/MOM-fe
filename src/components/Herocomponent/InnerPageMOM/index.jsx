@@ -1,8 +1,9 @@
 import React,{useContext} from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
-import {FaGreaterThan} from "react-icons/fa";
+import {FiChevronRight} from "react-icons/fi";
 import { data } from "../../utils";
+import { useNavigate } from "react-router-dom";
 import "./InnerPageMom.css";
 import { Link } from "react-router-dom";
 import { MomContext } from "../../../App.jsx";
@@ -11,6 +12,10 @@ function InnerPageMom() {
     const {pointsdetails,draftsflag}=useContext(MomContext)
     console.log(pointsdetails)
   const pointOfMom = data.MomContent;
+  const navigate= useNavigate();
+  const navigateHome=()=>{
+    navigate("/")
+  }
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
@@ -18,12 +23,12 @@ function InnerPageMom() {
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
-          <span className="d-flex align-center small-font-9 color-text-888888">
-            <FaGreaterThan />
+          <span className="d-flex align-center small-font-12 color-text-888888">
+            <FiChevronRight />
           </span>
-          <div className="small-font-9">MOM</div>
-          <span className="d-flex align-center small-font-9 color-text-888888">
-            <FaGreaterThan />
+          <div className="small-font-9 font-weight-500 color-text-888888" onClick={()=> navigateHome()}>MOM</div>
+          <span className="d-flex align-center small-font-12 color-text-888888">
+            <FiChevronRight />
           </span>
           <div className="color-text">Discussed layouts for the living and the dining area</div>
         </div>

@@ -9,8 +9,8 @@
     border: none;
     padding:3%;
     font-weight: 400;
-    width: 135px;
-    height: 35px;
+    width: 132px;
+    height: 32px;
     border-radius: 4px;
 }
 
@@ -35,11 +35,13 @@
     flex-wrap: wrap;
     text-align: justify;
     padding: 6px;
+    background-color: white;
 }                  
 .share-with-wrapper{
     width: 10%;
     position: absolute;
     margin-top: 7%;
+  
 }
        
 .points-area{

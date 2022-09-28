@@ -4,12 +4,15 @@ import { Provider } from "react-redux";
 import {store} from "./Redux/Store/Store.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App.jsx"
-// import MobileApp from "./MobileApp.jsx";
+import MobileApp from "./MobileApp.jsx";
 store.subscribe(()=>console.log(store.getState()))
+const resolution = window.innerWidth;
+  const isMobile = resolution >= 320 && resolution <= 480;
 ReactDOM.render(
  <Router>
     <Provider store={store}>
-        <App />
+      { isMobile ? <MobileApp/>:<App /> }
+        {/* <App /> */}
         {/* <MobileApp/> */}
      </Provider>
  </Router>

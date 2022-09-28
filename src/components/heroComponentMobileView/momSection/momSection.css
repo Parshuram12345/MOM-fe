@@ -1,5 +1,5 @@
 .edit-icon{
-    font-size: 2rem;
+    font-size: 20px;
     color: #3B5998;
 }
 .doublevector-icon{
@@ -8,27 +8,32 @@
 
 }
 .mom-head {
-    font-size: 20px;
+    font-size: 17px;
 }
 .divider-bar{
     color: #DFDFDF;
     font-size: 2rem;
+    margin: -10% 0;
 }
 i.search.icon{
     font-size: 18px;
     color: #888888;
 }
 .drafts-tab {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
     color: #3B5998;
+    padding-bottom: 3%;
     cursor: pointer;
     border-bottom: 1px solid #3B5998 ;
 }
 
 .sents-tab {
+    padding-bottom: 3%;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 14px;
+    color: #888888;
+    font-weight: 500;
 }
 .mom-layout{
     width:26%;
@@ -82,4 +87,8 @@ a,a:hover{
     padding:7px;
     opacity: 1;
     border: 1px solid #888888;
+}
+.addMomImg
+{
+    width: 10vw;
 }

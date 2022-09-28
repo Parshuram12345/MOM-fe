@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Inter;
 }
 .padding-5 {
   padding: 5px;
@@ -10,23 +9,7 @@
 .padding-1 {
   padding: 1px;
 }
-.submit-btn {
-  display: block;
-  width: 13%;
-  height: 6vh;
-  color: white;
-  float: right;
-  margin-top: 0%;
-  margin-left: auto;
-  margin-right: 0;
-}
-/* .email-field{
-    margin-right: 4px;
-} */
-/* .email-wrapper{
-    background-color: white;
-    margin: 3px 2px;
-} */
+ */
 .points-container {
   min-height: 35vh;
   height: fit-content;

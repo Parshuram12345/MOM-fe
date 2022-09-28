@@ -1,5 +1,5 @@
 .edit-icon{
-    font-size: 2rem;
+    font-size: 20px;
     color: #3B5998;
 }
 .doublevector-icon{
@@ -7,11 +7,12 @@
     color:#888888
 }
 .mom-head {
-    font-size: 20px;
+    font-size: 17px;
 }
 .divider-bar{
     color: #DFDFDF;
     font-size: 2rem;
+    margin: -10% 0;
 }
 i.search.icon{
     font-size: 18px;
@@ -25,8 +26,10 @@ i.search.icon{
     flex-direction: column;
     flex-wrap: wrap;
     text-align: justify;
-    background-color: #E5E5E5;
+    background-color: white;
     padding: 2px;
+    color: #000000;
+    width: 100%;
 }   
 .a,a:hover{
     text-decoration: none;

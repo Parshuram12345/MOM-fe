@@ -1,22 +1,64 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect,useContext} from "react";
 import axios from "axios";
-import { Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaRegEdit,FaGreaterThan } from "react-icons/fa";
-import { CgChevronDoubleRightO } from "react-icons/cg";
+import { FiChevronRight } from "react-icons/fi";
+import { FaRegEdit } from "react-icons/fa";
 import { data } from "../../utils";
 import "./momSection.css";
+import { momContext } from './../../../MobileApp';
 
 function MomSection() {
+  const {naviagteInnerPage}=useContext(momContext)
+  const navigate = useNavigate()
   const [draftsflag, setDraftsflag] = useState(false);
+  const [sentsflag, setSentflag] = useState(false);
+  const [checkflag, setCheckflag] = useState(false);
+  const [ selectpoint,setSelectpoint]= useState([])
   // const [opendraftsbox, setOpendraftbox] = useState(false)
   const { access_token } = data;
   const [momdata, setMomdata] = useState([]);
+  const [MOMdata, setMOMdata] = useState([0,8]);
   const Momdata = data.MomContent;
-  const handleSharedDocs = (value) => {
-    setDraftsflag(value);
+
+   ///=----draftsdocs----////
+  const handleDraftsDocs = () => {
+    setDraftsflag(false);
+    setSentflag(true)
   };
-  
+   ///=----sentdocs----////
+   const handleSentDocs = () => {
+    setDraftsflag(true);
+    setSentflag(false);
+  };
+  const check = document.getElementsByName("pointscheck");
+  ///---checkbox functionality---///
+  const handlecheckbox=(index)=>{
+    for (let i = 0; i < check.length; i++) {
+      if(check[i].checked === true){
+        setCheckflag(true)
+        break;
+      }
+      setCheckflag(false)
+    }
+  }
+  ///-----all checkbox ----///
+  const SelectAll = (e) => {
+    const { checked } = e.target;
+    if (checked) {
+      for (let i = 0; i < check.length; i++) {
+        check[i].checked = true;
+      }
+    } else {
+      for (let i = 0; i < check.length; i++) {
+        check[i].checked = false;
+      }
+    }
+  };
+  ///---navigate to new mom page -----///
+  const navigateNewMom=()=>{
+    navigate("/newmom")
+  }
   async function getApiData() {
     axios
       .get("https://pmt.idesign.market/api/mom/getMOM", {
@@ -38,48 +80,68 @@ function MomSection() {
   console.log(momdata);
   return (
     <>
-      <div className="padding-3 d-flex-col justify-around height-80">
-      <div className="d-flex justify-around width-40 align-center">
-          <div className="font-size-14 color-text-888888 small-font-9">Praveer's villa</div>
-          <div className="d-flex align-center color-text-888888 small-font-9">
-            <FaGreaterThan />
+      <div className={`padding-3 d-flex-col justify-around ${MOMdata.length <1 ? "height-fi-content":" height-80"}`}>
+      <div className="d-flex justify-around width-fit-content align-center">
+          <div className="font-size-14 color-text-888888 small-font-10">Praveer's villa</div>
+          <div className="d-flex align-center color-text-888888 small-font-12">
+            <FiChevronRight />
           </div>
-          <div className="color-text">New MOM</div>
+          <div className="color-text small-font-10 font-weight-500">MOM</div>
         </div>
-        <div className="d-flex justify-between align-center divider-margin">
+        <div className="d-flex justify-between align-center divider-margin position-relative">
           <div className="doublevector-icon">
-            <CgChevronDoubleRightO />
+            <img src={"/images/doublevector.svg"} alt="vector" />
           </div>
           <div className="divider-bar">|</div>
-          <div className="mom-head font-weight-500">Minutes of Meetings</div>
-          <div className="search-box d-flex align-center">
+          <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
+          <div className="search-box d-flex align-center position-absolute right-22">
             <input type="text" className="search-text" placeholder="search" />
             <button className="search-btn">
-                    <i className="search icon"></i></button>
+            <img src={"/images/searchicon.svg"} className="" alt="vector" />
+                    </button>
           </div>
-          <Link to="/newmom">
-            <div className="edit-icon">
+         
+            <div className="edit-icon" onClick={()=>navigateNewMom()}>
               <FaRegEdit />
             </div>
-          </Link>
         </div>
-        <div className="d-flex width-40 justify-between divider-margin">
+        <div  className="ui divider"></div>
+        { !checkflag ? (<div className="d-flex width-40 justify-between">
           <div
             className={!draftsflag ? "drafts-tab" : "sents-tab"}
-            onClick={() => handleSharedDocs(false)}
+            onClick={() => handleDraftsDocs()}
           >
             Drafts
           </div>
           <div
             className={draftsflag ? "drafts-tab" : "sents-tab"}
-            onClick={() => handleSharedDocs(true)}
+            onClick={() => handleSentDocs()}
           >
             Sent
           </div>
-        </div>
-        <hr />
+        </div>):
+          (<div className="d-flex align-center justify-between">
+          <div className="d-flex justify-around width-35">
+          <input type="checkbox"  name="selectall"  onClick={(e)=>SelectAll(e)}/>
+          <div className="color-text font-size-15 font-weight-500">Select All</div>
+          </div>
+          <div className="d-flex justify-around width-35">
+          <div className="color-text font-weight-500 font-size-15">Delete</div>
+          <div className="color-text font-weight-500 font-size-15">Share</div>
+          </div>
+        </div>)}
+        <div style={{ marginTop: "0%" }} className="ui divider"></div>
         <div className="momdata-wrapper d-flex-col divider-margin">
-          {Momdata &&
+        { MOMdata.length<1 ? (
+        <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
+           <div className="add-mom-bg"><img className="addMomImg" src={"/images/add_mom.svg"} alt="add-notes"/></div>
+          <div className="color-text-888888 small-font-12">
+            you haven't added any MOMs yet
+          </div>
+          <div className="color-text small-font-12" onClick={()=>navigateNewMom()}>Add now</div>
+        </div>
+      ):(
+          Momdata &&
             Momdata.map(({ date, title, worktag, attendes, points }, index) => {
               return (
                 <div
@@ -87,16 +149,16 @@ function MomSection() {
                   className="mom-field border-df border-radius-5 divider-margin"
                 >
                   <div className="d-flex justify-around align-center padding-3">
-                    <input type="checkbox" />
-                    <div className="font-size-16 font-weight-500">{title}</div>
-                    <div className="mom-layout color-text border-radius-25">
+                    <input type="checkbox" name="pointscheck" onClick={()=>handlecheckbox(index)} />
+                    <div className="font-size-16 font-weight-500" onClick={()=>naviagteInnerPage()} >{title}</div>
+                    <div className="mom-layout color-text border-radius-25" onClick={()=>naviagteInnerPage()} >
                       #{worktag}
                     </div>
-                    <BsThreeDotsVertical />
+                    { !draftsflag && <BsThreeDotsVertical />}
                   </div>
                   <div className="mom-points text-align-justify"  
-                  // onClick={() =>
-                    //  gotoInnerpage(index)}
+                  onClick={() =>
+                    naviagteInnerPage(index)}
                       >{points}</div>
                   <div className="d-flex justify-between align-center padding-3">
                     <div>{date}</div>
@@ -111,7 +173,8 @@ function MomSection() {
                   </div>
                 </div>
               );
-            })}
+            }))
+            }
         </div>
       </div>
     </>

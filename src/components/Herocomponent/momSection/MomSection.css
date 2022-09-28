@@ -8,8 +8,8 @@
     cursor: pointer;
     border: none;
     padding: 2%;
-    width: 135px;
-    height: 35px;
+    width: 132px;
+    height: 32px;
     font-weight: 400;
 }
 
@@ -32,7 +32,9 @@
 .sents-tab {
     padding-bottom: 3%;
     cursor: pointer;
+    color: #666666;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .table-row{
@@ -77,6 +79,7 @@
     top: 30%;
     right:30px;
     position: absolute;
+    box-shadow: 9px 9px 8px -3px rgba(136,136,136,0.66);
  }
  .table-heading{
      color:#444444;
@@ -86,4 +89,16 @@
  .share-icon{
     color: #888888;
     /* margin-left: 5px; */
+}
+.add-mom-bg{
+    display: flex;
+    width: 35%;
+    background: #F0F0F0;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+}
+.add-mom-img{
+    width: 2vw;
 }

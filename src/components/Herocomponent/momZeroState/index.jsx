@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./momZeroState.css";
 // import { useForm } from "react-hook-form";
-import { FaGreaterThan } from "react-icons/fa";
+import { FiChevronRight } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -31,12 +31,12 @@ function MomZeroState() {
   return (
     <>
       <div className=" justify-around margin-left-3 width-75">
-        <div className="d-flex align-center divider-margin">
+        <div className="d-flex align-center width-fit-content divider-margin">
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
-          <span className="d-flex align-center color-text-888888 small-font-10">
-            <FaGreaterThan />
+          <span className="d-flex align-center color-text-888888 small-font-12">
+            <FiChevronRight />
           </span>
           <span className="color-text small-font-10">New MOM</span>
         </div>
@@ -59,8 +59,9 @@ function MomZeroState() {
               <label className="label-text">Category:</label>
               <div className="d-flex align-center position-relative width-66">
                 <select
-                  className="border-df bg-color-fa padding-5 border-radius-4 width-100"
+                  className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${category===""? "color-text-888888":""}`}
                   value={category}
+                 
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option>Select your category</option>
@@ -135,7 +136,7 @@ function MomZeroState() {
               Points
             </label>
             <textarea
-              rows="8"
+              rows="10"
               cols="50"
               className="points-container border-df bg-color-fa padding-6 border-radius-4"
               onChange={(e) => handlePointsField(e)}
@@ -146,7 +147,7 @@ function MomZeroState() {
             <small style={{ color: "red" }}>write something here</small>
           )}
           <button
-            className="submit-btn bg-color border-none padding-5 border-radius-4 divider-margin"
+            className="submit-button bg-color border-none padding-5 border-radius-4 divider-margin"
             onClick={() => handleSubmitData()}
           >
             Submit

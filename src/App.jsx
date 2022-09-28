@@ -8,14 +8,11 @@ import InnerPage from "./views/InnerPageMOM";
 import {data} from "./components/utils"
 export const MomContext = createContext("context");
 function App() {
-  const [momdate ,setMomdate]= useState()
-  const [category, setCategory] = useState();
-  const [location, setLocation] = useState();
-  const [title, setTitle] = useState();
-  const [emaillist, setEmaillist] = useState([
-    "dikshant@gmail.com",
-    "prsaini@gmail.com",
-  ]);
+  const [momdate ,setMomdate]= useState("")
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [title, setTitle] = useState("");
+  const [emaillist, setEmaillist] = useState(["dikshant@gmail.com"]);
   const [emailvalue, setEmailvalue] = useState();
   const [pointsdata, setPointsdata] = useState(null);
   const [dateerror, setDateerror] = useState(false);
@@ -47,9 +44,7 @@ function App() {
      todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
      setMomdate(todaydate)
     }
-    // useEffect(()=>{
-    //   // dateFormater(newdate)
-    // },[])
+    
     console.log(momdate,typeof momdate)
   ///------add the points in field -----///
   const handlePointsField = (e) => {
