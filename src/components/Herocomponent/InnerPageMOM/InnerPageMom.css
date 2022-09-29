@@ -3,14 +3,12 @@
 }
 
 .mom-btn {
-    color: #fff;
-    background-color: #3B5998;
-    cursor: pointer;
-    border: none;
-    padding:3%;
     font-weight: 400;
-    width: 132px;
-    height: 32px;
+    padding: 10px;
+    background-color: #3B5998;
+    color: #fff;
+    border: none;
+    cursor: pointer;
     border-radius: 4px;
 }
 

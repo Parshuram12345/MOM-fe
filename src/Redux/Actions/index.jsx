@@ -127,7 +127,7 @@ export function fetchProfileData(authTok) {
       dispatch(profileGetSuccess());
       dispatch(getProfileData(response));
     });
-  };
+  }
 }
 
 // to get information about premium plans

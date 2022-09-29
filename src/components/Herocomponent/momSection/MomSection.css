@@ -1,18 +1,14 @@
 .mom-head {
     font-size: 24px;
 }
-
-.mom-btn {
-    color: #fff;
-    background-color: #3B5998;
-    cursor: pointer;
-    border: none;
-    padding: 2%;
-    width: 132px;
-    height: 32px;
+.mom-button{
     font-weight: 400;
+    padding: 10px;
+    background-color: #3B5998;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
-
 .momHead-wrapper{
     margin-top: 2%;
     margin-bottom: 2%;

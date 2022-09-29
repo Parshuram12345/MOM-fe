@@ -21,7 +21,6 @@ function NewMom() {
     dateerror,
     categoryerror,
     pointserror,
-    dateFormater,
     gotoInnerMOm,
     addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(MomContext);
@@ -48,11 +47,12 @@ function NewMom() {
             <div className="d-flex justify-between align-center width-25">
               <label className="label-text">Date:</label>
               {/* <div className="d-flex justify-between"> */}
-                <input type="date"
-                  className="border-df bg-color-fa padding-5 border-radius-4  width-75"
+                <input type="text"
+                  className="border-df bg-color-fa padding-5 border-radius-4 width-75"
                   value={momdate}
-                  onChange={(newdate) => setMomdate(newdate)
-                  }
+                  onChange={(newdate) => setMomdate(newdate.target.value)}
+                  placeholder="select date"
+                    onFocus={(e)=>e.target.type="date"}
                   />
                   {/* <small style={{ color: "red" }}>date is required</small> */}
                   {/* </div> */}

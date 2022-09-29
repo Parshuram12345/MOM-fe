@@ -14,13 +14,11 @@ function MomSection() {
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentsflag, setSentflag] = useState(false);
   const [checkflag, setCheckflag] = useState(false);
-  const [ selectpoint,setSelectpoint]= useState([])
-  // const [opendraftsbox, setOpendraftbox] = useState(false)
-  const { access_token } = data;
+  // const [ selectpoint,setSelectpoint]= useState([])
+  const { access_token,BaseUrl,projectid } = data;
   const [momdata, setMomdata] = useState([]);
   const [MOMdata, setMOMdata] = useState([0,8]);
   const Momdata = data.MomContent;
-
    ///=----draftsdocs----////
   const handleDraftsDocs = () => {
     setDraftsflag(false);
@@ -59,9 +57,36 @@ function MomSection() {
   const navigateNewMom=()=>{
     navigate("/newmom")
   }
+  
+  ///----search by title -----///
+  async function handleSearchByTitle(searchtitle){
+    if(!searchtitle.target.value)
+    {
+      try {
+        const response = await axios.put(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
+        headers: {
+          Authorization: access_token,
+        },
+        body:{
+          search:searchtitle.target.value
+        }
+      });
+      if(response.ok){
+        setMOMdata(response.data.momData)
+      }
+      console.log(response.data.momData);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  else
+        getApiData()
+  }
+
+ ////-----get api data -----///
   async function getApiData() {
     axios
-      .get("https://pmt.idesign.market/api/mom/getMOM", {
+      .get(`${BaseUrl}/api/mom/getMOM`, {
         headers: {
           Authorization: access_token,
         },
@@ -80,7 +105,7 @@ function MomSection() {
   console.log(momdata);
   return (
     <>
-      <div className={`padding-3 d-flex-col justify-around ${MOMdata.length <1 ? "height-fi-content":" height-80"}`}>
+      <div className={`padding-3 d-flex-col justify-around ${MOMdata.length <1 ? "height-fit-content":"height-80"}`}>
       <div className="d-flex justify-around width-fit-content align-center">
           <div className="font-size-14 color-text-888888 small-font-10">Praveer's villa</div>
           <div className="d-flex align-center color-text-888888 small-font-12">
@@ -95,7 +120,8 @@ function MomSection() {
           <div className="divider-bar">|</div>
           <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
           <div className="search-box d-flex align-center position-absolute right-22">
-            <input type="text" className="search-text" placeholder="search" />
+            <input type="text" className="search-text" placeholder="search" onChange={(e)=>
+              handleSearchByTitle(e)} />
             <button className="search-btn">
             <img src={"/images/searchicon.svg"} className="" alt="vector" />
                     </button>
@@ -106,7 +132,8 @@ function MomSection() {
             </div>
         </div>
         <div  className="ui divider"></div>
-        { !checkflag ? (<div className="d-flex width-40 justify-between">
+        { !checkflag ? (
+        <div className="d-flex width-40 justify-between">
           <div
             className={!draftsflag ? "drafts-tab" : "sents-tab"}
             onClick={() => handleDraftsDocs()}

@@ -12,23 +12,25 @@ function App() {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [title, setTitle] = useState("");
-  const [emaillist, setEmaillist] = useState(["dikshant@gmail.com"]);
+  const [emaillist, setEmaillist] = useState([]);
   const [emailvalue, setEmailvalue] = useState();
   const [pointsdata, setPointsdata] = useState(null);
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
-  const [ pointsdetails,setPoinstdetails]=useState({})
+  const [pointsdetails,setPoinstdetails]=useState({})
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentflag, setSentflag] = useState(false);
-  const {access_token, pointsData } = data;
+  const [MOMdata, setMOMdata] = useState([]);
+  const [selectedMOM, setSelectedMOM] = useState([]);
+  const {access_token,BaseUrl,projectid } = data;
   const Momdata = data.MomContent;
+  console.log(pointsdetails)
   const navigate = useNavigate();
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
 		setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
 	};
-
   ///----add the email---///
 	const addEmail = event => {
 		if (event.target.value !== "") {
@@ -36,26 +38,16 @@ function App() {
 			event.target.value = "";
 		}
 	};
-  ///---convert date in readable format ---///
-  let todaydate
-  function dateFormater(newdate) {
-    // setMomdate(newdate)
-    console.log("dateformat")
-     todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
-     setMomdate(todaydate)
-    }
-    
-    console.log(momdate,typeof momdate)
   ///------add the points in field -----///
   const handlePointsField = (e) => {
     setPointsdata(e.target.value.split("\n"));
   };
-
   ///got to mom inner page ----///
   const gotoInnerMom=(index)=>{
+    console.log(MOMdata[index])
+    setPoinstdetails(MOMdata[index])
+    console.log(pointsdetails)
     navigate("/mominnerpage");
-    console.log(Momdata[index])
-    setPoinstdetails(Momdata[index])
   }
   ////-----post the data ------///
   const handlePostData = () => {
@@ -64,11 +56,12 @@ function App() {
       category: category,
       location: location,
       title: title,
+      projectId:projectid,
       // sharedWith:emaillist,
       points: pointsdata,
     });
 
-    fetch("https://pmt.idesign.market/api/mom/addEditMOM", {
+    fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -83,11 +76,13 @@ function App() {
           setCategory("");
           setLocation(""); 
           setTitle("");
-          setPointsdata(null);
+          setPointsdata([]);
+          // setMOMdata(response.data.momData)
         }
         return response.json();
       })
       .then((data) => {
+        // setMOMdata(data.momData)
         console.log(data);
       })
       .catch((error) => {
@@ -109,6 +104,8 @@ function App() {
     <>
       <MomContext.Provider
         value={{
+          MOMdata,
+          setMOMdata,
           momdate,
           setMomdate,
           category,
@@ -134,7 +131,8 @@ function App() {
           setDraftsflag,
           sentflag,
           setSentflag,
-          dateFormater,
+          selectedMOM,
+          setSelectedMOM,
           gotoInnerMom,
           addEmail,removeEmail,handlePointsField,handleSubmitData
         }}

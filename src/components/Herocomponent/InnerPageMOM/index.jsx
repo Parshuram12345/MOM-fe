@@ -1,21 +1,41 @@
-import React,{useContext} from "react";
+import React,{useContext,useEffect} from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import {FiChevronRight} from "react-icons/fi";
 import { data } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import "./InnerPageMom.css";
-import { Link } from "react-router-dom";
 import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
-    const {pointsdetails,draftsflag}=useContext(MomContext)
+  const navigate= useNavigate();
+    const {MOMdata,pointsdetails,draftsflag}=useContext(MomContext)
     console.log(pointsdetails)
   const pointOfMom = data.MomContent;
-  const navigate= useNavigate();
+
+   ///-----highlight the match point text---///
+   let matchedText =""
+   const highlightPoints =(e)=>{
+    for(let i =0;i<pointOfMom.length;i++)
+    {
+         if ((pointOfMom[i]).includes(e.target.value))
+         {
+              
+         }
+    }
+}
+  ///---navigate to home page ----///
   const navigateHome=()=>{
-    navigate("/")
+    // navigate("/")
   }
+  ///----navigate to new MOM page---///
+  const navigateNewMom=()=>{
+    // navigate("/newmom")
+  }
+  // useEffect(()=>{
+  //   navigateHome()
+  //   navigateNewMom()
+  // })
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
@@ -43,21 +63,20 @@ function InnerPageMom() {
                   id="search-bar"
                   type="text"
                   placeholder="Search"
+                  onChange={(e)=>highlightPoints(e)}
                 />
                 <i className="search icon"></i>
               </div>
               <div className="results"></div>
             </div>
           </div>
-          <Link to="/newmom">
-            <button className="mom-btn">Create a MOM</button>
-          </Link>
+            <button className="mom-btn" onClick={navigateNewMom()}>Create a MOM</button>
         </div>
         <div className="d-flex-col">
           <div className="d-flex align-center">
             <div classNaame="points-field font-weight-400">
-              Discussed layouts for the living and the dining area
-              {/* {pointsdetails.title} */}
+              {/* Discussed layouts for the living and the dining area */}
+              {pointsdetails.title}
             </div>
             <span className="d-flex share-icon align-center">
               <HiOutlineShare />
@@ -65,9 +84,9 @@ function InnerPageMom() {
           </div>
           <div className="d-flex justify-between width-86">
             <div className="color-text-888888">
-              28 may 2022 . Google meet
-              {/* {pointsdetails.date} */}
-              {/* {pointsdetails.lcoation} */}
+              {/* 28 may 2022 . Google meet */}
+              {pointsdetails.date} .
+              {pointsdetails.lcoation}
               </div>
             <div className="d-flex justify-between width-18">
               <div className="color-text-888888">
@@ -81,18 +100,19 @@ function InnerPageMom() {
           <div className="d-flex justify-between width-89">
             <div
               name="points"
-              className="points-container-field border-none width-84"
-            >
-              {pointOfMom &&
-              //  pointsdetails && pointsdetails?.points.map(()=>{})
-                pointOfMom.map((elem, index) => {
+              className="points-container-field border-none width-84">
+              {
+                pointsdetails && pointsdetails.points.map((elem, index)=>{
+                // pointOfMom && pointOfMom.map((elem, index) => {
                   return (
+                    <>
                     <div className="d-flex divider-margin">
                       <span className="points-counter">{index + 1}.</span>
                       <div className="points-area text-align-justify">
-                        {elem.points}
+                        {elem}
                       </div>
                     </div>
+                    </>
                   );
                 })}
             </div>
@@ -105,7 +125,7 @@ function InnerPageMom() {
                 <div>Ashok rathi</div>
                   </>
                 )}
-                <div className="color-text d-flex align-center">
+                <div className="color-text d-flex align-center width-fit-content">
                   <AiFillPlusCircle /> Add Members
                 </div>
               </div>

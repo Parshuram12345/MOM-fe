@@ -21,7 +21,6 @@ function MomZeroState() {
     dateerror,
     categoryerror,
     pointserror,
-    dateFormater,
     addEmail,
     removeEmail,
     handlePointsField,
@@ -48,11 +47,12 @@ function MomZeroState() {
           <div className="d-flex justify-between align-center">
             <div className="d-flex justify-between align-center width-25">
               <label className="label-text">Date:</label>
-                <input type="date"
+                <input type="text"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-75"
                   placeholder="select date"
                   value={momdate}
                    onChange={(e)=>setMomdate(e.target.value)}
+                   onFocus={(e)=>e.target.type="date"}
                 />
             </div>
             <div className="d-flex justify-between align-center width-30">

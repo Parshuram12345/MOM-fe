@@ -20,7 +20,7 @@ function MobileApp() {
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
   const [ pointsdetails,setPoinstdetails]=useState({})
-  const {access_token, pointsData } = data;
+  const {access_token,BaseUrl,projectid } = data;
   const Momdata = data.MomContent;
   const navigate = useNavigate();
   ///---convert date in readable format ---///
@@ -52,20 +52,20 @@ function MobileApp() {
     navigate("/mominnerpage");
     setPoinstdetails(Momdata[index])
   };
-  ////---fix error ---///
-
+  ///---post the data----//
   const handlePostData = () => {
     console.log("sdfds")
     const bodyData = JSON.stringify({
       date: selectdate,
       category: category,
       location: location,
+      projectId:projectid,
       title: title,
       // sharedWith:emaillist,
       points: pointsdata,
     });
 
-    fetch("https://pmt.idesign.market/api/mom/addEditMOM", {
+    fetch(`${BaseUrl}/api/mom/addEditMOM`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -75,6 +75,7 @@ function MobileApp() {
     })
       .then((response) => {
         if (response.ok) {
+          navigate("/")
           setSelectdate("");
           setCategory("");
           setLocation("");

@@ -1,7 +1,6 @@
 import React,{useContext} from "react";
 import "./innerPage.css";
-import { Link,useNavigate } from "react-router-dom";
-import { AiOutlineSearch } from 'react-icons/ai';
+import { useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { FaRegEdit} from "react-icons/fa";
 import { data } from "../../utils";
@@ -10,10 +9,16 @@ import { momContext } from './../../../MobileApp.jsx';
 function InnerPageMom() {
   const {pointsdetails}=useContext(momContext);
   console.log(pointsdetails)
-  const { pointsData, MomContent } = data;
+  const { pointsData} = data;
+
+  ///---navigate to home main page----/// 
   const navigate= useNavigate();
   const navigateHome=()=>{
     navigate("/")
+  }
+  ///----navigate new MOM page ---///
+  const navigateNewMom=()=>{
+    navigate("/newmom")
   }
   return (
     <>
@@ -44,11 +49,9 @@ function InnerPageMom() {
             <img src={"/images/searchicon.svg"} alt="vector2" />
             </button>
           </div>
-          <Link to="/newmom">
-            <div className="edit-icon">
+            <div className="edit-icon" onClick={navigateNewMom()}>
               <FaRegEdit />
             </div>
-          </Link>
         </div>
         <div className="d-flex-col">
           <div className="font-size-14 font-weight-600 divider-margin">
