@@ -146,6 +146,9 @@
 .margin-left-10{
  margin-left: 10%;
 }
+.margin-bottom-4{
+    margin-bottom: 4px;
+}
 .right-10{
     right:10px
 }
@@ -246,3 +249,6 @@
 .cursor-pointer{
     cursor: pointer;
 }
+::placeholder {
+    font-family: "Inter";
+  }

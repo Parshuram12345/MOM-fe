@@ -35,7 +35,8 @@
 
 .table-row{
       border: 2px solid #DFDFDF;
-      margin-bottom: 2;
+      margin-bottom: 4px;
+      padding:0 3px 
   }
   .table-row:hover{
     cursor: pointer;
@@ -98,3 +99,9 @@
 .add-mom-img{
     width: 2vw;
 }
+.table-header{
+   padding: 0 5px;
+}
+/* .data-row-wrapper{
+   
+} */

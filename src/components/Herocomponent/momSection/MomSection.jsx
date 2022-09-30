@@ -10,7 +10,8 @@ import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
 
 function MomSection() {
-  const {MOMdata,setMOMdata, gotoInnerMom, draftsflag, setDraftsflag, setSentflag,selectedMOM,setSelectedMOM } =
+  const {MOMdata,setMOMdata, gotoInnerMom, draftsflag, setDraftsflag, setSentflag,setEmaillist,
+    emaillist,selectedMOM,setSelectedMOM } =
     useContext(MomContext);
     const Momdata = data.MomContent;
   const [opendraftsbox, setOpendraftbox] = useState(false);
@@ -122,25 +123,40 @@ function MomSection() {
 
   ///---get api data ----///
   async function getApiData() {
-    axios
+   return await axios
       .get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
         headers: {
           Authorization: access_token,
         },
       })
-      .then((res) => {
-        console.log(res.data.momData);
-        setMOMdata(res.data.momData);
+    }
+
+    ///---get client project ---////
+    async function getClientProject(){
+      return await axios.get(`https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,{
+        headers: {
+          Authorization: access_token,
+        },
       })
-      .catch((error) => {
-        console.error(error);
-      });
     }
   ///----api fetch data-----
   useEffect(() => {
-    getApiData();
+    getApiData().then((res) => {
+      console.log(res.data.momData);
+      setMOMdata(res.data.momData);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    getClientProject().then((res) => {
+      // console.log(res.data.projects[0].clientId.email);
+      setEmaillist(res.data.projects[0].clientId.email);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, []);
-
+ console.log(emaillist, typeof emaillist)
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
@@ -203,47 +219,64 @@ function MomSection() {
       ):
        ( 
         <>
-         <table className="content-table">
-           { checkboxSelected.length>=0 ? (
-             <tr className="d-flex align-center justify-between">
-          <div className="d-flex justify-around width-35">
+         <div className="content-table">
+         <div>
+           { checkboxSelected.length===1 ? (
+          //    <tr className="">
+          // <th className="">
+          // <div className="d-flex color-text font-size-15 font-weight-500">
+          // <input type="checkbox"  name="selectall"  onClick={(e)=>handleSelectAll(e)}/>
+          //   Select All</div>
+          // </th>
+          // <th></th>
+          // <th></th>
+          // <th></th>
+          // <th className="d-flex width-60">
+          // <D className="color-text font-weight-500 font-size-15 cursor-pointer" onClick={()=>handleDeleteMOM()}>Delete</D>
+          // <th className="color-text font-weight-500 font-size-15">Share</th>
+          // </th>
+          //   </tr>
+          <div className="d-flex align-center justify-between">
+          <div className="d-flex justify-around width-40">
           <input type="checkbox"  name="selectall"  onClick={(e)=>handleSelectAll(e)}/>
           <div className="color-text font-size-15 font-weight-500">Select All</div>
           </div>
-          <div className="d-flex justify-around width-35">
-          <div className="color-text font-weight-500 font-size-15 cursor-pointer" onClick={()=>handleDeleteMOM()}>Delete</div>
+          <div className="d-flex justify-around width-40">
+          <div className="color-text font-weight-500 font-size-15" onClick={()=>handleDeleteMOM()}>Delete</div>
           <div className="color-text font-weight-500 font-size-15">Share</div>
           </div>
-            </tr>
-           ): (<thead>
-             <tr>
-              <th>
+        </div>
+           ): (
+             <div className="d-flex align-center justify-between table-header">
+              <div>
                 <input
                   type="checkbox"
                   name="allselect"
                   onClick={(e) => handleSelectAll(e)}
                 />
-              </th>
-              <th className="table-heading text-align-left">Date</th>
-              <th className="table-heading text-align-left">Title</th>
-              <th className="table-heading text-align-left">Worktag</th>
+              </div>
+              <div className="table-heading text-align-left">Date</div>
+              <div className="table-heading text-align-left">Title</div>
+              <div className="table-heading text-align-left">Worktag</div>
               {draftsflag && (
-                <th className="table-heading text-align-left">Attendes</th>
+                <div className="table-heading text-align-left">Attendes</div>
               )}
-              <th className="table-heading text-align-left">Points</th>
-            </tr>
-          </thead>)
-            }
-          <tbody className="table-body position-relative">
+              <div className="table-heading text-align-left">Points</div>
+            </div>
+          )
+        }
+        </div>
+          <div className="table-body position-relative">
             {MOMdata &&
               MOMdata.map(
                 ({ date, title, category, attendes, points,_id }, index) => {
                   return (
-                    <tr
+                    <div
                       key={index}
-                      className="table-row height-7 border-radius-4 font-weight-400 color-text-000000"
+                      className="d-flex align-center justify-between table-row  height-7 
+                      border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
                     >
-                      <td className="checkbox-cell width-4 border-cells border-radius-left-cells">
+                      <div className="width-4">
                         <input
                           className="checkbox-field"
                           type="checkbox"
@@ -251,57 +284,54 @@ function MomSection() {
                           value={`name${index}`}
                           onClick={()=>handleCheckDeleteShare(_id)}
                         />
-                      </td>
-                      <td
-                        className="border-cells"
+                      </div>
+                      <div
+                        className=""
                         onClick={() => gotoInnerMom(index)}
                       >
                         {date.substring(0,10)}
                         {/* {date} */}
-                      </td>
-                      <td
-                        className="border-cells"
+                      </div>
+                      <div
+                        className=""
                         onClick={() => gotoInnerMom(index)}
                       >
                         {title}
-                      </td>
-                      <td
-                        className="border-cells"
+                      </div>
+                      <div
+                        className=""
                         onClick={() => gotoInnerMom(index)}
                       >
                         {category}
-                      </td>
+                      </div>
                       {draftsflag && (
-                        <td className="border-cells" onClick={() => gotoInnerMom(index)}>{attendes}</td>
+                        <td className="" onClick={() => gotoInnerMom(index)}>{attendes}</td>
                       )}
-                      <td
-                        className={`width-23 ${ draftsflag ? "points-cell border-cells border-radius-right-cells":"border-cells"}`}
+                      <div
+                        className={`width-23 ${ draftsflag ? "points-cell":""}`}
                         onClick={() => gotoInnerMom(index)}
                       >
                         {add3Dots(points)}
-                      </td>
+                      </div>
                       { !draftsflag && 
-                      <td
-                        className="threedots points-cell border-cells border-radius-right-cells"
+                      <div
+                        className="threedots"
                         // onClick={() => openShareDelete()}
                       >
-                        {/* <div class="ui selection dropdown">
-                        <input type="hidden" name="gender"/>
-                        <i class="dropdown icon"></i>
-                         <div class="default text"><BsThreeDotsVertical /></div>
-                        <div class="menu">
-                        <div class="item" data-value="1"><HiOutlineShare /> Share</div>
-                          <div class="item" data-value="0"><AiOutlineDelete />Delete</div>
-                           </div>
-                          </div> */}
+                        
+                        {/* <select>
+                          <option> <BsThreeDotsVertical /></option>
+                          <option>Share</option>
+                          <option>Delete</option>
+                        </select> */}
                           <BsThreeDotsVertical />
-                      </td>}
-                    </tr>
+                      </div>}
+                    </div>
                   );
                 }
               )}
-          </tbody>
-        </table>
+          </div>
+        </div>
         </>
         )
         }

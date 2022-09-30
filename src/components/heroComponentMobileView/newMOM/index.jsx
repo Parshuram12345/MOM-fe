@@ -48,6 +48,7 @@ function NewMom() {
              <input type="date"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-60"
                   value={selectdate}
+                  placeholder="Select date"
                   onChange={(selectdate) => 
                     setSelectdate(selectdate)}
                   />
@@ -77,7 +78,7 @@ function NewMom() {
           <label className="label-text">Location:</label>
           <input
             type="text"
-            placeholder="where did you do the meet?"
+            placeholder="Where did you do the meet?"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className="border-df bg-color-fa padding-5 border-radius-4"
@@ -87,7 +88,7 @@ function NewMom() {
           <label className="label-text">Share with </label>
         <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
 			  <ul id="tags">
-				{emaillist.map((email, index) => (
+				{emaillist?.map((email, index) => (
 					<li key={index} className="email-wrapper border-df">
 						<span>{email}</span>
 						<span className='tag-close-icon'
@@ -102,7 +103,7 @@ function NewMom() {
 				type="email"
         className="email-input bg-color-fa width-100"
 				onKeyUp={event => event.key === "Enter" ? addEmail(event) : null}
-				placeholder="enter share email"
+				placeholder="Enter the Email ID"
         />
 		</div>
 		</div>

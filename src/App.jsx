@@ -49,6 +49,7 @@ function App() {
     console.log(pointsdetails)
     navigate("/mominnerpage");
   }
+  
   ////-----post the data ------///
   const handlePostData = () => {
     const bodyData = JSON.stringify({

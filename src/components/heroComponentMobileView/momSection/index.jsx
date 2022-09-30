@@ -60,7 +60,7 @@ function MomSection() {
   
   ///----search by title -----///
   async function handleSearchByTitle(searchtitle){
-    if(!searchtitle.target.value)
+    if(searchtitle.target.value)
     {
       try {
         const response = await axios.put(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{

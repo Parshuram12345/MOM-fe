@@ -41,6 +41,7 @@ function MomZeroState() {
              <input type="date"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                   value={selectdate}
+                  placeholder="Select date"
                   onChange={(e)=>setSelectdate(e.target.value)}
                   />
                 </div>
@@ -69,7 +70,7 @@ function MomZeroState() {
           <label className="label-text">Location:</label>
           <input
             type="text"
-            placeholder="where did you do the meet?"
+            placeholder="wWere did you do the meet?"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className="border-df bg-color-fa padding-5 border-radius-4"
@@ -94,8 +95,7 @@ function MomZeroState() {
 				type="email"
         className="email-input bg-color-fa width-100"
 				onKeyUp={event => event.key === "Enter" ? addEmail(event) : null}
-				placeholder="enter share email"
-        />
+        placeholder="Enter the Email ID"        />
 		</div>
 		</div>
         <div className="d-flex-col divider-margin">
