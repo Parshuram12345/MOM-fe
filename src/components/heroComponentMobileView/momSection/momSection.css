@@ -36,7 +36,6 @@ i.search.icon{
     font-weight: 500;
 }
 .mom-layout{
-    width:26%;
     text-align: center;
     padding: 1%;
     background: rgba(59, 89, 152, 0.2);
@@ -51,8 +50,7 @@ i.search.icon{
 }
 .as-on{
     background: rgba(59, 89, 152, 0.2);
-    width:30px;
-    padding: 3%;
+    padding: 2px 3px;
     text-align: center;
 }
 .momdata-wrapper{

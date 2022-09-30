@@ -1,9 +1,7 @@
 import React,{useContext} from "react";
 import "./newMOM.css";
 import { FiChevronRight } from "react-icons/fi";
-import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
 
@@ -21,7 +19,7 @@ function NewMom() {
     dateerror,
     categoryerror,
     pointserror,
-    dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
+    addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(momContext);
    const navigate= useNavigate();
   const navigateHome=()=>{
@@ -31,28 +29,27 @@ function NewMom() {
     <>
       <div className="d-flex-col justify-around padding-3 height-90">
         <div className="d-flex justify-around width-fit-content align-center">
-          <div className="font-size-14 color-text-888888 small-font-10" onClick={()=>navigateHome()}>MOM</div>
+          <div className="color-text-888888 small-font-12 cursor-pointer" onClick={()=>navigateHome()}>MOM</div>
           <div className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
           </div>
-          <div className="color-text small-font-10">New MOM</div>
+          <div className="color-text small-font-12">New MOM</div>
         </div>
         <div className="font-size-16 font-weight-500 divider-margin">
           Create a MOMs
         </div>
-        <hr />
+        <div className="ui divider"></div>
         <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
-              {/* <div className="d-flex align-center position-relative width-60"> */}
-             <input type="date"
+             <input type="text"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-60"
                   value={selectdate}
                   placeholder="Select date"
                   onChange={(selectdate) => 
-                    setSelectdate(selectdate)}
+                    setSelectdate(selectdate.target.value)}
+                    onFocus={(e)=> e.target.type="date"}
                   />
-                {/* </div> */}
           </div>
           {dateerror && (
               <small className="text-align-center margin-left-10" style={{ color: "red" }}>date is required</small>
@@ -87,9 +84,9 @@ function NewMom() {
         <div className="d-flex-col divider-margin">
           <label className="label-text">Share with </label>
         <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
-			  <ul id="tags">
+			  <ul className="tags">
 				{emaillist?.map((email, index) => (
-					<li key={index} className="email-wrapper border-df">
+					<li key={index} className="email-wrapper border-df padding-5">
 						<span>{email}</span>
 						<span className='tag-close-icon'
 							onClick={() => removeEmail(index)}

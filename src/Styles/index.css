@@ -13,6 +13,10 @@
     box-sizing: border-box;
     font-family: 'Inter';
 }
+
+.dropdown-toggle::after{
+    display: none !important;
+}
 .top-navbar{
     max-width: 100%;
     width: 1920px;
@@ -91,6 +95,9 @@
 .justify-evenly{
     justify-content: space-evenly;
 }
+.justify-flex-start{
+    justify-content:flex-start;
+}
 .align-center{
     align-items: center;
 }
@@ -112,6 +119,9 @@
 }
 .font-size-20{
     font-size: 20px;
+}
+.font-size-13{
+    font-size: 13px;
 }
 .small-font-10{
     font-size: 10px;
@@ -159,14 +169,23 @@
     border-top: 1px solid  #DFDFDF;
     border-bottom: 1px solid  #DFDFDF;
 }
+.width-5{
+    width: 5%;
+}
+.width-9{
+    width: 9%;
+}
+.width-10{
+    width: 10%;
+}
 .width-15{
     width: 15%;
 }
 .width-17{
     width: 17%;
 }
-.width-10{
-    width: 10%;
+.width-20{
+    width: 20%;
 }
 .width-25{
     width: 25%;

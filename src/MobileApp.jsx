@@ -13,24 +13,17 @@ function MobileApp() {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [title, setTitle] = useState("");
-  const [emaillist, setEmaillist] = useState(["Praveervilla@gmail.com"]);
+  const [emaillist, setEmaillist] = useState([]);
   const [emailvalue, setEmailvalue] = useState("");
   const [pointsdata, setPointsdata] = useState(null);
+  const [MOMdata, setMOMdata] = useState([]);
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
   const [ pointsdetails,setPoinstdetails]=useState({})
   const {access_token,BaseUrl,projectid } = data;
-  const Momdata = data.MomContent;
+  // const Momdata = data.MomContent;
   const navigate = useNavigate();
-  ///---convert date in readable format ---///
-  function dateFormater(newdate) {
-    console.log("dateformat")
-    const todaydate = `${newdate.getDate()}-${newdate.getMonth()+1}-${newdate.getFullYear()}`
-    setSelectdate(todaydate)
-    console.log(selectdate,typeof selectdate)
-  }
-   
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
 		setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
@@ -50,7 +43,8 @@ function MobileApp() {
    ///------navigate to MOM inner page -----///
   const naviagteInnerPage = (index) => {
     navigate("/mominnerpage");
-    setPoinstdetails(Momdata[index])
+    setPoinstdetails(MOMdata[index])
+    console.log(pointsdetails)
   };
   ///---post the data----//
   const handlePostData = () => {
@@ -80,7 +74,7 @@ function MobileApp() {
           setCategory("");
           setLocation("");
           setTitle("");
-          setPointsdata(null);
+          setPointsdata([]);
         }
         return response.json();
       })
@@ -130,7 +124,11 @@ function MobileApp() {
           naviagteInnerPage,
           pointsdetails,
           setPointserror,
-          dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
+          emaillist,
+          setEmaillist,
+          MOMdata,
+          setMOMdata,
+          addEmail,removeEmail,handlePointsField,handleSubmitData
         }}
       >
        <Routes>

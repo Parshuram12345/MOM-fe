@@ -38,9 +38,11 @@
 .email-input:hover{
     border: none;
 }
-#tags {
+.tags {
   display: flex;
   flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 .email-wrapper {

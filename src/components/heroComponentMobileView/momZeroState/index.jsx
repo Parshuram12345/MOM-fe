@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import "../newMOM/newMOM.css";
 import { FiChevronRight } from "react-icons/fi";
-import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
 function MomZeroState() {
@@ -18,7 +17,7 @@ function MomZeroState() {
     dateerror,
     categoryerror,
     pointserror,
-    dateFormater,addEmail,removeEmail,handlePointsField,handleSubmitData
+    addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(momContext);
   return (
     <>
@@ -38,11 +37,12 @@ function MomZeroState() {
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
               <div className="d-flex align-center position-relative width-60">
-             <input type="date"
+             <input type="text"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                   value={selectdate}
                   placeholder="Select date"
                   onChange={(e)=>setSelectdate(e.target.value)}
+                  onFocus={(e)=> e.target.type="date"}
                   />
                 </div>
           </div>

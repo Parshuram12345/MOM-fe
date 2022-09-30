@@ -1,24 +1,24 @@
 import React, { useState, useEffect,useContext} from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { AiOutlineDelete } from "react-icons/ai";
+import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
 import { data } from "../../utils";
 import "./momSection.css";
 import { momContext } from './../../../MobileApp';
+import { Dropdown } from "react-bootstrap";
 
 function MomSection() {
-  const {naviagteInnerPage}=useContext(momContext)
+  const {naviagteInnerPage,setEmaillist,MOMdata,setMOMdata}=useContext(momContext)
   const navigate = useNavigate()
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentsflag, setSentflag] = useState(false);
-  const [checkflag, setCheckflag] = useState(false);
-  // const [ selectpoint,setSelectpoint]= useState([])
+  const [checkboxSelected,setCheckboxSelected]=useState([])
   const { access_token,BaseUrl,projectid } = data;
-  const [momdata, setMomdata] = useState([]);
-  const [MOMdata, setMOMdata] = useState([0,8]);
-  const Momdata = data.MomContent;
+ const [MOMClonedata,setMOMCloneData]=useState()
+  // const Momdata = data.MomContent;
    ///=----draftsdocs----////
   const handleDraftsDocs = () => {
     setDraftsflag(false);
@@ -29,17 +29,8 @@ function MomSection() {
     setDraftsflag(true);
     setSentflag(false);
   };
+
   const check = document.getElementsByName("pointscheck");
-  ///---checkbox functionality---///
-  const handlecheckbox=(index)=>{
-    for (let i = 0; i < check.length; i++) {
-      if(check[i].checked === true){
-        setCheckflag(true)
-        break;
-      }
-      setCheckflag(false)
-    }
-  }
   ///-----all checkbox ----///
   const SelectAll = (e) => {
     const { checked } = e.target;
@@ -57,13 +48,76 @@ function MomSection() {
   const navigateNewMom=()=>{
     navigate("/newmom")
   }
-  
+
+   ///---checkbox functionality and show delete and share icon---///
+  ///---checkbox functionality---///
+  const handleCheckDeleteShare=(id)=>{
+    if (checkboxSelected.includes(id)) {
+      let checkbox = checkboxSelected.filter((itemid) => itemid != id);
+      setCheckboxSelected(checkbox)
+    } else {
+      setCheckboxSelected((previousitem)=> [...previousitem,id])
+    }
+    // for (let i = 0; i < check.length; i++) {
+    //   if(check[i].checked === true){
+    //     setCheckflag(true)
+    //     break;
+    //   }
+    //   setCheckflag(false)
+    // }
+  }
+  ///-----deleted the selectd checkbox multiple mom----////
+  const handleDeleteSelectedMOM= async()=>{
+    try {
+      const response = await axios.put(
+        `${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`,
+        {
+          headers: {
+            Authorization: access_token,
+          },
+          body: {
+            momIds: checkboxSelected,
+          },
+        }
+      );
+      if (response.ok) {
+        console.log(response.data.momData);
+        setMOMdata(response.data.momData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } 
+  ///----delete the single select mom----///
+  const singleDeleteMOM=[];
+  const handlesingleDeleteMOM=async(_id)=>{
+    singleDeleteMOM.push()
+    try {
+      const response = await axios.put(
+        `${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`,
+        {
+          headers: {
+            Authorization: access_token,
+          },
+          body: {
+            momIds: singleDeleteMOM
+          },
+        }
+      );
+      if (response.ok) {
+        console.log(response.data.momData);
+        setMOMdata(response.data.momData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   ///----search by title -----///
   async function handleSearchByTitle(searchtitle){
     if(searchtitle.target.value)
     {
       try {
-        const response = await axios.put(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
+        const response = await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
         headers: {
           Authorization: access_token,
         },
@@ -80,32 +134,54 @@ function MomSection() {
     }
   }
   else
-        getApiData()
+        setMOMdata(MOMClonedata)
   }
 
  ////-----get api data -----///
   async function getApiData() {
-    axios
-      .get(`${BaseUrl}/api/mom/getMOM`, {
+   return axios
+      .get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
         headers: {
           Authorization: access_token,
         },
       })
-      .then((res) => {
-        console.log(res.data.momData);
-        setMomdata(res.data.momData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      
   }
+
+  ///---get client project ---////
+  async function getClientProject() {
+    return await axios.get(
+      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+      {
+        headers: {
+          Authorization: access_token,
+        },
+      }
+    );
+  }
+  const emailconvertArr=[];
   useEffect(() => {
-    getApiData();
+    getApiData().then((res) => {
+      console.log(res.data.momData);
+      setMOMdata(res.data.momData);
+      setMOMCloneData(res.data.momData)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+    ///---get client id project----///
+    getClientProject().then((res) => {
+      emailconvertArr.push(res.data.projects[0].clientId.email);
+        setEmaillist(emailconvertArr);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, []);
-  console.log(momdata);
   return (
     <>
-      <div className={`padding-3 d-flex-col justify-around ${MOMdata.length <1 ? "height-fit-content":"height-80"}`}>
+      <div className={`padding-3 d-flex-col justify-around ${MOMdata.length <1 ? "height-fit-content":""}`}>
       <div className="d-flex justify-around width-fit-content align-center">
           <div className="font-size-14 color-text-888888 small-font-10">Praveer's villa</div>
           <div className="d-flex align-center color-text-888888 small-font-12">
@@ -123,7 +199,7 @@ function MomSection() {
             <input type="text" className="search-text" placeholder="search" onChange={(e)=>
               handleSearchByTitle(e)} />
             <button className="search-btn">
-            <img src={"/images/searchicon.svg"} className="" alt="vector" />
+            <img src={"/images/searchicon.svg"} alt="vector" />
                     </button>
           </div>
          
@@ -132,7 +208,7 @@ function MomSection() {
             </div>
         </div>
         <div  className="ui divider"></div>
-        { !checkflag ? (
+        { !checkboxSelected.length ? (
         <div className="d-flex width-40 justify-between">
           <div
             className={!draftsflag ? "drafts-tab" : "sents-tab"}
@@ -153,7 +229,7 @@ function MomSection() {
           <div className="color-text font-size-15 font-weight-500">Select All</div>
           </div>
           <div className="d-flex justify-around width-35">
-          <div className="color-text font-weight-500 font-size-15">Delete</div>
+          <div className="color-text font-weight-500 font-size-15"onClick={()=>handleDeleteSelectedMOM()} >Delete</div>
           <div className="color-text font-weight-500 font-size-15">Share</div>
           </div>
         </div>)}
@@ -168,20 +244,33 @@ function MomSection() {
           <div className="color-text small-font-12" onClick={()=>navigateNewMom()}>Add now</div>
         </div>
       ):(
-          Momdata &&
-            Momdata.map(({ date, title, worktag, attendes, points }, index) => {
+          MOMdata &&
+            MOMdata.map(({ _id,date, title,category, points }, index) => {
               return (
                 <div
                   key={index}
                   className="mom-field border-df border-radius-5 divider-margin"
                 >
                   <div className="d-flex justify-around align-center padding-3">
-                    <input type="checkbox" name="pointscheck" onClick={()=>handlecheckbox(index)} />
+                    <input type="checkbox" name="pointscheck" onChange={()=>handleCheckDeleteShare(_id)} />
                     <div className="font-size-16 font-weight-500" onClick={()=>naviagteInnerPage()} >{title}</div>
                     <div className="mom-layout color-text border-radius-25" onClick={()=>naviagteInnerPage()} >
-                      #{worktag}
+                      #{category}
                     </div>
-                    { !draftsflag && <BsThreeDotsVertical />}
+                    { !draftsflag && 
+                    <Dropdown>
+                    <Dropdown.Toggle as="button" style={{border: "none", backgroundColor: "#ffffff", padding: "0 0.5rem"}}>
+                      <img
+                        src={"/images/threedots.svg"}
+                        alt="threedots"
+                      />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item><HiOutlineShare className="share-icon"/>Share</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handlesingleDeleteMOM()}><AiOutlineDelete className="share-icon"/>Delete</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                    }
                   </div>
                   <div className="mom-points text-align-justify"  
                   onClick={() =>
@@ -194,7 +283,7 @@ function MomSection() {
                         AS
                       </div>
                       <div className="as-on color-text border-radius-25">
-                        ON
+                        DN
                       </div>
                     </div>
                   </div>

@@ -1,26 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { AiOutlineDelete} from "react-icons/ai";
-import {HiOutlineShare} from "react-icons/hi"
+import { AiOutlineDelete } from "react-icons/ai";
+import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
 import { data } from "../../utils";
 import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
+import { Dropdown } from "react-bootstrap";
 
 function MomSection() {
-  const {MOMdata,setMOMdata, gotoInnerMom, draftsflag, setDraftsflag, setSentflag,setEmaillist,
-    emaillist,selectedMOM,setSelectedMOM } =
-    useContext(MomContext);
-    const Momdata = data.MomContent;
-  const [opendraftsbox, setOpendraftbox] = useState(false);
-  const [checkAllflag, setCheckAllflag] = useState(true);
-  const [momdata, setMomdata] = useState([]);
-  // const [MOMdata, setMOMdata] = useState([]);
-  // const [selectedMOM, setSelectMOM] = useState([]);
-  const { access_token,BaseUrl,projectid} = data;
-  const navigate = useNavigate()
+  const {
+    MOMdata,
+    setMOMdata,
+    gotoInnerMom,
+    draftsflag,
+    setDraftsflag,
+    setSentflag,
+    setEmaillist,
+    emaillist,
+  } = useContext(MomContext);
+  // const [opendraftsbox, setOpendraftbox] = useState(false);
+  const [MOMdataClone, setMOMdataClone] = useState([]);
+  const [checkboxSelected,setCheckboxSelected]=useState([])
+  const { access_token, BaseUrl, projectid } = data;
+  const navigate = useNavigate();
   ///----draftsdocs -----
   const handleSharedDocs = () => {
     setDraftsflag(false);
@@ -31,14 +35,10 @@ function MomSection() {
     setDraftsflag(true);
     setSentflag(false);
   };
-  
+
   ///---navigate to new mom page -----///
-  const navigateNewMOM=()=>{
-    navigate("/newmom")
-  }
-  ///----opensharebox-----///
-  const openShareDelete = () => {
-    setOpendraftbox(!opendraftsbox);
+  const navigateNewMOM = () => {
+    navigate("/newmom");
   };
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
@@ -51,10 +51,19 @@ function MomSection() {
       return pointslist[0];
     }
   }
+  ///---add three dots for title after limit out----///
+  function add3dotsTitle(title) {
+    let dots = "...";
+    let limit = 28;
+    if (title.length > limit) {
+      return title.substring(0, limit) + dots;
+    } else {
+      return title;
+    }
+  }
   ///-----all checkbox ----///
   const check = document.getElementsByName("datacheck");
-  
-  // useEffect(()=>{setSelectedMOM(checkboxSelected)},[checkboxSelected])
+
   ///--- AllSelect checkbox functionlality---///
   const handleSelectAll = (e) => {
     const { checked } = e.target;
@@ -68,95 +77,121 @@ function MomSection() {
       }
     }
   };
-   ///---checkbox functionality and show delete and share icon---///
-   const checkboxSelected = [];
-   const handleCheckDeleteShare=(id)=>{
-     checkboxSelected.push(id);
-     console.log(checkboxSelected)
+  ///---checkbox functionality and show delete and share icon---///
+  const handleCheckDeleteShare = (id) => {
+    console.log("dadsgdghdfhj");
+    if (checkboxSelected.includes(id)) {
+      let checkbox = checkboxSelected.filter((itemid) => itemid != id);
+      setCheckboxSelected(checkbox)
+    } else {
+      setCheckboxSelected((previousitem)=> [...previousitem,id])
     }
-    ///----delete the mom selected data----////
-    const handleDeleteMOM= async()=>{
-      console.log("dsff")
-      try {
-      const response = await axios.put(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
-      headers: {
-        Authorization: access_token,
-      },
-      body:{
-        isDeleted:checkboxSelected
-      }
-    });
-    if(response.ok){
-      console.log(response.data.momData)
-      setMOMdata(response.data.momData)
-    }
-  } catch (error) {
-    console.log(error)
-  }
-   }
+  };
   
-  ///----search by title -----///
-  async function handleSearchByTitle(searchtitle){
-    if(!searchtitle.target.value)
-    {
-      try {
-        const response = await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
-        headers: {
-          Authorization: access_token,
-        },
-        body:{
-          search:searchtitle.target.value
+  ///----delete the mom selected data----////
+  const handleDeleteMOM = async () => {
+    console.log("dsff");
+    try {
+      const response = await axios.put(
+        `${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`,
+        {
+          headers: {
+            Authorization: access_token,
+          },
+          body: {
+            momIds: checkboxSelected,
+          },
         }
-      });
-      if(response.ok){
-        setMOMdata(response.data.momData)
+      );
+      if (response.status === 200) {
+        console.log(response.status);
+        getApiData();
+        console.log(response.data.momData);
+        // setMOMdata(response.data.momData);
       }
-      console.log(response.data.momData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  };
+
+  ///----search by title -----///
+  async function handleSearchByTitle(searchtitle) {
+    // if (!searchtitle.target.value === "") {
+    //   try {
+    //     const response = await axios.get(
+    //       `${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,
+    //       {
+    //         headers: {
+    //           Authorization: access_token,
+    //         },
+    //         body: {
+    //           search: searchtitle,
+    //         },
+    //       }
+    //     );
+    //     if (response.ok) {
+    //       setMOMdata(response.data.momData);
+    //     }
+    //     console.log(response.data.momData);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // } else {
+    //   // getApiData()
+    //   setMOMdata(MOMdataClone);
+    // }
+   
   }
-  else{
-        getApiData()
-  }
+  ///---search by title without API ----///
+  function handleSearch(e) {
+    console.log("searching text");
+    const newdata = MOMdataClone.filter((element, index) => {
+      return (element.title.toLowerCase().includes(e.toLowerCase()));
+    });
+    setMOMdata(newdata);
   }
 
   ///---get api data ----///
   async function getApiData() {
-   return await axios
-      .get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-    }
+    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+      headers: {
+        Authorization: access_token,
+      },
+    });
+  }
 
-    ///---get client project ---////
-    async function getClientProject(){
-      return await axios.get(`https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,{
+  ///---get client project ---////
+  async function getClientProject() {
+    return await axios.get(
+      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+      {
         headers: {
           Authorization: access_token,
         },
-      })
-    }
+      }
+    );
+  }
   ///----api fetch data-----
+  let emailconvertArr = [];
   useEffect(() => {
-    getApiData().then((res) => {
-      console.log(res.data.momData);
-      setMOMdata(res.data.momData);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    getClientProject().then((res) => {
-      // console.log(res.data.projects[0].clientId.email);
-      setEmaillist(res.data.projects[0].clientId.email);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    getApiData()
+      .then((res) => {
+        console.log(res.data.momData);
+        setMOMdata(res.data.momData);
+        setMOMdataClone(res.data.momData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    getClientProject()
+      .then((res) => {
+        emailconvertArr.push(res.data.projects[0].clientId.email);
+        setEmaillist(emailconvertArr);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
- console.log(emaillist, typeof emaillist)
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
@@ -167,27 +202,38 @@ function MomSection() {
           <span className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
           </span>
-          <div className="color-text font-weight-500 small-font-10">MOM</div>
+          <div className="color-text font-weight-500 small-font-10 cursor-pointer">MOM</div>
         </div>
         <div className="momHead-wrapper d-flex justify-between align-center">
           <div className="d-flex width-60 align-center justify-between">
             <div className="mom-head font-w-500">Minutes of Meetings</div>
             <div className="ui fluid category search">
-              <div className="ui icon input">
+              <div style={{width:"16rem"}} className="ui icon input">
                 <input
                   style={{ borderRadius: "4px" }}
                   className="prompt"
                   id="search-bar"
                   type="text"
                   placeholder="Search"
-                  onChange={(e)=>handleSearchByTitle(e)}
+                  onChange={(e) =>
+                    //  handleSearchByTitle(e.target.value)
+                     handleSearch(e.target.value)
+                    }
                 />
-                <i className="search icon"></i>
+                <i
+                  style={{ fontWeight: "300", fontSize: "14px",opacity:"0.5" }}
+                  className="search icon"
+                ></i>
               </div>
               <div className="results"></div>
             </div>
           </div>
-            <button className="mom-button border-radius-4" onClick={()=>navigateNewMOM()}>Create a MOM</button>
+          <button
+            className="mom-button border-radius-4"
+            onClick={() => navigateNewMOM()}
+          >
+            Create a MOM
+          </button>
         </div>
         <div className="d-flex width-15 justify-between">
           <div
@@ -208,151 +254,185 @@ function MomSection() {
           </div>
         </div>
         <div style={{ marginTop: "0%" }} className="ui divider"></div>
-     { MOMdata.length<1 ? (
-        <div className="d-flex-col align-center justify-center font-weight-500 m-auto">
-           <div className="add-mom-bg"><img className="add-mom-img" src={"/images/add_mom.svg"} alt="add-notes"/></div>
-          <div className="color-text-888888 small-font-12">
-            you haven't added any MOMs yet
-          </div>
-          <div className="color-text small-font-12"  onClick={()=>navigateNewMOM()}>Add now</div>
-        </div>
-      ):
-       ( 
-        <>
-         <div className="content-table">
-         <div>
-           { checkboxSelected.length===1 ? (
-          //    <tr className="">
-          // <th className="">
-          // <div className="d-flex color-text font-size-15 font-weight-500">
-          // <input type="checkbox"  name="selectall"  onClick={(e)=>handleSelectAll(e)}/>
-          //   Select All</div>
-          // </th>
-          // <th></th>
-          // <th></th>
-          // <th></th>
-          // <th className="d-flex width-60">
-          // <D className="color-text font-weight-500 font-size-15 cursor-pointer" onClick={()=>handleDeleteMOM()}>Delete</D>
-          // <th className="color-text font-weight-500 font-size-15">Share</th>
-          // </th>
-          //   </tr>
-          <div className="d-flex align-center justify-between">
-          <div className="d-flex justify-around width-40">
-          <input type="checkbox"  name="selectall"  onClick={(e)=>handleSelectAll(e)}/>
-          <div className="color-text font-size-15 font-weight-500">Select All</div>
-          </div>
-          <div className="d-flex justify-around width-40">
-          <div className="color-text font-weight-500 font-size-15" onClick={()=>handleDeleteMOM()}>Delete</div>
-          <div className="color-text font-weight-500 font-size-15">Share</div>
-          </div>
-        </div>
-           ): (
-             <div className="d-flex align-center justify-between table-header">
-              <div>
-                <input
-                  type="checkbox"
-                  name="allselect"
-                  onClick={(e) => handleSelectAll(e)}
-                />
-              </div>
-              <div className="table-heading text-align-left">Date</div>
-              <div className="table-heading text-align-left">Title</div>
-              <div className="table-heading text-align-left">Worktag</div>
-              {draftsflag && (
-                <div className="table-heading text-align-left">Attendes</div>
-              )}
-              <div className="table-heading text-align-left">Points</div>
+        {MOMdata.length < 1 ? (
+          <div className="d-flex-col align-center justify-center font-weight-500 m-auto">
+            <div className="add-mom-bg">
+              <img
+                className="add-mom-img"
+                src={"/images/add_mom.svg"}
+                alt="add-notes"
+              />
             </div>
-          )
-        }
-        </div>
-          <div className="table-body position-relative">
-            {MOMdata &&
-              MOMdata.map(
-                ({ date, title, category, attendes, points,_id }, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="d-flex align-center justify-between table-row  height-7 
-                      border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
-                    >
-                      <div className="width-4">
-                        <input
-                          className="checkbox-field"
-                          type="checkbox"
-                          name="datacheck"
-                          value={`name${index}`}
-                          onClick={()=>handleCheckDeleteShare(_id)}
-                        />
-                      </div>
-                      <div
-                        className=""
-                        onClick={() => gotoInnerMom(index)}
-                      >
-                        {date.substring(0,10)}
-                        {/* {date} */}
-                      </div>
-                      <div
-                        className=""
-                        onClick={() => gotoInnerMom(index)}
-                      >
-                        {title}
-                      </div>
-                      <div
-                        className=""
-                        onClick={() => gotoInnerMom(index)}
-                      >
-                        {category}
-                      </div>
-                      {draftsflag && (
-                        <td className="" onClick={() => gotoInnerMom(index)}>{attendes}</td>
-                      )}
-                      <div
-                        className={`width-23 ${ draftsflag ? "points-cell":""}`}
-                        onClick={() => gotoInnerMom(index)}
-                      >
-                        {add3Dots(points)}
-                      </div>
-                      { !draftsflag && 
-                      <div
-                        className="threedots"
-                        // onClick={() => openShareDelete()}
-                      >
-                        
-                        {/* <select>
-                          <option> <BsThreeDotsVertical /></option>
-                          <option>Share</option>
-                          <option>Delete</option>
-                        </select> */}
-                          <BsThreeDotsVertical />
-                      </div>}
+            <div className="color-text-888888 small-font-12">
+              you haven't added any MOMs yet
+            </div>
+            <div
+              className="color-text small-font-12"
+              onClick={() => navigateNewMOM()}
+            >
+              Add now
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="content-table">
+              {checkboxSelected.length > 0 ? (
+                <div className="d-flex align-center justify-between">
+                  <div className="d-flex justify-around width-16">
+                    <input
+                      type="checkbox"
+                      name="selectall"
+                      onClick={(e) => handleSelectAll(e)}
+                    />
+                    <div className="color-text font-size-13 font-weight-500">
+                      Select All
                     </div>
-                  );
-                }
+                  </div>
+                  <div className="d-flex justify-around width-17">
+                    <div
+                      className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer"
+                      onClick={() => handleDeleteMOM()}
+                    >
+                       <AiOutlineDelete className="share-icon" />
+                      Delete
+                    </div>
+                    <div className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer">
+                    <HiOutlineShare className="share-icon" />
+                      Share
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="d-flex align-center justify-flex-start table-header">
+                  <div className={`${draftsflag ? "width-10" : "width-11"}`}>
+                    <input
+                      className="width-50"
+                      type="checkbox"
+                      name="allselect"
+                      onClick={(e) => handleSelectAll(e)}
+                    />
+                  </div>
+                  <div
+                    className={`table-heading ${
+                      draftsflag ? "width-15" : "width-16"
+                    }`}
+                  >
+                    Date
+                  </div>
+                  <div
+                    className={`table-heading ${
+                      draftsflag ? "width-19" : "width-24"
+                    }`}
+                  >
+                    Title
+                  </div>
+                  <div
+                    className={`table-heading ${
+                      draftsflag ? "width-15" : "width-17"
+                    }`}
+                  >
+                    Worktag
+                  </div>
+                  {draftsflag && (
+                    <div
+                      className={`table-heading ${
+                        draftsflag ? "width-17" : "width-19"
+                      }`}
+                    >
+                      Attendes
+                    </div>
+                  )}
+                  <div className="table-heading text-align-left width-25">
+                    Points
+                  </div>
+                </div>
               )}
-          </div>
-        </div>
-        </>
-        )
-        }
-      </div>
-      {opendraftsbox && (
-        <div className="d-flex-col share-del-wrapper width-6 position-absolute">
-          <div className="d-flex justify-evenly cursor-pointer">
-          <span className="d-flex share-icon align-center">
-              <HiOutlineShare />
-            </span> Share
-          </div>
-          {!draftsflag && (
-            <div className="d-flex justify-evenly cursor-pointer" onClick={()=>handleDeleteMOM()}>
-              <span className="d-flex share-icon align-center">
-              <AiOutlineDelete />
-              </span> 
-               Delete
+              <div className="table-body position-relative">
+                {MOMdata &&
+                  MOMdata.map(
+                    ({ date, title, category, points, _id }, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="d-flex align-center justify-flex-start table-row  height-7 
+                      border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
+                        >
+                          <input
+                            className="checkbox-field width-5"
+                            type="checkbox"
+                            name="datacheck"
+                            value={`name${index}`}
+                            onChange={() => handleCheckDeleteShare(_id)}
+                          />
+                          <div
+                            className="width-18"
+                            onClick={() => gotoInnerMom(index)}
+                          >
+                            {date.substring(0, 10)}
+                          </div>
+                          <div
+                            className="width-25"
+                            onClick={() => gotoInnerMom(index)}
+                          >
+                            {add3dotsTitle(title)}
+                            {/* {title} */}
+                          </div>
+                          <div
+                            className="width-17"
+                            onClick={() => gotoInnerMom(index)}
+                          >
+                            {category}
+                          </div>
+                          {draftsflag && (
+                            <div
+                              className="table-data"
+                              onClick={() => gotoInnerMom(index)}
+                            >
+                              {emaillist[0]}
+                            </div>
+                          )}
+                          <div
+                            className="width-30"
+                            onClick={() => gotoInnerMom(index)}
+                          >
+                            {add3Dots(points)}
+                          </div>
+                          {!draftsflag && (
+                            <Dropdown>
+                              <Dropdown.Toggle
+                                as="button"
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "#ffffff",
+                                  padding: "0 0.5rem",
+                                }}
+                              >
+                                <img
+                                  src={"/images/threedots.svg"}
+                                  alt="threedots"
+                                />
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                <Dropdown.Item className="d-flex align-center">
+                                  <HiOutlineShare className="share-icon" />
+                                  Share
+                                </Dropdown.Item >
+                                <Dropdown.Item className="d-flex align-center">
+                                  <AiOutlineDelete className="share-icon" />
+                                  Delete
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
+              </div>
             </div>
-          )}
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </>
   );
 }

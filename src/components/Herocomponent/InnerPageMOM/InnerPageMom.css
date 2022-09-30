@@ -4,7 +4,7 @@
 
 .mom-btn {
     font-weight: 400;
-    padding: 10px;
+    padding:8px 16px;
     background-color: #3B5998;
     color: #fff;
     border: none;
@@ -46,4 +46,7 @@
     font-size: 15px;
     font-weight: 400;
     color: #000000;
+}
+mark{
+    background-color: #ffdd4b;
 }

@@ -1,9 +1,6 @@
 import React, { useContext} from "react";
 import "./NewMom.css";
 import { FiChevronRight } from "react-icons/fi";
-import DatePicker from "react-datepicker";
-import { useNavigate } from "react-router-dom";
-// import "react-datepicker/dist/react-datepicker.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
 
@@ -28,6 +25,7 @@ function NewMom() {
   // const navigateHome=()=>{
   //   navigate("/")
   // }
+  console.log(category)
   return (
     <>
       <div className=" justify-around margin-left-3 width-75">
@@ -62,7 +60,6 @@ function NewMom() {
               <div className="d-flex align-center position-relative width-66">
                 <select
                  className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${category===""? "color-text-888888":null}`}
-                  // className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
@@ -84,7 +81,7 @@ function NewMom() {
               />
             </div>
           </div>
-          <div className="d-flex justify-between align-center margin-left-10 width-50">
+          <div className="d-flex justify-between align-center margin-left-10 width-fit-content">
             {dateerror && (
               <small style={{ color: "red" }}>date is required</small>
             )}
@@ -98,7 +95,7 @@ function NewMom() {
             Share with (add more email ID as required):
           </label>
         <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
-			  <ul id="tags">
+			  <ul className="tags d-flex align-center">
 				{emaillist?.map((email, index) => (
 					<li key={index} className="email-wrapper border-df">
 						<span>{email}</span>

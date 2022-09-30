@@ -28,10 +28,12 @@
   .email-input:hover{
       border: none;
   }
-  #tags {
+  .tags {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    margin-bottom: 0;
+    padding-left: 0;
   }
   
   .email-wrapper {

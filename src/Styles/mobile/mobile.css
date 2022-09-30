@@ -232,3 +232,6 @@
 ::placeholder {
     font-family: "Inter";
   }
+  .cursor-pointer{
+    cursor: pointer;
+  }

@@ -44,7 +44,7 @@ function App() {
   };
   ///got to mom inner page ----///
   const gotoInnerMom=(index)=>{
-    console.log(MOMdata[index])
+    // console.log(MOMdata[index])
     setPoinstdetails(MOMdata[index])
     console.log(pointsdetails)
     navigate("/mominnerpage");
@@ -78,12 +78,10 @@ function App() {
           setLocation(""); 
           setTitle("");
           setPointsdata([]);
-          // setMOMdata(response.data.momData)
         }
         return response.json();
       })
       .then((data) => {
-        // setMOMdata(data.momData)
         console.log(data);
       })
       .catch((error) => {
@@ -132,8 +130,6 @@ function App() {
           setDraftsflag,
           sentflag,
           setSentflag,
-          selectedMOM,
-          setSelectedMOM,
           gotoInnerMom,
           addEmail,removeEmail,handlePointsField,handleSubmitData
         }}
