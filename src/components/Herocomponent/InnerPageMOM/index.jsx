@@ -15,7 +15,8 @@ function InnerPageMom() {
    ///-----highlight the match point text---///
   //  let matchedText =""
    const highlightPoints =(e)=>{
-   let textToSearch = document.getElementById("search-bar").value 
+   let textToSearch = document.getElementById("search-bar").value ;
+   console.log(textToSearch)
    let allpointslist = document.getElementsByName("points-text")
    textToSearch= textToSearch.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
    let pattern = new RegExp(`${textToSearch}`,"gi")
@@ -32,7 +33,6 @@ function InnerPageMom() {
   const navigateNewMom=()=>{
     navigate("/newmom")
   }
-  
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
@@ -47,7 +47,7 @@ function InnerPageMom() {
           <span className="d-flex align-center small-font-12 color-text-888888">
             <FiChevronRight />
           </span>
-          <div className="color-text">{pointsdetails.title}</div>
+          <div className="color-text">{pointsdetails?.title}</div>
         </div>
         <div className="momHead-wrapper d-flex justify-between align-center">
           <div className="d-flex width-60 align-center justify-between">
@@ -72,26 +72,26 @@ function InnerPageMom() {
         <div className="d-flex-col">
           <div className="d-flex align-center">
             <div classNaame="points-field font-size-18 font-weight-400">
-              {pointsdetails.title}
+              {pointsdetails?.title}
             </div>
             <span className="d-flex share-icon align-center">
               <HiOutlineShare />
             </span>
           </div>
-          <div className="d-flex justify-between width-86">
+          <div className="d-flex justify-between width-91">
             <div className="color-text-888888">
-            {`${pointsdetails?.date.substring(8, 10)}-${pointsdetails?.date.substring(5,7)}-${pointsdetails?.date.substring(0,4)}`} .
-              {pointsdetails.location}
+            {`${pointsdetails?.date.substring(8, 10)}-${pointsdetails?.date.substring(5,7)}-${pointsdetails?.date.substring(0,4)}`} . 
+              {pointsdetails?.location}
               </div>
             <div className="d-flex justify-between width-fit-content">
               <div className="color-text-888888">
-                {pointsdetails.category}
+                {pointsdetails?.category}
                 </div>
-              <div style={{marginLeft:"3px"}}>Share With</div>
+              <div style={{marginLeft:"35px"}}>Share With</div>
             </div>
           </div>
           <div style={{ width: "80%",marginTop:"0" }} className="ui divider"></div>
-          <div className="d-flex justify-between width-89">
+          <div className="d-flex justify-between width-95">
             <div
               name="points"
               className="points-container-field border-none width-84">
@@ -99,7 +99,7 @@ function InnerPageMom() {
                 pointsdetails && pointsdetails?.points.map((elem, index)=>{
                   return (
                     <>
-                    <div  key={index} className="d-flex divider-margin">
+                    <div  key={index} className="d-flex divider-margin-5">
                       <span className="points-counter">{index + 1}.</span>
                       <div  name="points-text"  className="points-area text-align-justify">
                         {elem}
@@ -109,8 +109,8 @@ function InnerPageMom() {
                   );
                 })}
             </div>
-            <div className="share-with-wraper">
-              <div style={{ marginTop:"-15%", width: "75px" }} className="ui divider"></div>
+            <div className="share-with-wrapper">
+              <div style={{ width: "75px" }} className="ui divider"></div>
               <div className="d-flex-col align-left justify-between">
                 { draftsflag && (
                   <>

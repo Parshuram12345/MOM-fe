@@ -21,14 +21,14 @@ function NewMom() {
     gotoInnerMOm,
     addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(MomContext);
-  // const navigate= useNavigate();
-  // const navigateHome=()=>{
-  //   navigate("/")
-  // }
-  console.log(category)
+  ///---save the data as Draft---///
+  const handleSaveData=()=>{
+      
+  }
+
   return (
     <>
-      <div className=" justify-around margin-left-3 width-75">
+      <div className="justify-around margin-left-3 width-75">
         <div className="d-flex align-center justify-between width-fit-content divider-margin">
           <div className="small-font-10 color-text-888888">Ashok rathi residence</div>
           <span className="d-flex align-center color-text-888888 small-font-12">
@@ -36,9 +36,25 @@ function NewMom() {
           </span>
           <div className="color-text small-font-10 font-weight-500">New MOM</div>
         </div>
+        <diV className="d-flex align-center justify-between">
         <div className="font-size-18 font-w-500 color-text divider-margin">
           Create a MOM
         </div>
+        <div className="d-flex align-center justify-between width-30">
+        <button
+          className="savedata-button bg-color border-none border-radius-4"
+          onClick={() => handleSaveData()}
+          >
+          Save as Draft
+        </button>
+        <button
+          className="submitdata-button bg-color border-none border-radius-4"
+          onClick={() => handleSubmitData()}
+          >
+          Submit
+        </button>
+            </div>
+          </diV>
         <div className="ui divider"></div>
         <div className="divider-margin">
           <div className="d-flex justify-between align-center">
@@ -97,8 +113,7 @@ function NewMom() {
 					<li key={index} className="email-wrapper border-df">
 						<span>{email}</span>
 						<span className='tag-close-icon'
-							onClick={() => removeEmail(index)}
-						>
+							onClick={() => removeEmail(index)}>
 							x
 						</span>
 					</li>
@@ -140,12 +155,7 @@ function NewMom() {
         {pointserror && (
           <small style={{ color: "red" }}>write something here</small>
         )}
-        <button
-          className="submit-button bg-color border-none padding-5 border-radius-4 divider-margin"
-          onClick={() => handleSubmitData()}
-        >
-          Submit
-        </button>
+        
       </div>
     </>
   );

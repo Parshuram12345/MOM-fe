@@ -36,12 +36,13 @@
     background-color: white;
 }                  
 .share-with-wrapper{
-    width: 10%;
-    position: absolute;
-    margin-top: 7%;
-  
+    /* position: absolute; */
+    margin-top: -3%;
+    width: 13%;
 }
-       
+.width-91{
+    width:91%
+}    
 .points-area{
     font-size: 15px;
     font-weight: 400;
@@ -49,4 +50,7 @@
 }
 mark{
     background-color: #ffdd4b;
+}
+.divider-margin-5{
+    margin: 5px 0;
 }

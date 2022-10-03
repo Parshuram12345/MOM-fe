@@ -35,7 +35,7 @@
 
 .table-row{
       border: 1px solid #DFDFDF;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
       padding:0 3px 
   }
   .table-row:hover{
@@ -94,7 +94,7 @@
 }
 .add-mom-bg{
     display: flex;
-    width: 35%;
+    width: 9%;
     background: #F0F0F0;
     border-radius: 50%;
     align-items: center;
@@ -128,4 +128,14 @@
 }
 .threedots-btn:hover{
     background-color: rgba(59, 89, 152, 0.1);
+}
+.savedata-button{
+    width: fit-content;
+    color: white;
+    padding: 7px 20px;
+}
+.submitdata-button{
+    width: fit-content;
+    color: white;
+    padding: 7px 38px;
 }

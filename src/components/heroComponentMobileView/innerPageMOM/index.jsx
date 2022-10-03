@@ -41,7 +41,6 @@ function InnerPageMom() {
             </button>
           </div>
             <div className="edit-icon" 
-            // onClick={navigateNewMom()}
             ><Link to="newmom">
               <FaRegEdit />
             </Link>
@@ -49,11 +48,11 @@ function InnerPageMom() {
         </div>
         <div className="d-flex-col">
           <div className="font-size-14 font-weight-600 divider-margin">
-            {/* {pointsdetails.title} */}
+            {pointsdetails.title}
           </div>
           <div className="d-flex justify-between">
             <div className="color-text-888888 font-size-15">
-            {pointsdetails.date?.substring(0,10)}.
+            {`${pointsdetails?.date.substring(8, 10)}-${pointsdetails?.date.substring(5,7)}-${pointsdetails?.date.substring(0,4)}`} . 
             {pointsdetails.location}
             </div>
             <div className="color-text-888888 font-size-15">

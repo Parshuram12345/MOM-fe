@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
-import { FiChevronRight } from "react-icons/fi";
+import { FiChevronRight,FiEdit2 } from "react-icons/fi";
 import { data } from "../../utils";
 import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
@@ -77,72 +77,76 @@ function MomSection() {
     }
   };
   ///---checkbox functionality and show delete and share icon---///
-  const handleCheckDeleteShare = (id) => {
-    console.log("dadsgdghdfhj");
+  const handleCheckDeleteShare = (id,e) => {
+    const {checked ,value}=e.target;
+    // console.log("dadsgdghdfhj");
     if (checkboxSelected.includes(id)) {
+      console.log("inside if")
       let checkbox = checkboxSelected.filter((itemid) => itemid != id);
       setCheckboxSelected(checkbox)
     } else {
+      console.log("else")
       setCheckboxSelected((previousitem)=> [...previousitem,id])
     }
   };
+  console.log(checkboxSelected)
   
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
-    console.log("dsff");
-    try {
-      const response = await axios.put(
-        `${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-          body: {
-            momIds: checkboxSelected,
-          },
-        }
-      );
-      if (response.status === 200) {
-        console.log(response.status);
-        getApiData();
-        console.log(response.data.momData);
-        // setMOMdata(response.data.momData);
+     await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      momIds:checkboxSelected
+    }).then((res)=>{
+      if(res.ok)
+      {
+        getApiData()
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      console.log(res)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+  ///----delete the mom selected data----////
+  let deleteMOM =[];
+  const handleSingleDeleteMOM = async (id) => {
+    console.log(id)
+    deleteMOM.push(id)
+     await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      momIds:deleteMOM
+    }).then((res)=>{
+      if(res.ok)
+      {
+        getApiData()
+      }
+      console.log(res)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
 
   ///----search by title -----///
-  // async function handleSearchByTitle(searchtitle) {
-    // if (!searchtitle.target.value === "") {
-    //   try {
-    //     const response = await axios.get(
-    //       `${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,
-    //       {
-    //         headers: {
-    //           Authorization: access_token,
-    //         },
-    //         body: {
-    //           search: searchtitle,
-    //         },
-    //       }
-    //     );
-    //     if (response.ok) {
-    //       setMOMdata(response.data.momData);
-    //     }
-    //     console.log(response.data.momData);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // } else {
-    //   // getApiData()
-    //   setMOMdata(MOMdataClone);
-    // }
-  // }
-  ///---search by title without API ----///
+//   async function handleSearchByTitle(searchtitle) {
+//     if (searchtitle !== "") {
+//         await axios.get(
+//           `${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,
+//           {
+//             headers: {
+//               Authorization: access_token,
+//             },
+//             body: {
+//               search: searchtitle,
+//             },
+//           }
+//         ).then((res)=>{
+//           if (res.ok) {
+//             setMOMdata(res.data.momData);
+//           }
+//         }).catch((err)=>{
+//             console.log(err)
+//         })
+//   }
+// }
+  // /---search by title without API ----///
   function handleSearch(e) {
-    console.log("searching text");
     const newdata = MOMdataClone.filter((element, index) => {
       return (element.title.toLowerCase().includes(e.toLowerCase()));
     });
@@ -174,7 +178,7 @@ function MomSection() {
   useEffect(() => {
     getApiData()
       .then((res) => {
-        console.log(res.data.momData);
+        // console.log(res.data.momData);
         setMOMdata(res.data.momData);
         setMOMdataClone(res.data.momData);
       })
@@ -192,7 +196,7 @@ function MomSection() {
   }, []);
   return (
     <>
-      <div className="d-flex-col width-75 margin-left-3">
+      <div className="d-flex-col width- margin-left-3">
         <div className="d-flex align-center justify-between width-fit-content divider-margin">
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
@@ -253,6 +257,7 @@ function MomSection() {
         </div>
         <div style={{ marginTop: "0%" }} className="ui divider"></div>
         {MOMdata.length < 1 ? (
+          <div className="margin-top-7">
           <div className="d-flex-col align-center justify-center font-weight-500 m-auto">
             <div className="add-mom-bg">
               <img
@@ -264,13 +269,13 @@ function MomSection() {
             <div className="color-text-888888 small-font-12">
               you haven't added any MOMs yet
             </div>
-            <div
-              className="color-text small-font-12"
+            <div className="color-text small-font-12"
               onClick={() => navigateNewMOM()}
-            >
+              >
               Add now
             </div>
           </div>
+            </div>
         ) : (
           <>
             <div className="content-table">
@@ -303,12 +308,12 @@ function MomSection() {
               ) : (
                 <div className="d-flex align-center justify-flex-start table-header">
                   <div className={`${draftsflag ? "width-10" : "width-11"}`}>
-                    <input
+                    {/* <input
                       className="width-50"
                       type="checkbox"
                       name="allselect"
                       onClick={(e) => handleSelectAll(e)}
-                    />
+                    /> */}
                   </div>
                   <div
                     className={`table-heading ${
@@ -352,6 +357,7 @@ function MomSection() {
                       return (
                         <div
                           key={index}
+                          style={{background:index===0? "#ECEFF5" :""}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
                       border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
                         >
@@ -360,7 +366,7 @@ function MomSection() {
                             type="checkbox"
                             name="datacheck"
                             value={`name${index}`}
-                            onChange={() => handleCheckDeleteShare(_id)}
+                            onChange={(e) => handleCheckDeleteShare(_id,e)}
                           />
                           <div
                             className="width-18"
@@ -415,6 +421,10 @@ function MomSection() {
                                   Share
                                 </Dropdown.Item >
                                 <Dropdown.Item className="d-flex align-center">
+                                  <FiEdit2 className="share-icon" />
+                                  Edit
+                                </Dropdown.Item >
+                                <Dropdown.Item className="d-flex align-center" onClick={()=>handleSingleDeleteMOM(_id)}>
                                   <AiOutlineDelete className="share-icon" />
                                   Delete
                                 </Dropdown.Item>

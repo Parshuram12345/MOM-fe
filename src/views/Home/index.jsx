@@ -13,7 +13,9 @@ import MomSection from './../../components/Herocomponent/momSection/MomSection';
         <div className="side-navbar">
           <SideNavWeb/>
         </div>
+        <div className='rightside-navbar'>
         <MomSection/>
+        </div>
       </div>
     </>
   )
