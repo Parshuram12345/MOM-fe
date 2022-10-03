@@ -44,7 +44,6 @@ function NewMom() {
           <div className="d-flex justify-between align-center">
             <div className="d-flex justify-between align-center width-25">
               <label className="label-text">Date:</label>
-              {/* <div className="d-flex justify-between"> */}
                 <input type="text"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-75"
                   value={momdate}
@@ -52,8 +51,6 @@ function NewMom() {
                   placeholder="Select date"
                     onFocus={(e)=>e.target.type="date"}
                   />
-                  {/* <small style={{ color: "red" }}>date is required</small> */}
-                  {/* </div> */}
             </div>
             <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Category:</label>
@@ -67,30 +64,30 @@ function NewMom() {
                   <option value="Layout">Layout</option>
                   <option value="Measurements">Measurements</option>
                 </select>
-                <AiFillCaretDown  style={{background:"white"}} className="position-absolute right-3  color-text-888888" />
+                <AiFillCaretDown  style={{background:"#FAFAFA"}} className="position-absolute right-3  color-text-888888" />
               </div>
             </div>
-            <div className="d-flex justify-between align-center width-27">
+            <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Location:</label>
               <input
                 type="text"
                 placeholder="Where did you the meet?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="border-df bg-color-fa padding-5 border-radius-4"
+                className=" width-70 border-df bg-color-fa padding-5 border-radius-4"
               />
             </div>
           </div>
-          <div className="d-flex justify-between align-center margin-left-10 width-fit-content">
+            <div className="position-relative">
             {dateerror && (
-              <small style={{ color: "red" }}>date is required</small>
-            )}
+              <small  className="position-absolute margin-left-10"  style={{ color: "red" }}>date is required</small> 
+            )} 
             {categoryerror && (
-              <small style={{ color: "red" }}>category is required</small>
-            )}
-          </div>
+              <small className="position-absolute margin-left-45" style={{ color: "red" }}>category is required</small>
+            )} 
+            </div>
         </div>
-        <div className="d-flex-col divider-margin">
+        <div style={{marginTop:"2%"}} className="d-flex-col divider-margin">
           <label className="label-text">
             Share with (add more email ID as required):
           </label>

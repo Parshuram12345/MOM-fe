@@ -1,4 +1,4 @@
-import React, { useState, createContext,useEffect } from "react";
+import React, { useState, createContext} from "react";
 import { Route, Routes,useNavigate } from "react-router-dom";
 import "./Styles/index.css";
 import Home from "./views/Home";
@@ -22,9 +22,7 @@ function App() {
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentflag, setSentflag] = useState(false);
   const [MOMdata, setMOMdata] = useState([]);
-  const [selectedMOM, setSelectedMOM] = useState([]);
   const {access_token,BaseUrl,projectid } = data;
-  const Momdata = data.MomContent;
   console.log(pointsdetails)
   const navigate = useNavigate();
   ///-----remove the email----///
@@ -96,7 +94,7 @@ function App() {
       setPointserror(false);
     }
     momdate ? setDateerror(false): setDateerror(true);
-    category ? setCategory(false): setCategory(true)
+    category ? setCategoryerror(false): setCategoryerror(true)
     pointsdata ? setPointserror(false): setPointserror(true);
   };
   return (

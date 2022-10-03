@@ -1,17 +1,16 @@
-import React,{useContext,useEffect} from "react";
+import React,{useContext} from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import {FiChevronRight} from "react-icons/fi";
-import { data } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import "./InnerPageMom.css";
 import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const navigate= useNavigate();
-    const {MOMdata,pointsdetails,draftsflag}=useContext(MomContext)
+    const {pointsdetails,draftsflag}=useContext(MomContext)
     console.log(pointsdetails)
-  const pointOfMom = data.MomContent;
+  // const pointOfMom = data.MomContent;
 
    ///-----highlight the match point text---///
   //  let matchedText =""
@@ -33,10 +32,7 @@ function InnerPageMom() {
   const navigateNewMom=()=>{
     navigate("/newmom")
   }
-  // useEffect(()=>{
-  //   navigateHome()
-  //   navigateNewMom()
-  // })
+  
   return (
     <>
       <div className="d-flex-col width-75 margin-left-3">
@@ -84,7 +80,7 @@ function InnerPageMom() {
           </div>
           <div className="d-flex justify-between width-86">
             <div className="color-text-888888">
-              {pointsdetails.date?.substring(0,10)} .
+            {`${pointsdetails?.date.substring(8, 10)}-${pointsdetails?.date.substring(5,7)}-${pointsdetails?.date.substring(0,4)}`} .
               {pointsdetails.location}
               </div>
             <div className="d-flex justify-between width-fit-content">

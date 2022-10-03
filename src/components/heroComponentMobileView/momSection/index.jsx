@@ -113,30 +113,38 @@ function MomSection() {
     }
   }
   ///----search by title -----///
-  async function handleSearchByTitle(searchtitle){
-    if(searchtitle.target.value)
-    {
-      try {
-        const response = await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
-        headers: {
-          Authorization: access_token,
-        },
-        body:{
-          search:searchtitle.target.value
-        }
-      });
-      if(response.ok){
-        setMOMdata(response.data.momData)
-      }
-      console.log(response.data.momData);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  else
-        setMOMdata(MOMClonedata)
-  }
+  // async function handleSearchByTitle(searchtitle){
+  //   if(searchtitle.target.value)
+  //   {
+  //     try {
+  //       const response = await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
+  //       headers: {
+  //         Authorization: access_token,
+  //       },
+  //       body:{
+  //         search:searchtitle.target.value
+  //       }
+  //     });
+  //     if(response.ok){
+  //       setMOMdata(response.data.momData)
+  //     }
+  //     console.log(response.data.momData);
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // else
+  //       setMOMdata(MOMClonedata)
+  // }
 
+   ///---search by title without API ----///
+   function handleSearch(e) {
+    console.log("searching text");
+    const newdata = MOMClonedata.filter((element, index) => {
+      return (element.title.toLowerCase().includes(e.toLowerCase()));
+    });
+    setMOMdata(newdata);
+  }
  ////-----get api data -----///
   async function getApiData() {
    return axios
@@ -197,7 +205,9 @@ function MomSection() {
           <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
           <div className="search-box d-flex align-center position-absolute right-22">
             <input type="text" className="search-text" placeholder="search" onChange={(e)=>
-              handleSearchByTitle(e)} />
+              // handleSearchByTitle(e)} 
+              handleSearch(e.target.value)}
+              />
             <button className="search-btn">
             <img src={"/images/searchicon.svg"} alt="vector" />
                     </button>
@@ -259,7 +269,7 @@ function MomSection() {
                     </div>
                     { !draftsflag && 
                     <Dropdown>
-                    <Dropdown.Toggle as="button" style={{border: "none", backgroundColor: "#ffffff", padding: "0 0.5rem"}}>
+                    <Dropdown.Toggle as="button" style={{border: "none", backgroundColor: "#ECEFF5", padding: "0 0.5rem"}}>
                       <img
                         src={"/images/threedots.svg"}
                         alt="threedots"
@@ -277,7 +287,7 @@ function MomSection() {
                     naviagteInnerPage(index)}
                       >{points}</div>
                   <div className="d-flex justify-between align-center padding-3">
-                    <div>{date}</div>
+                    <div>{`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}</div>
                     <div className="d-flex justify-between align-center width-20">
                       <div className="as-on color-text border-radius-25">
                         AS

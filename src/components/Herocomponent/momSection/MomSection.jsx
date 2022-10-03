@@ -20,7 +20,6 @@ function MomSection() {
     setEmaillist,
     emaillist,
   } = useContext(MomContext);
-  // const [opendraftsbox, setOpendraftbox] = useState(false);
   const [MOMdataClone, setMOMdataClone] = useState([]);
   const [checkboxSelected,setCheckboxSelected]=useState([])
   const { access_token, BaseUrl, projectid } = data;
@@ -115,7 +114,7 @@ function MomSection() {
   };
 
   ///----search by title -----///
-  async function handleSearchByTitle(searchtitle) {
+  // async function handleSearchByTitle(searchtitle) {
     // if (!searchtitle.target.value === "") {
     //   try {
     //     const response = await axios.get(
@@ -140,8 +139,7 @@ function MomSection() {
     //   // getApiData()
     //   setMOMdata(MOMdataClone);
     // }
-   
-  }
+  // }
   ///---search by title without API ----///
   function handleSearch(e) {
     console.log("searching text");
@@ -368,10 +366,10 @@ function MomSection() {
                             className="width-18"
                             onClick={() => gotoInnerMom(index)}
                           >
-                            {date.substring(0, 10)}
+                            {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
                           <div
-                            className="width-25"
+                            className="width-24"
                             onClick={() => gotoInnerMom(index)}
                           >
                             {add3dotsTitle(title)}
@@ -400,11 +398,10 @@ function MomSection() {
                           {!draftsflag && (
                             <Dropdown>
                               <Dropdown.Toggle
-                                as="button"
+                                as="button" className="threedots-btn bg-color-fa"
                                 style={{
                                   border: "none",
-                                  backgroundColor: "#ffffff",
-                                  padding: "0 0.5rem",
+
                                 }}
                               >
                                 <img

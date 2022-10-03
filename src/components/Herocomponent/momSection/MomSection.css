@@ -91,7 +91,6 @@
  }
  .share-icon{
     color: #888888;
-    /* margin-left: 5px; */
 }
 .add-mom-bg{
     display: flex;
@@ -126,4 +125,7 @@
 }
 .circle{
     width: 10px;
+}
+.threedots-btn:hover{
+    background-color: rgba(59, 89, 152, 0.1);
 }

@@ -22,7 +22,6 @@ function MobileApp() {
   const [pointserror, setPointserror] = useState(false);
   const [ pointsdetails,setPoinstdetails]=useState({})
   const {access_token,BaseUrl,projectid } = data;
-  // const Momdata = data.MomContent;
   const navigate = useNavigate();
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
@@ -110,8 +109,6 @@ function MobileApp() {
           setLocation,
           title,
           setTitle,
-          emaillist,
-          setEmaillist,
           emailvalue,
           setEmailvalue,
           pointsdata,
