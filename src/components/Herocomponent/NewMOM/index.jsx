@@ -25,6 +25,10 @@ function NewMom() {
   const handleSaveData=()=>{
       
   }
+  ///-----add the bullets points----///
+  const addBulletPoints=(e)=>{
+       
+  }
 
   return (
     <>
@@ -148,6 +152,7 @@ function NewMom() {
             rows="10"
             cols="50"
             className="points-container border-df bg-color-fa padding-6 border-radius-4"
+            onKeyUp={event => event.key === "Enter" ?addBulletPoints(event):null}
             onChange={(e) => handlePointsField(e)}
             placeholder="Type something here"
           ></textarea>

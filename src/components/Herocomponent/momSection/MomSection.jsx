@@ -105,7 +105,7 @@ function MomSection() {
       console.log(err)
     })
   }
-  ///----delete the mom selected data----////
+  ///----delete the single selected MOM data----////
   let deleteMOM =[];
   const handleSingleDeleteMOM = async (id) => {
     console.log(id)

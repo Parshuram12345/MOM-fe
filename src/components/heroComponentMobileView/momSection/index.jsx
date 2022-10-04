@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
-import { FiChevronRight } from "react-icons/fi";
+import { FiChevronRight,FiEdit2 } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
 import { data } from "../../utils";
 import "./momSection.css";
@@ -66,52 +66,40 @@ function MomSection() {
     //   setCheckflag(false)
     // }
   }
-  ///-----deleted the selectd checkbox multiple mom----////
-  const handleDeleteSelectedMOM= async()=>{
-    try {
-      const response = await axios.put(
-        `${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-          body: {
-            momIds: checkboxSelected,
-          },
-        }
-      );
-      if (response.ok) {
-        console.log(response.data.momData);
-        setMOMdata(response.data.momData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  } 
+  
   ///----delete the single select mom----///
-  const singleDeleteMOM=[];
-  const handlesingleDeleteMOM=async(_id)=>{
-    singleDeleteMOM.push()
-    try {
-      const response = await axios.put(
-        `${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-          body: {
-            momIds: singleDeleteMOM
-          },
-        }
-      );
-      if (response.ok) {
-        console.log(response.data.momData);
-        setMOMdata(response.data.momData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+   ///----delete the mom selected data----////
+   const handleMultipleDeleteMOM = async () => {
+    await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+     momIds:checkboxSelected
+   }).then((res)=>{
+     if(res.ok)
+     {
+       getApiData()
+     }
+     console.log(res)
+   }).catch((err)=>{
+     console.log(err)
+   })
+ }
+ ///----delete the single selected MOM data----////
+ let deleteMOM =[];
+ const handleSingleDeleteMOM = async (id) => {
+   console.log(id)
+   deleteMOM.push(id)
+    await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+     momIds:deleteMOM
+   }).then((res)=>{
+     if(res.ok)
+     {
+       getApiData()
+     }
+     console.log(res)
+   }).catch((err)=>{
+     console.log(err)
+   })
+ }
+
   ///----search by title -----///
   // async function handleSearchByTitle(searchtitle){
   //   if(searchtitle.target.value)
@@ -239,7 +227,7 @@ function MomSection() {
           <div className="color-text font-size-15 font-weight-500">Select All</div>
           </div>
           <div className="d-flex justify-around width-35">
-          <div className="color-text font-weight-500 font-size-15"onClick={()=>handleDeleteSelectedMOM()} >Delete</div>
+          <div className="color-text font-weight-500 font-size-15"onClick={()=>handleMultipleDeleteMOM()} >Delete</div>
           <div className="color-text font-weight-500 font-size-15">Share</div>
           </div>
         </div>)}
@@ -277,7 +265,8 @@ function MomSection() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item><HiOutlineShare className="share-icon"/>Share</Dropdown.Item>
-                      <Dropdown.Item onClick={()=>handlesingleDeleteMOM()}><AiOutlineDelete className="share-icon"/>Delete</Dropdown.Item>
+                      <Dropdown.Item><FiEdit2 className="share-icon"/>Edit</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handleSingleDeleteMOM(_id)}><AiOutlineDelete className="share-icon"/>Delete</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                     }
