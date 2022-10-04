@@ -2,27 +2,38 @@ import React,{useContext} from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import {FiChevronRight} from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "./InnerPageMom.css";
+import {data} from "../../utils/index"
 import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const navigate= useNavigate();
     const {pointsdetails,draftsflag}=useContext(MomContext)
     console.log(pointsdetails)
-  // const pointOfMom = data.MomContent;
+  const pointOfMom = data.MomContent;
 
    ///-----highlight the match point text---///
   //  let matchedText =""
-   const highlightPoints =(e)=>{
+   const highlightPoints =()=>{
    let textToSearch = document.getElementById("search-bar").value ;
-   console.log(textToSearch)
-   let allpointslist = document.getElementsByName("points-text")
-   textToSearch= textToSearch.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-   let pattern = new RegExp(`${textToSearch}`,"gi")
-    for(let i =0;i<allpointslist.length;i++)
+   let allpointslist = document.getElementsByClassName("points-area");
+   let special = /[\\[{().+*?|^$]/g;
+    if(textToSearch!=="")
     {
-      allpointslist[i].innerHTML=allpointslist.textcontent.replace(pattern,match=>`<mark>${match}</mark>`)
+      if(special.test(textToSearch)){
+        textToSearch = textToSearch.replace(special,"\\$&")
+      }
+      let regexp = new RegExp(textToSearch,"gi");
+      for (let i=0;i<allpointslist.length;i++){
+        allpointslist[i].innerHTML = (allpointslist[i].textContent).replace(regexp,"<mark>$&</mark>")
+      }
+    }
+    else{
+      for (let i=0;i<allpointslist.length;i++){
+        allpointslist[i].innerHTML = allpointslist[i].textContent
+      }
+
     }
 }
   ///---navigate to home page ----///
@@ -37,7 +48,7 @@ function InnerPageMom() {
     <>
       <div className="d-flex-col width-75 margin-left-3">
         <div className="d-flex font-weight-500 small-font-10 width-fit-content justify-between align-center divider-margin">
-          <div className="small-font-10 color-text-888888">
+          <div id="ids" className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
           <span className="d-flex align-center small-font-12 color-text-888888">
@@ -67,16 +78,18 @@ function InnerPageMom() {
               <div className="results"></div>
             </div>
           </div>
-            <button className="mom-btn" onClick={navigateNewMom()}>Create a MOM</button>
+          <Link to="/newmom">
+            <button className="mom-btn">Create a MOM</button>
+          </Link>
         </div>
         <div className="d-flex-col">
           <div className="d-flex align-center">
-            <div classNaame="points-field font-size-18 font-weight-400">
+            <div className="points-field font-size-18 font-weight-400">
               {pointsdetails?.title}
             </div>
-            <span className="d-flex share-icon align-center">
+            {/* <span className="d-flex share-icon align-center">
               <HiOutlineShare />
-            </span>
+            </span> */}
           </div>
           <div className="d-flex justify-between width-91">
             <div className="color-text-888888">
@@ -96,11 +109,11 @@ function InnerPageMom() {
               name="points"
               className="points-container-field border-none width-84">
               {
-                pointsdetails && pointsdetails?.points.map((elem, index)=>{
+                pointsdetails && pointsdetails?.points?.map((elem, index)=>{
                   return (
                     <>
                     <div  key={index} className="d-flex divider-margin-5">
-                      <span className="points-counter">{index + 1}.</span>
+                      {/* <span className="points-counter">{index + 1}.</span> */}
                       <div  name="points-text"  className="points-area text-align-justify">
                         {elem}
                       </div>

@@ -8,11 +8,14 @@ import { data } from "../../utils";
 import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
 import { Dropdown } from "react-bootstrap";
+import MomDrafts from './../../common/index';
 
 function MomSection() {
   const {
-    MOMdata,
-    setMOMdata,
+    momDraftsdata,
+    setMomDraftsdata,
+    momSentdata,
+    setMomSentdata,
     gotoInnerMom,
     draftsflag,
     setDraftsflag,
@@ -20,7 +23,8 @@ function MomSection() {
     setEmaillist,
     emaillist,
   } = useContext(MomContext);
-  const [MOMdataClone, setMOMdataClone] = useState([]);
+  const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
+  const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected,setCheckboxSelected]=useState([])
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
@@ -39,15 +43,18 @@ function MomSection() {
   const navigateNewMOM = () => {
     navigate("/newmom");
   };
+   ///---filter data ----///
+   
+  
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
     // console.log(pointslist)
     let dots = "...";
-    let limit = 30;
+    let limit = 25;
     if (pointslist[0].length > limit) {
-      return pointslist[0].substring(0, limit) + dots;
+      return pointslist[0].substring(2, limit) + dots;
     } else {
-      return pointslist[0];
+      return pointslist[0].substring(2,);
     }
   }
   ///---add three dots for title after limit out----///
@@ -89,7 +96,7 @@ function MomSection() {
       setCheckboxSelected((previousitem)=> [...previousitem,id])
     }
   };
-  console.log(checkboxSelected)
+  // console.log(checkboxSelected)
   
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
@@ -122,7 +129,10 @@ function MomSection() {
       console.log(err)
     })
   }
+ ///---open confirmation delete modal---///
+ const openConfirmationDeleteModal=(id)=>{
 
+ }
   ///----search by title -----///
 //   async function handleSearchByTitle(searchtitle) {
 //     if (searchtitle !== "") {
@@ -147,10 +157,19 @@ function MomSection() {
 // }
   // /---search by title without API ----///
   function handleSearch(e) {
-    const newdata = MOMdataClone.filter((element, index) => {
-      return (element.title.toLowerCase().includes(e.toLowerCase()));
-    });
-    setMOMdata(newdata);
+    if(!draftsflag){
+      const newdata = momDraftsClonedata.filter((element) => {
+        return (element.title.toLowerCase().includes(e.toLowerCase()));
+      });
+      setMomDraftsdata(newdata)
+    }
+    else{
+      const newdata = momSentClonedata.filter((element) => {
+        return (element.title.toLowerCase().includes(e.toLowerCase()));
+      });
+      setMomSentdata(newdata)
+      
+    }
   }
 
   ///---get api data ----///
@@ -178,12 +197,13 @@ function MomSection() {
   useEffect(() => {
     getApiData()
       .then((res) => {
-        // console.log(res.data.momData);
-        setMOMdata(res.data.momData);
-        setMOMdataClone(res.data.momData);
+        setMomSentdata(res.data.momData.filter(({isDraft})=> isDraft ===false))
+        setMomSentClonedata(res.data.momData.filter(({isDraft})=> isDraft ===false))
+        setMomDraftsdata(res.data.momData.filter(({isDraft})=>isDraft ===true))
+        setMomDraftsClonedata(res.data.momData.filter(({isDraft})=>isDraft ===true))
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error); 
       });
     getClientProject()
       .then((res) => {
@@ -193,6 +213,7 @@ function MomSection() {
       .catch((error) => {
         console.error(error);
       });
+    
   }, []);
   return (
     <>
@@ -256,7 +277,7 @@ function MomSection() {
           </div>
         </div>
         <div style={{ marginTop: "0%" }} className="ui divider"></div>
-        {MOMdata.length < 1 ? (
+        {momDraftsdata.length < 1 && momSentdata.length <1 ? (
           <div className="margin-top-7">
           <div className="d-flex-col align-center justify-center font-weight-500 m-auto">
             <div className="add-mom-bg">
@@ -280,8 +301,8 @@ function MomSection() {
           <>
             <div className="content-table">
               {checkboxSelected.length > 0 ? (
-                <div className="d-flex align-center justify-between">
-                  <div className="d-flex justify-around width-16">
+                <div className="d-flex align-center justify-between divider-margin">
+                  <div className="d-flex justify-around width-14">
                     <input
                       type="checkbox"
                       name="selectall"
@@ -306,114 +327,95 @@ function MomSection() {
                   </div>
                 </div>
               ) : (
-                <div className="d-flex align-center justify-flex-start table-header">
-                  <div className={`${draftsflag ? "width-10" : "width-11"}`}>
-                    {/* <input
-                      className="width-50"
-                      type="checkbox"
-                      name="allselect"
-                      onClick={(e) => handleSelectAll(e)}
-                    /> */}
+                <div className="d-flex align-center justify-flex-start table-header divider-margin">
+                  <div className="width-10" 
+                  >
                   </div>
                   <div
-                    className={`table-heading ${
-                      draftsflag ? "width-15" : "width-16"
-                    }`}
+                    className="table-heading width-14" 
                   >
                     Date
                   </div>
                   <div
-                    className={`table-heading ${
-                      draftsflag ? "width-19" : "width-24"
-                    }`}
+                    className="table-heading width-19" 
                   >
                     Title
                   </div>
                   <div
-                    className={`table-heading ${
-                      draftsflag ? "width-15" : "width-17"
-                    }`}
+                    className="table-heading width-14" 
                   >
                     Worktag
                   </div>
-                  {draftsflag && (
                     <div
-                      className={`table-heading ${
-                        draftsflag ? "width-17" : "width-19"
-                      }`}
+                      className="table-heading width-17" 
                     >
                       Attendes
                     </div>
-                  )}
                   <div className="table-heading text-align-left width-25">
                     Points
                   </div>
                 </div>
               )}
-              <div className="table-body position-relative">
-                {MOMdata &&
-                  MOMdata.map(
-                    ({ date, title, category, points, _id }, index) => {
+              <div className="table-body">
+                { !draftsflag &&
+                  momDraftsdata.map(
+                    ({date, title, category, points, _id }, index) => {
                       return (
+                        <>
                         <div
-                          key={index}
-                          style={{background:index===0? "#ECEFF5" :""}}
+                          key={_id}
+                          style={{background:index ===0 ? "#ECEFF5" :""}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
-                      border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
-                        >
-                          <input
-                            className="checkbox-field width-5"
-                            type="checkbox"
-                            name="datacheck"
-                            value={`name${index}`}
-                            onChange={(e) => handleCheckDeleteShare(_id,e)}
-                          />
+                          border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
+                        >  
+                        <input
+                        className="checkbox-field width-5"
+                        type="checkbox"
+                        name="datacheck"
+                        value={`name${index}`}
+                        onChange={(e) => handleCheckDeleteShare(_id,e)}
+                      />
                           <div
-                            className="width-18"
-                            onClick={() => gotoInnerMom(index)}
-                          >
+                            className={ draftsflag ? "width-16" : "width-17"}
+                            onClick={() =>  gotoInnerMom(index,true)}>
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
-                          <div
-                            className="width-24"
+                          <div className={ draftsflag ? "width-22":"width-24"}
                             onClick={() => gotoInnerMom(index)}
-                          >
-                            {add3dotsTitle(title)}
-                            {/* {title} */}
+                            >
+                            { title && add3dotsTitle(title)}
                           </div>
                           <div
-                            className="width-17"
-                            onClick={() => gotoInnerMom(index)}
-                          >
+                            className="width-16"
+                            onClick={() =>gotoInnerMom(index,true)}
+                            >
                             {category}
                           </div>
-                          {draftsflag && (
                             <div
                               className="table-data"
-                              onClick={() => gotoInnerMom(index)}
-                            >
+                              onClick={() => gotoInnerMom(index,true)}
+                              >
                               {emaillist[0]}
                             </div>
-                          )}
                           <div
-                            className="width-30"
-                            onClick={() => gotoInnerMom(index)}
-                          >
-                            {add3Dots(points)}
+                            className={ draftsflag ? "width-29" :"width-30"}
+                            onClick={() => gotoInnerMom(index,true)}
+                            >
+                            { points && add3Dots(points)}
+                          {/* </div> */}
                           </div>
                           {!draftsflag && (
-                            <Dropdown>
+                            <Dropdown className={ draftsflag ? "" :"margin-right-13"}>
                               <Dropdown.Toggle
                                 as="button" className="threedots-btn bg-color-fa"
                                 style={{
                                   border: "none",
-
                                 }}
-                              >
+                                >
                                 <img
                                   src={"/images/threedots.svg"}
                                   alt="threedots"
-                                />
+                                  />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
                                 <Dropdown.Item className="d-flex align-center">
@@ -432,6 +434,90 @@ function MomSection() {
                             </Dropdown>
                           )}
                         </div>
+                          </>
+                      );
+                    }
+                  )}
+                { draftsflag &&
+                  momSentdata.map(
+                    ({date, title, category,points, _id }, index) => {
+                      return (
+                        <>
+                        <div
+                          key={_id}
+                          style={{background:index ===0 ? "#ECEFF5" :""}}
+                          className="d-flex align-center justify-flex-start table-row  height-7 
+                          border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
+                        >  
+                        <input
+                        className="checkbox-field width-5"
+                        type="checkbox"
+                        name="datacheck"
+                        value={`name${index}`}
+                        onChange={(e) => handleCheckDeleteShare(_id,e)}
+                      />
+                          <div
+                            className={ draftsflag ? "width-16" : "width-17"}
+                            onClick={() =>  gotoInnerMom(index)}>
+                            {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
+                          </div>
+                          <div className={ draftsflag ? "width-22":"width-24"}
+                            onClick={() => gotoInnerMom(index)}
+                            >
+                            { title && add3dotsTitle(title)}
+                          </div>
+                          <div
+                            className="width-16"
+                            onClick={() =>gotoInnerMom(index,false)}
+                            >
+                            {category}
+                          </div>
+                            <div
+                              className="table-data"
+                              onClick={() => gotoInnerMom(index,false)}
+                              >
+                              {emaillist[0]}
+                            </div>
+                          <div
+                            className={ draftsflag ? "width-29" :"width-30"}
+                            onClick={() => gotoInnerMom(index,false)}
+                            >
+                            { points && add3Dots(points)}
+                          </div>
+                          {!draftsflag && (
+                            <Dropdown className={ draftsflag ? "" :"margin-right-13"}>
+                              <Dropdown.Toggle
+                                as="button" className="threedots-btn bg-color-fa"
+                                style={{
+                                  border: "none",
+                                }}
+                                >
+                                <img
+                                  src={"/images/threedots.svg"}
+                                  alt="threedots"
+                                  />
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                <Dropdown.Item className="d-flex align-center">
+                                  <HiOutlineShare className="share-icon" />
+                                  Share
+                                </Dropdown.Item >
+                                <Dropdown.Item className="d-flex align-center">
+                                  <FiEdit2 className="share-icon" />
+                                  Edit
+                                </Dropdown.Item >
+                                <Dropdown.Item className="d-flex align-center"
+                                onClick={()=>openConfirmationDeleteModal(_id)}
+                                //  onClick={()=>handleSingleDeleteMOM(_id)}
+                                 >
+                                  <AiOutlineDelete className="share-icon" />
+                                  Delete
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          )}
+                        </div>
+                          </>
                       );
                     }
                   )}
@@ -439,6 +525,17 @@ function MomSection() {
             </div>
           </>
         )}
+      </div>
+      <div className="react-confirm-alert-overlay undefined">
+        <div className="react-confirm-alert">
+          <div className="react-confirm-alert-body">
+            Are you sure want to Delete ?
+            <div className="react-confirm-alert-button-group">
+              <button className="yes-button">Yes</button>
+              <button className="no-button">No</button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

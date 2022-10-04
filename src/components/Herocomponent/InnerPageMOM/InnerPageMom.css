@@ -49,7 +49,9 @@
     color: #000000;
 }
 mark{
-    background-color: #ffdd4b;
+    border-radius: 4px;
+    padding: 0.1875em;
+    background-color: #e6f188;
 }
 .divider-margin-5{
     margin: 5px 0;

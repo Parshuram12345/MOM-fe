@@ -21,9 +21,10 @@ function App() {
   const [pointsdetails,setPoinstdetails]=useState({})
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentflag, setSentflag] = useState(false);
-  const [MOMdata, setMOMdata] = useState([]);
+  const [momDraftsdata,setMomDraftsdata]=useState([])
+  const [momSentdata,setMomSentdata]=useState([])
   const {access_token,BaseUrl,projectid } = data;
-  console.log(pointsdetails)
+  // console.log(pointsdetails)
   const navigate = useNavigate();
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
@@ -35,31 +36,99 @@ function App() {
 			setEmaillist([...emaillist, event.target.value]);
 			event.target.value = "";
 		}
-	};
+	}
   ///------add the points in field -----///
-  const handlePointsField = (e) => {
-    setPointsdata(e.target.value.split("\n"));
-  };
+  let previousLength = 0;
+const handlePointsField = (event) => {
+    const bullet = "\u2022";
+    const newLength = event.target.value.length;
+    const characterCode = event.target.value.substr(-1).charCodeAt(0);
+
+    if (newLength > previousLength) {
+        if (characterCode === 10) {
+            event.target.value = `${event.target.value}${bullet} `;
+        } else if (newLength === 1) {
+            event.target.value = `${bullet} ${event.target.value}`;
+        }
+    }
+    previousLength = newLength;
+    setPointsdata(event.target.value.split("\n"));
+}
   ///got to mom inner page ----///
-  const gotoInnerMom=(index)=>{
-    // console.log(MOMdata[index])
-    setPoinstdetails(MOMdata[index])
+  const gotoInnerMom=(index,booleanValue)=>{
+    if(booleanValue){
+      setPoinstdetails(momDraftsdata[index]) 
+    }
+    else{
+      setPoinstdetails(momSentdata[index])
+    }
     console.log(pointsdetails)
     navigate("/mominnerpage");
   }
   
-  ////-----post the data ------///
-  const handlePostData = () => {
+  //---save the data as Draft---///
+  const handleSaveDraft=()=>{
+    console.log("save as draft")
     const bodyData = JSON.stringify({
       date: momdate,
       category: category,
       location: location,
       title: title,
       projectId:projectid,
-      // sharedWith:emaillist,
+      sharedWith:emaillist,
       points: pointsdata,
     });
+    if (momdate && category && pointsdata) {
+      fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+      },
+      body: bodyData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          setDateerror(false);
+          setCategoryerror(false);
+          setPointserror(false);
+          navigate("/")
+          setMomdate("");
+          setCategory("");
+          setLocation(""); 
+          setTitle("");
+          setPointsdata([]);
+        }
+        // return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+    }
+    else{
+      momdate ? setDateerror(false): setDateerror(true);
+      category ? setCategoryerror(false): setCategoryerror(true)
+      pointsdata ? setPointserror(false): setPointserror(true);
+    }
+
+  }
+  ////-----post the with submit btn data ------///
+  const handlePostData = () => {
+    const bodyData = JSON.stringify({
+      date: momdate,
+      category: category,
+      location: location,
+      title: title,
+      isDraft:false,
+      projectId:projectid,
+      sharedWith:emaillist,
+      points: pointsdata,
+    });
+  
     fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
       method: "post",
       headers: {
@@ -77,7 +146,6 @@ function App() {
           setTitle("");
           setPointsdata([]);
         }
-        return response.json();
       })
       .then((data) => {
         console.log(data);
@@ -101,8 +169,10 @@ function App() {
     <>
       <MomContext.Provider
         value={{
-          MOMdata,
-          setMOMdata,
+          momDraftsdata,
+          setMomDraftsdata,
+          momSentdata,
+          setMomSentdata,
           momdate,
           setMomdate,
           category,
@@ -129,6 +199,7 @@ function App() {
           sentflag,
           setSentflag,
           gotoInnerMom,
+          handleSaveDraft,
           addEmail,removeEmail,handlePointsField,handleSubmitData
         }}
       >

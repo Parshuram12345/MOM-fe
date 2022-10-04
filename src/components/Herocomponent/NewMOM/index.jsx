@@ -19,15 +19,13 @@ function NewMom() {
     categoryerror,
     pointserror,
     gotoInnerMOm,
+    handleSaveDraft,
     addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(MomContext);
-  ///---save the data as Draft---///
-  const handleSaveData=()=>{
-      
-  }
+  
   ///-----add the bullets points----///
   const addBulletPoints=(e)=>{
-       
+      
   }
 
   return (
@@ -40,14 +38,14 @@ function NewMom() {
           </span>
           <div className="color-text small-font-10 font-weight-500">New MOM</div>
         </div>
-        <diV className="d-flex align-center justify-between">
+        <div className="d-flex align-center justify-between">
         <div className="font-size-18 font-w-500 color-text divider-margin">
           Create a MOM
         </div>
         <div className="d-flex align-center justify-between width-30">
         <button
-          className="savedata-button bg-color border-none border-radius-4"
-          onClick={() => handleSaveData()}
+          className="savedata-button font-sixe-12 font-weight-400 border-radius-4"
+          onClick={() => handleSaveDraft()}
           >
           Save as Draft
         </button>
@@ -58,7 +56,7 @@ function NewMom() {
           Submit
         </button>
             </div>
-          </diV>
+          </div>
         <div className="ui divider"></div>
         <div className="divider-margin">
           <div className="d-flex justify-between align-center">
@@ -152,8 +150,9 @@ function NewMom() {
             rows="10"
             cols="50"
             className="points-container border-df bg-color-fa padding-6 border-radius-4"
-            onKeyUp={event => event.key === "Enter" ?addBulletPoints(event):null}
-            onChange={(e) => handlePointsField(e)}
+            // onKeyUp={event => event.key === "Enter" ? addBulletPoints(event):null}
+            // onChange={(e) => handlePointsField(e)}
+            onInput={(e)=>handlePointsField(e)}
             placeholder="Type something here"
           ></textarea>
         </div>
