@@ -15,7 +15,7 @@ function MomSection() {
     momdraftsdata,
     setMomdraftsdata,
     momsentdata,
-    setMomsentdata,}=useContext(momContext)
+    setMomsentdata,handleSharedMOMdata}=useContext(momContext)
   const navigate = useNavigate()
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentsflag, setSentflag] = useState(false);
@@ -73,7 +73,7 @@ function MomSection() {
   ///---checkbox functionality---///
   const handleCheckDeleteShare=(id)=>{
     if (checkboxSelected.includes(id)) {
-      let checkbox = checkboxSelected.filter((itemid) => itemid != id);
+      let checkbox = checkboxSelected.filter((itemid) => itemid !== id);
       setCheckboxSelected(checkbox)
     } else {
       setCheckboxSelected((previousitem)=> [...previousitem,id])
@@ -90,12 +90,13 @@ function MomSection() {
   ///----delete the single select mom----///
    ///----delete the mom selected data----////
    const handleMultipleDeleteMOM = async () => {
+     navigate("/")
     await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
      momIds:checkboxSelected
    }).then((res)=>{
      if(res.ok)
      {
-      //  getApiData()
+      window.location.reload(false);
      }
      console.log(res)
    }).catch((err)=>{
@@ -109,7 +110,8 @@ function MomSection() {
      momIds:singleDeleteMomid
    }).then((res)=>{
      if(res.ok)
-     {
+     { 
+       navigate("/")
        setSingleDeleteMomid([])
      }
      console.log(res)
@@ -320,7 +322,7 @@ function MomSection() {
                       />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item><HiOutlineShare className="share-icon"/>Share</Dropdown.Item>
+                      <Dropdown.Item onClick={()=>handleSharedMOMdata(true)}><HiOutlineShare className="share-icon"/>Share</Dropdown.Item>
                       <Dropdown.Item><FiEdit2 className="share-icon"/>Edit</Dropdown.Item>
                       <Dropdown.Item 
                       onClick={()=>handleMOMModal(true,_id)}

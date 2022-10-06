@@ -157,7 +157,7 @@
     height: 100vh;
 }
 .modal-wrapper{
-    width: 30%;
+    width: 18%;
     border-radius: 10px;
     border: 1px solid #DFDFDF;
     padding: 20px;
@@ -167,13 +167,16 @@
 .ui.button.yes-btn{
     border: 1px solid #888;
     color: #888;
+    font-size: 12px;
     background-color: #ffffff;
     border-radius: 4px;
 }
 .ui.button.no-btn{
+    font-weight: 300;
     border: 1px solid #176091;
     background-color: #176091;
     color: #ffffff;
+    font-size: 12px;
     border-radius: 4px;
     /* width: 22%; */
 }

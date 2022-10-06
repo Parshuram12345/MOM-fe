@@ -19,6 +19,7 @@ function NewMom() {
     dateerror,
     categoryerror,
     pointserror,
+    sharemom,
     addEmail,removeEmail,handlePointsField,handleSubmitData,handleSaveDraftData
   } = useContext(momContext);
    const navigate= useNavigate();
@@ -101,6 +102,7 @@ function NewMom() {
         className="email-input bg-color-fa width-100"
 				onKeyUp={event => event.key === "Enter" ? addEmail(event) : null}
 				placeholder="Enter the Email ID"
+        autoFocus={sharemom}
         />
 		</div>
 		</div>

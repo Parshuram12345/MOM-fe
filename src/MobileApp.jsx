@@ -23,8 +23,15 @@ function MobileApp() {
   const [ pointsdetails,setPoinstdetails]=useState({})
   const [momdraftsdata,setMomdraftsdata]=useState([])
   const [momsentdata,setMomsentdata]=useState([])
+  const [sharemom,setSharemom]= useState(false)
   const {access_token,BaseUrl,projectid } = data;
   const navigate = useNavigate();
+
+  ///-----share condition with open newmom----///
+ const handleSharedMOMdata=(value)=>{
+  navigate("/newmom")
+  setSharemom(value)
+}
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
 		setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
@@ -52,8 +59,10 @@ function MobileApp() {
                event.target.value = `${bullet} ${event.target.value}`;
            }
        }
+       else{
+         setPointsdata(event.target.value.split("\n"));
+       }
        previousLength = newLength;
-       setPointsdata(event.target.value.split("\n"));
    }
    ///------navigate to MOM inner page -----///
   const naviagteInnerPage = (index,booleanValue) => {
@@ -188,6 +197,9 @@ function MobileApp() {
           setMomdraftsdata,
           momsentdata,
           setMomsentdata,
+          sharemom,
+          setSharemom,
+          handleSharedMOMdata,
           addEmail,removeEmail,handlePointsField,handleSubmitData,handleSaveDraftData
         }}
       >

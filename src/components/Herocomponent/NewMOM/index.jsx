@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext,useEffect} from "react";
 import "./NewMom.css";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -10,6 +10,7 @@ function NewMom() {
     setMomdate,
     category,
     setCategory,
+    pointsdata,
     location,
     setLocation,
     title,
@@ -18,11 +19,17 @@ function NewMom() {
     dateerror,
     categoryerror,
     pointserror,
-    gotoInnerMOm,
+    emailValid,
+    shareMom,
+    roomName,
     handleSaveDraft,
-    addEmail,removeEmail,handlePointsField,handleSubmitData
+    getClientProject,
+    addEmail,removeEmail,handlePointsField,handlePointsTextArea,handleSubmitData
   } = useContext(MomContext);
-  
+   useEffect(()=>{
+    // getClientProject()
+   },[])
+   console.log(roomName)
   return (
     <>
       <div className="justify-around margin-left-3 width-75">
@@ -74,8 +81,15 @@ function NewMom() {
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="">Select your category</option>
-                  <option value="Layout">Layout</option>
-                  <option value="Measurements">Measurements</option>
+                  {/* <option value="Layout">Layout</option>
+                  <option value="Measurements">Measurements</option> */}
+                  {roomName && roomName?.map((room)=>{
+                    return (
+                      <>
+                       <option value={room}>{room}</option>
+                      </>
+                    )
+                  })}
                 </select>
                 <AiFillCaretDown  style={{background:"#FAFAFA"}} className="position-absolute right-3  color-text-888888" />
               </div>
@@ -86,6 +100,7 @@ function NewMom() {
                 type="text"
                 placeholder="Where did you the meet?"
                 value={location}
+
                 onChange={(e) => setLocation(e.target.value)}
                 className=" width-70 border-df bg-color-fa padding-5 border-radius-4"
               />
@@ -100,7 +115,7 @@ function NewMom() {
             )} 
             </div>
         </div>
-        <div style={{marginTop:"2%"}} className="d-flex-col divider-margin">
+        <div style={{marginTop:"2%"}} className="d-flex-col">
           <label className="label-text">
             Share with (add more email ID as required):
           </label>
@@ -119,11 +134,15 @@ function NewMom() {
 			<input
 				type="email"
         className="email-input bg-color-fa"
-				onKeyUp={event => event.key === "Enter" ? addEmail(event) : null}
+				onKeyUp={event => event.key === "Enter" && addEmail(event)}
 				placeholder="Enter the email ID"
+         autoFocus={shareMom}
 			/>
 		</div>
-          </div>
+    </div>
+         {emailValid &&  (
+              <small className="" style={{ color: "red" }}>Email isn't valid </small>
+            )} 
         <div className="d-flex-col divider-margin">
           <label className="label-text" htmlFor="title">
             Title
@@ -144,15 +163,19 @@ function NewMom() {
           <textarea
             rows="10"
             cols="50"
+            // value={pointsdata}
             className="points-container border-df bg-color-fa padding-6 border-radius-4"
-            onInput={(e)=>handlePointsField(e)}
+            onChange={(e)=>handlePointsField(e)}
+            onKeyDown={(e) => {
+              handlePointsTextArea(e)
+            
+            }}
             placeholder="Type something here"
-          ></textarea>
+          />
         </div>
         {pointserror && (
           <small style={{ color: "red" }}>write something here</small>
         )}
-        
       </div>
     </>
   );

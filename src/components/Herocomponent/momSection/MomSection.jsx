@@ -21,15 +21,22 @@ function MomSection() {
     setSentflag,
     setEmaillist,
     emaillist,
+    roomName,
+    setRoomName,
+    handleShareMOM,
+    handleEditDraft,
   } = useContext(MomContext);
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected,setCheckboxSelected]=useState([])
   const [opendeleteModal,setOpendeleteModal]=useState(false)
   const [singleDeleteMomID,setSingleDeleteMomID]=useState([]);
+  
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
+  // const history = useHistory();
   
+ 
   ///----open delete MOM modal -----///
   const handleMomModal=(value,id)=>{
       if(value){
@@ -63,10 +70,10 @@ function MomSection() {
   function add3Dots(pointslist) {
     let dots = "...";
     let limit = 25;
-    if (pointslist[0].length > limit) {
-      return pointslist[0].substring(2, limit) + dots;
+    if (pointslist.join("").length > limit) {
+      return pointslist.join("").substring(2, limit) + dots;
     } else {
-      return pointslist[0].substring(2,);
+      return pointslist.join("").substring(2,);
     }
   }
   ///---add three dots for title after limit out----///
@@ -81,7 +88,8 @@ function MomSection() {
   }
   ///-----all checkbox ----///
   const check = document.getElementsByName("datacheck");
-
+  const AllSelectcheckbox =document.querySelector('#accept');
+  console.log(AllSelectcheckbox?.checked)
   ///--- AllSelect checkbox functionlality---///
   const handleSelectAll = (e) => {
     const { checked } = e.target;
@@ -97,9 +105,25 @@ function MomSection() {
   };
   ///---checkbox functionality and show delete and share icon---///
   const handleCheckDeleteShare = (id,e) => {
-    const {checked ,value}=e.target;
+    // if(!draftsflag){
+    //   if(checkboxSelected.length===momDraftsdata.length){
+    //     AllSelectcheckbox.checked =true;
+    //   }
+    //   else{
+    //     AllSelectcheckbox.checked =false;
+    //   }
+    // }
+    // else{
+    //   if(checkboxSelected.length===momSentdata.length){
+    //     AllSelectcheckbox.checked =true;
+    //   }
+    //   else{
+    //     AllSelectcheckbox.checked =false;
+    //   }
+    // } 
+    // const {checked ,value}=e.target;
     if (checkboxSelected.includes(id)) {
-      let checkbox = checkboxSelected.filter((itemid) => itemid != id);
+      let checkbox = checkboxSelected.filter((itemid) => itemid !== id);
       setCheckboxSelected(checkbox)
     } else {
       setCheckboxSelected((previousitem)=> [...previousitem,id])
@@ -108,14 +132,13 @@ function MomSection() {
   // console.log(checkboxSelected)
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
-     await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
       momIds:checkboxSelected
     }).then((res)=>{
-      if(res.ok)
-      {
-        getApiData()
+      if(res.status===200)
+      { 
+        window.location.reload(false);
       }
-      console.log(res)
     }).catch((err)=>{
       console.log(err)
     })
@@ -123,19 +146,23 @@ function MomSection() {
    
   ///----delete the single selected MOM data----////
   const handleSingleDeleteMOM = async () => {
+    navigate("/")
     setOpendeleteModal(false)
     console.log(singleDeleteMomID)
      await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
       momIds:singleDeleteMomID
     }).then((res)=>{
-      if(res.ok){
+      if(res.status===200){
         setSingleDeleteMomID([])
+        window.location.reload(false);
       }
       console.log(res)
     }).catch((err)=>{
       console.log(err)
     })
   }
+
+ 
   ///----search by title -----///
 //   async function handleSearchByTitle(searchtitle) {
 //     if (searchtitle !== "") {
@@ -210,13 +237,13 @@ function MomSection() {
       });
     getClientProject()
       .then((res) => {
+        setRoomName(res.data.projects[0].rooms)
         emailconvertArr.push(res.data.projects[0].clientId.email);
         setEmaillist(emailconvertArr);
       })
       .catch((error) => {
         console.error(error);
       });
-    
   }, []);
   return (
     <>
@@ -325,6 +352,7 @@ function MomSection() {
                     <input
                       type="checkbox"
                       name="selectall"
+                      id="accept"
                       onClick={(e) => handleSelectAll(e)}
                     />
     
@@ -337,12 +365,12 @@ function MomSection() {
                       className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer"
                       onClick={() => handleDeleteMOM()}
                     >
-                       <AiOutlineDelete className="share-icon" />
-                      Delete
+                      {/* <HiOutlineShare className="share-icon" /> */}
+                      {/* Share */}
                     </div>
                     <div className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer">
-                    <HiOutlineShare className="share-icon" />
-                      Share
+                      <AiOutlineDelete className="share-icon" />
+                      Delete
                     </div>
                   </div>
                 </div>
@@ -437,11 +465,11 @@ function MomSection() {
                                   />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                <Dropdown.Item className="d-flex align-center">
+                                <Dropdown.Item className="d-flex align-center" onClick={()=> handleShareMOM(true)}>
                                   <HiOutlineShare className="share-icon" />
                                   Share
                                 </Dropdown.Item >
-                                <Dropdown.Item className="d-flex align-center">
+                                <Dropdown.Item className="d-flex align-center" onClick={()=>handleEditDraft(index)}>
                                   <FiEdit2 className="share-icon" />
                                   Edit
                                 </Dropdown.Item >

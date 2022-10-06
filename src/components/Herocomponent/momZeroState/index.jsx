@@ -20,6 +20,7 @@ function MomZeroState() {
     pointserror,
     addEmail,
     removeEmail,
+    emailValid,
     handlePointsField,
     handleSubmitData,
   } = useContext(MomContext);
@@ -110,11 +111,13 @@ function MomZeroState() {
               type="email"
               className="email-input bg-color-fa"
               onKeyUp={(event) =>
-                event.key === "Enter" ? addEmail(event) : null
-              }
+                event.key === "Enter" ? addEmail(event) : null}
               placeholder="Enter the Email ID"
             />
           </div>
+          {emailValid &&  (
+              <small className="" style={{ color: "red" }}>Email isn't valid </small>
+            )} 
           <div className="d-flex-col divider-margin">
             <label className="label-text" htmlFor="title">
               Title

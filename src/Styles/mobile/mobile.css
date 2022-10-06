@@ -220,3 +220,7 @@
   .cursor-pointer{
     cursor: pointer;
   }
+input:focus { 
+    outline: none !important;
+    border-color: #3B5998;
+  }

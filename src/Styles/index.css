@@ -289,3 +289,7 @@
     margin-left: auto;
     margin-right: 0;
 }
+input:focus { 
+    outline: none !important;
+    border-color: #3B5998;
+  }
