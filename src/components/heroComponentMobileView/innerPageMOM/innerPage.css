@@ -60,3 +60,7 @@ i.search.icon{
     opacity: 1;
     border: 1px solid #888888;
 }
+.mark,mark{
+    border-radius: 4px;
+    background-color: yellow;
+}

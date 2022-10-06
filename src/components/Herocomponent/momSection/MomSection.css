@@ -142,61 +142,41 @@
 .threedots-btn:hover{
     background-color: rgba(59, 89, 152, 0.1);
 }
-.react-confirm-alert-overlay{
-    align-items: center;
-    -webkit-animation: react-confirm-alert-fadeIn .5s .2s forwards;
-    animation: react-confirm-alert-fadeIn .5s .2s forwards;
-    background: hsla(0,0%,100%,.9);
-    bottom: 0;
-    display: -moz-flex;
-    display: -ms-flex;
-    display: -o-flex;
+.main-modal-wrapper{
     display: flex;
     justify-content: center;
-    left: 0;
-    opacity: 0;
+    align-items: center;
+    margin: auto;
     position: fixed;
-    right: 0;
+    background: hsla(0,0%,100%,.9);
     top: 0;
-    z-index: 99;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 100vh;
 }
-.react-confirm-alert-body{
-    background: #fff;
+.modal-wrapper{
+    width: 30%;
     border-radius: 10px;
-    box-shadow: 0 20px 75px rgb(0 0 0 / 13%);
-    color: #666;
-    font-family: Arial,Helvetica,sans-serif;
-    padding: 30px;
-    text-align: left;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 20px 75px rgb(0 0 0 / 13%);
-    color: #666;
-    font-family: Arial,Helvetica,sans-serif;
-    padding: 30px;
-    text-align: left;
+    border: 1px solid #DFDFDF;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 20px 75px rgba(0 0 0 /13%);
 }
-.react-confirm-alert-button-group{
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 20px;
-}
-.yes-button{
-    background: #fff!important;
+.ui.button.yes-btn{
     border: 1px solid #888;
     color: #888;
-    width: 60px;
+    background-color: #ffffff;
+    border-radius: 4px;
 }
-.react-confirm-alert-button-group>button{
-    border-radius: 5px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 12px;
-    margin-right: 10px;
-    outline: none;
-    padding: 6px 18px;
+.ui.button.no-btn{
+    border: 1px solid #176091;
+    background-color: #176091;
+    color: #ffffff;
+    border-radius: 4px;
+    /* width: 22%; */
 }
-.no-button{
-    background: #176091!important;
-    width: 60px;
+.notice-text{
+    color: #666;
 }

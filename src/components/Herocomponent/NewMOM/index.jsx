@@ -23,11 +23,6 @@ function NewMom() {
     addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(MomContext);
   
-  ///-----add the bullets points----///
-  const addBulletPoints=(e)=>{
-      
-  }
-
   return (
     <>
       <div className="justify-around margin-left-3 width-75">
@@ -44,7 +39,7 @@ function NewMom() {
         </div>
         <div className="d-flex align-center justify-between width-30">
         <button
-          className="savedata-button font-sixe-12 font-weight-400 border-radius-4"
+          className="savedata-button font-size-12 font-weight-400 border-radius-4"
           onClick={() => handleSaveDraft()}
           >
           Save as Draft
@@ -55,7 +50,7 @@ function NewMom() {
           >
           Submit
         </button>
-            </div>
+         </div>
           </div>
         <div className="ui divider"></div>
         <div className="divider-margin">
@@ -67,7 +62,7 @@ function NewMom() {
                   value={momdate}
                   onChange={(newdate) => setMomdate(newdate.target.value)}
                   placeholder="Select date"
-                    onFocus={(e)=>e.target.type="date"}
+                  onFocus={(e)=>e.target.type="date"}
                   />
             </div>
             <div className="d-flex justify-between align-center width-30">
@@ -150,8 +145,6 @@ function NewMom() {
             rows="10"
             cols="50"
             className="points-container border-df bg-color-fa padding-6 border-radius-4"
-            // onKeyUp={event => event.key === "Enter" ? addBulletPoints(event):null}
-            // onChange={(e) => handlePointsField(e)}
             onInput={(e)=>handlePointsField(e)}
             placeholder="Type something here"
           ></textarea>

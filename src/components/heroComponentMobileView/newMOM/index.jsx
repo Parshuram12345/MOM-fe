@@ -19,7 +19,7 @@ function NewMom() {
     dateerror,
     categoryerror,
     pointserror,
-    addEmail,removeEmail,handlePointsField,handleSubmitData
+    addEmail,removeEmail,handlePointsField,handleSubmitData,handleSaveDraftData
   } = useContext(momContext);
    const navigate= useNavigate();
   const navigateHome=()=>{
@@ -122,7 +122,7 @@ function NewMom() {
             cols="50"
             onChange={(e) => handlePointsField(e)}
             className="padding-5 border-df border-radius-4"
-            placeholder="write something here"
+            placeholder="Write something here"
           ></textarea>
         </div>
         {pointserror && (
@@ -131,8 +131,13 @@ function NewMom() {
           </small>
         )}
         <button
-          type="submit"
-          className="submitbtn bg-color border-none padding-5 border-radius-4"
+          className="save-draft-btn border-radius-4"
+          onClick={() => handleSaveDraftData()}
+        >
+          Save as Draft
+        </button>
+        <button
+          className="submitbtn bg-color border-none border-radius-4"
           onClick={() => handleSubmitData()}
         >
           Submit

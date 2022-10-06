@@ -8,7 +8,6 @@ import { data } from "../../utils";
 import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
 import { Dropdown } from "react-bootstrap";
-import MomDrafts from './../../common/index';
 
 function MomSection() {
   const {
@@ -26,9 +25,23 @@ function MomSection() {
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected,setCheckboxSelected]=useState([])
+  const [opendeleteModal,setOpendeleteModal]=useState(false)
+  const [singleDeleteMomID,setSingleDeleteMomID]=useState([]);
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
-  ///----draftsdocs -----
+  
+  ///----open delete MOM modal -----///
+  const handleMomModal=(value,id)=>{
+      if(value){
+      setSingleDeleteMomID((prev)=>[...prev,id])
+      setOpendeleteModal(value)
+    }
+    else{
+      setOpendeleteModal(value)
+      setSingleDeleteMomID([])
+    }
+  }
+  ///----draftsdocs -----///
   const handleSharedDocs = () => {
     setDraftsflag(false);
     setSentflag(true);
@@ -48,7 +61,6 @@ function MomSection() {
   
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
-    // console.log(pointslist)
     let dots = "...";
     let limit = 25;
     if (pointslist[0].length > limit) {
@@ -86,18 +98,14 @@ function MomSection() {
   ///---checkbox functionality and show delete and share icon---///
   const handleCheckDeleteShare = (id,e) => {
     const {checked ,value}=e.target;
-    // console.log("dadsgdghdfhj");
     if (checkboxSelected.includes(id)) {
-      console.log("inside if")
       let checkbox = checkboxSelected.filter((itemid) => itemid != id);
       setCheckboxSelected(checkbox)
     } else {
-      console.log("else")
       setCheckboxSelected((previousitem)=> [...previousitem,id])
     }
   };
   // console.log(checkboxSelected)
-  
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
      await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
@@ -112,27 +120,22 @@ function MomSection() {
       console.log(err)
     })
   }
+   
   ///----delete the single selected MOM data----////
-  let deleteMOM =[];
-  const handleSingleDeleteMOM = async (id) => {
-    console.log(id)
-    deleteMOM.push(id)
+  const handleSingleDeleteMOM = async () => {
+    setOpendeleteModal(false)
+    console.log(singleDeleteMomID)
      await axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
-      momIds:deleteMOM
+      momIds:singleDeleteMomID
     }).then((res)=>{
-      if(res.ok)
-      {
-        getApiData()
+      if(res.ok){
+        setSingleDeleteMomID([])
       }
       console.log(res)
     }).catch((err)=>{
       console.log(err)
     })
   }
- ///---open confirmation delete modal---///
- const openConfirmationDeleteModal=(id)=>{
-
- }
   ///----search by title -----///
 //   async function handleSearchByTitle(searchtitle) {
 //     if (searchtitle !== "") {
@@ -217,7 +220,23 @@ function MomSection() {
   }, []);
   return (
     <>
-      <div className="d-flex-col width- margin-left-3">
+      <div className="d-flex-col width-95 margin-left-3">
+     {/* ///------modal code for delete MOM */}
+    { opendeleteModal && <div className="main-modal-wrapper">
+    <div className="modal-wrapper">
+  <div className="content">
+    <p className="notice-text"> Are you sure want to delete ?</p>
+  </div>
+  <div className="ui divider"></div>
+  <div className="actions">
+    <div className="ui button yes-btn" onClick={()=>handleSingleDeleteMOM()}>
+      Yes
+    </div>
+    <div className="ui button no-btn" onClick={()=>handleMomModal(false)}>No</div>
+  </div>
+    </div>
+    </div>}
+    {/* ///-------//// */}
         <div className="d-flex align-center justify-between width-fit-content divider-margin">
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
@@ -308,6 +327,7 @@ function MomSection() {
                       name="selectall"
                       onClick={(e) => handleSelectAll(e)}
                     />
+    
                     <div className="color-text font-size-13 font-weight-500">
                       Select All
                     </div>
@@ -381,7 +401,7 @@ function MomSection() {
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
                           <div className={ draftsflag ? "width-22":"width-24"}
-                            onClick={() => gotoInnerMom(index)}
+                            onClick={() => gotoInnerMom(index,true)}
                             >
                             { title && add3dotsTitle(title)}
                           </div>
@@ -402,7 +422,6 @@ function MomSection() {
                             onClick={() => gotoInnerMom(index,true)}
                             >
                             { points && add3Dots(points)}
-                          {/* </div> */}
                           </div>
                           {!draftsflag && (
                             <Dropdown className={ draftsflag ? "" :"margin-right-13"}>
@@ -426,7 +445,10 @@ function MomSection() {
                                   <FiEdit2 className="share-icon" />
                                   Edit
                                 </Dropdown.Item >
-                                <Dropdown.Item className="d-flex align-center" onClick={()=>handleSingleDeleteMOM(_id)}>
+                                <Dropdown.Item 
+                                className="d-flex align-center" 
+                                onClick={()=>handleMomModal(true,_id)}
+                                  >
                                   <AiOutlineDelete className="share-icon" />
                                   Delete
                                 </Dropdown.Item>
@@ -506,9 +528,9 @@ function MomSection() {
                                   <FiEdit2 className="share-icon" />
                                   Edit
                                 </Dropdown.Item >
-                                <Dropdown.Item className="d-flex align-center"
-                                onClick={()=>openConfirmationDeleteModal(_id)}
-                                //  onClick={()=>handleSingleDeleteMOM(_id)}
+                                <Dropdown.Item 
+                                className="d-flex align-center"
+                                onClick={()=>handleMomModal(true,_id)}
                                  >
                                   <AiOutlineDelete className="share-icon" />
                                   Delete
@@ -517,26 +539,16 @@ function MomSection() {
                             </Dropdown>
                           )}
                         </div>
-                          </>
-                      );
+                        </>
+                      )
                     }
                   )}
               </div>
             </div>
           </>
         )}
-      </div>
-      <div className="react-confirm-alert-overlay undefined">
-        <div className="react-confirm-alert">
-          <div className="react-confirm-alert-body">
-            Are you sure want to Delete ?
-            <div className="react-confirm-alert-button-group">
-              <button className="yes-button">Yes</button>
-              <button className="no-button">No</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+
     </>
   );
 }

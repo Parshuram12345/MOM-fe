@@ -36,7 +36,6 @@
     background-color: white;
 }                  
 .share-with-wrapper{
-    /* position: absolute; */
     margin-top: -3%;
     width: 13%;
 }
@@ -48,11 +47,11 @@
     font-weight: 400;
     color: #000000;
 }
-mark{
+.mark,mark{
     border-radius: 4px;
-    padding: 0.1875em;
-    background-color: #e6f188;
+    background-color: yellow;
 }
+
 .divider-margin-5{
     margin: 5px 0;
 }

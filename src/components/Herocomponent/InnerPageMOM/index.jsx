@@ -10,11 +10,7 @@ import { MomContext } from "../../../App.jsx";
 function InnerPageMom() {
   const navigate= useNavigate();
     const {pointsdetails,draftsflag}=useContext(MomContext)
-    console.log(pointsdetails)
-  const pointOfMom = data.MomContent;
-
    ///-----highlight the match point text---///
-  //  let matchedText =""
    const highlightPoints =()=>{
    let textToSearch = document.getElementById("search-bar").value ;
    let allpointslist = document.getElementsByClassName("points-area");
@@ -36,13 +32,11 @@ function InnerPageMom() {
 
     }
 }
+///----bullet points -----////
+const bullet = "\u2022";
   ///---navigate to home page ----///
   const navigateHome=()=>{
     navigate("/")
-  }
-  ///----navigate to new MOM page---///
-  const navigateNewMom=()=>{
-    navigate("/newmom")
   }
   return (
     <>
@@ -73,7 +67,7 @@ function InnerPageMom() {
                   placeholder="Search Text"
                   onChange={(e)=>highlightPoints(e)}
                 />
-                <i className="search icon"></i>
+                <i style={{ fontWeight: "300", fontSize: "14px",opacity:"0.5" }} className="search icon"></i>
               </div>
               <div className="results"></div>
             </div>
@@ -87,13 +81,10 @@ function InnerPageMom() {
             <div className="points-field font-size-18 font-weight-400">
               {pointsdetails?.title}
             </div>
-            {/* <span className="d-flex share-icon align-center">
-              <HiOutlineShare />
-            </span> */}
           </div>
           <div className="d-flex justify-between width-91">
-            <div className="color-text-888888">
-            {`${pointsdetails?.date.substring(8, 10)}-${pointsdetails?.date.substring(5,7)}-${pointsdetails?.date.substring(0,4)}`} . 
+            <div style={{margin:"5px 0"}}className="color-text-888888">
+            { pointsdetails?.date && (`${pointsdetails?.date?.substring(8, 10)}-${pointsdetails?.date?.substring(5,7)}-${pointsdetails?.date?.substring(0,4)}`)} . 
               {pointsdetails?.location}
               </div>
             <div className="d-flex justify-between width-fit-content">
@@ -113,9 +104,9 @@ function InnerPageMom() {
                   return (
                     <>
                     <div  key={index} className="d-flex divider-margin-5">
-                      {/* <span className="points-counter">{index + 1}.</span> */}
+                      <span className="points-counter"> {bullet} </span>
                       <div  name="points-text"  className="points-area text-align-justify">
-                        {elem}
+                       {elem?.substring(2,)}
                       </div>
                     </div>
                     </>
@@ -127,8 +118,7 @@ function InnerPageMom() {
               <div className="d-flex-col align-left justify-between">
                 { draftsflag && (
                   <>
-                <div>Amit Sunari</div>
-                <div>Ashok rathi</div>
+                <div>ok</div>
                   </>
                 )}
                 <div className="color-text d-flex align-center width-fit-content">

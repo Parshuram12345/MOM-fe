@@ -3,17 +3,40 @@ import "./innerPage.css";
 import { Link} from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { FaRegEdit} from "react-icons/fa";
-import { data } from "../../utils";
 import { momContext } from './../../../MobileApp.jsx';
 
 function InnerPageMom() {
   const {pointsdetails}=useContext(momContext);
-  console.log(pointsdetails)
+  ///-----highlight the match point text---///
+  const highlightPoints =(e)=>{
+    let textToSearch = document.getElementById("searchBar").value ;
+    let allpointslist = document.getElementsByClassName("points-field");
+    console.log(textToSearch,allpointslist[0].textContent)
+    let special = /[\\[{().+*?|^$]/g;
+     if(textToSearch!=="")
+     {
+       if(special.test(textToSearch)){
+         textToSearch = textToSearch.replace(special,"\\$&")
+       }
+       let regexp = new RegExp(textToSearch,"gi");
+       for (let i=0;i<allpointslist.length;i++){
+         allpointslist[i].innerHTML = (allpointslist[i].textContent).replace(regexp,"<mark>$&</mark>")
+       }
+     }
+     else{
+       for (let i=0;i<allpointslist.length;i++){
+         allpointslist[i].innerHTML = allpointslist[i].textContent
+       }
+ 
+     }
+ }
+  ///----bullet points -----////
+  const bullet = "\u2022";
   return (
     <>
       <div className="padding-5">
       <div className="d-flex justify-around font-weight-500 width-fit-content align-center">
-          <div className="font-size-14 color-text-888888 small-font-10 cursor-pointer">Praveer's villa</div>
+          <div className="color-text-888888 small-font-10 cursor-pointer">Pr's saini</div>
           <div className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
           </div>
@@ -25,7 +48,7 @@ function InnerPageMom() {
             <FiChevronRight />
           </div>
           <div className="color-text small-font-10 font-weight-500">
-            {pointsdetails.title}
+            {pointsdetails?.title}
           </div>
         </div>
         <div className="d-flex justify-between position-relative align-center divider-margin">
@@ -35,7 +58,7 @@ function InnerPageMom() {
           <div className="divider-bar">|</div>
           <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
           <div className="search-box d-flex align-center position-absolute right-22">
-            <input type="text" className="search-text" placeholder="search" />
+            <input type="text" className="search-text" id="searchBar" onChange={(e)=>highlightPoints(e)} placeholder="search" />
             <button className="search-btn">
             <img src={"/images/searchicon.svg"} alt="vector2" />
             </button>
@@ -48,15 +71,15 @@ function InnerPageMom() {
         </div>
         <div className="d-flex-col">
           <div className="font-size-14 font-weight-600 divider-margin">
-            {pointsdetails.title}
+            {pointsdetails?.title}
           </div>
           <div className="d-flex justify-between">
             <div className="color-text-888888 font-size-15">
-            {`${pointsdetails?.date.substring(8, 10)}-${pointsdetails?.date.substring(5,7)}-${pointsdetails?.date.substring(0,4)}`} . 
-            {pointsdetails.location}
+            { pointsdetails?.date && `${pointsdetails?.date?.substring(8, 10)}-${pointsdetails?.date?.substring(5,7)}-${pointsdetails?.date?.substring(0,4)}`} . 
+            {pointsdetails?.location}
             </div>
             <div className="color-text-888888 font-size-15">
-            {pointsdetails.category}
+            {pointsdetails?.category}
               </div>
           </div>
         </div>
@@ -65,14 +88,14 @@ function InnerPageMom() {
           name="points"
           className="points-container-field border-none bg-color-fa width-100"
         >
-           {pointsdetails && pointsdetails?.points.map((elem,index)=>{
+           {pointsdetails && pointsdetails?.points?.map((elem,index)=>{
               return (
                 <div
                   key={index}
                   className="d-flex font-weight-500 divider-margin"
                 >
-                  <span className="points-counter">{index + 1}.</span>
-                  <div className="text-align-justify">{elem}</div>
+                  <span className="points-counter">{bullet} </span>
+                  <div className="points-field text-align-justify">{elem?.substring(2,)}</div>
                 </div>
               );
             })}

@@ -3,9 +3,18 @@
     margin: 3px 2px;
 }
 .submitbtn{
-    height: 6vh;
-    margin-top: 20px;
-    color: white;
+    margin-top: 10px;
+    color: #ffffff;
+    padding: 7px 20px;
+    font-size: 15px;
+    border: 2px solid #3B5998;
+  }
+  .save-draft-btn{
+    color: #3B5998;
+    font-size: 15px;
+    background-color: #ffffff;
+    padding: 7px 20px;
+    border: 2px solid #3B5998;
 }
 .label-text{
     font-size: 13px;

@@ -12,9 +12,9 @@ const resolution = window.innerWidth;
 ReactDOM.render(
  <Router>
     <Provider store={store}>
-      { isMobile ? <MobileApp/>:<App /> }
+      {/* { isMobile ? <MobileApp/>:<App /> } */}
         {/* <App /> */}
-        {/* <MobileApp/> */}
+        <MobileApp/>
      </Provider>
  </Router>
     , document.getElementById("root"))

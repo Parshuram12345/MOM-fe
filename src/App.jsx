@@ -24,7 +24,7 @@ function App() {
   const [momDraftsdata,setMomDraftsdata]=useState([])
   const [momSentdata,setMomSentdata]=useState([])
   const {access_token,BaseUrl,projectid } = data;
-  // console.log(pointsdetails)
+  console.log(pointsdetails)
   const navigate = useNavigate();
   ///-----remove the email----///
   const removeEmail = indexToRemove => {
@@ -37,7 +37,7 @@ function App() {
 			event.target.value = "";
 		}
 	}
-  ///------add the points in field -----///
+  ///------add the points with bullets point in field -----///
   let previousLength = 0;
 const handlePointsField = (event) => {
     const bullet = "\u2022";
@@ -68,7 +68,6 @@ const handlePointsField = (event) => {
   
   //---save the data as Draft---///
   const handleSaveDraft=()=>{
-    console.log("save as draft")
     const bodyData = JSON.stringify({
       date: momdate,
       category: category,
@@ -99,7 +98,6 @@ const handlePointsField = (event) => {
           setTitle("");
           setPointsdata([]);
         }
-        // return response.json();
       })
       .then((data) => {
         console.log(data);

@@ -5,7 +5,6 @@
 .doublevector-icon{
     font-size: 2rem;
     color: #888888;
-
 }
 .mom-head {
     font-size: 17px;
@@ -36,8 +35,9 @@ i.search.icon{
     font-weight: 500;
 }
 .mom-layout{
+    font-size: 12px;
+    padding: 3px 7px;
     text-align: center;
-    padding: 1%;
     background: rgba(59, 89, 152, 0.2);
 }
 .mom-field:hover{
@@ -47,10 +47,12 @@ i.search.icon{
 .mom-points{
     padding: 3%;
     color: #888888;
+    overflow-wrap: anywhere;
 }
 .as-on{
+    font-size: 12px;
     background: rgba(59, 89, 152, 0.2);
-    padding: 2px 3px;
+    padding: 3px 7px;
     text-align: center;
 }
 .momdata-wrapper{
@@ -89,4 +91,47 @@ a,a:hover{
 .addMomImg
 {
     width: 10vw;
+}
+.add-mom-Bg{
+    display: flex;
+    width: 38%;
+    background: #F0F0F0;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+}
+.main-modal-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background: hsla(0,0%,100%,.9);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+.modals-wrapper{
+    border-radius: 10px;
+    border: 1px solid #DFDFDF;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 20px 75px rgba(0 0 0 /13%);
+}
+.ui.button.yes-btn{
+    border: 1px solid #888;
+    color: #888;
+    background-color: #ffffff;
+    border-radius: 4px;
+}
+.ui.button.no-btn{
+    border: 1px solid #176091;
+    background-color: #176091;
+    color: #ffffff;
+    border-radius: 4px;
+}
+.notice-text{
+    color: #666;
 }

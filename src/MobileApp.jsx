@@ -21,6 +21,8 @@ function MobileApp() {
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
   const [ pointsdetails,setPoinstdetails]=useState({})
+  const [momdraftsdata,setMomdraftsdata]=useState([])
+  const [momsentdata,setMomsentdata]=useState([])
   const {access_token,BaseUrl,projectid } = data;
   const navigate = useNavigate();
   ///-----remove the email----///
@@ -36,14 +38,72 @@ function MobileApp() {
 		}
 	};
   ///------add the points in field -----///
-  const handlePointsField = (e) => {
-    setPointsdata(e.target.value.split("\n"));
-  };
+   ///------add the points with bullets point in field -----///
+   let previousLength = 0;
+   const handlePointsField = (event) => {
+       const bullet = "\u2022";
+       const newLength = event.target.value.length;
+       const characterCode = event.target.value.substr(-1).charCodeAt(0);
+   
+       if (newLength > previousLength) {
+           if (characterCode === 10) {
+               event.target.value = `${event.target.value}${bullet} `;
+           } else if (newLength === 1) {
+               event.target.value = `${bullet} ${event.target.value}`;
+           }
+       }
+       previousLength = newLength;
+       setPointsdata(event.target.value.split("\n"));
+   }
    ///------navigate to MOM inner page -----///
-  const naviagteInnerPage = (index) => {
+  const naviagteInnerPage = (index,booleanValue) => {
     navigate("/mominnerpage");
-    setPoinstdetails(MOMdata[index])
-    console.log(pointsdetails)
+    if(booleanValue){
+      setPoinstdetails(momdraftsdata[index]) 
+    }
+    else{
+      setPoinstdetails(momsentdata[index])
+    }
+  };
+   
+  ///---save the draft data----////
+  const handleSaveDraftData = () => {
+    console.log("sdfds")
+    const bodyData = JSON.stringify({
+      date: selectdate,
+      category: category,
+      location: location,
+      projectId:projectid,
+      title: title,
+      // sharedWith:emaillist,
+      points: pointsdata,
+    });
+
+    fetch(`${BaseUrl}/api/mom/addEditMOM`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: access_token,
+      },
+      body: bodyData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigate("/")
+          setSelectdate("");
+          setCategory("");
+          setLocation("");
+          setTitle("");
+          setPointsdata([]);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   ///---post the data----//
   const handlePostData = () => {
@@ -54,6 +114,7 @@ function MobileApp() {
       location: location,
       projectId:projectid,
       title: title,
+      isDraft:false,
       // sharedWith:emaillist,
       points: pointsdata,
     });
@@ -123,9 +184,11 @@ function MobileApp() {
           setPointserror,
           emaillist,
           setEmaillist,
-          MOMdata,
-          setMOMdata,
-          addEmail,removeEmail,handlePointsField,handleSubmitData
+          momdraftsdata,
+          setMomdraftsdata,
+          momsentdata,
+          setMomsentdata,
+          addEmail,removeEmail,handlePointsField,handleSubmitData,handleSaveDraftData
         }}
       >
        <Routes>
