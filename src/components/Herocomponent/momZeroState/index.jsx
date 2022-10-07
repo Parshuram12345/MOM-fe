@@ -9,6 +9,7 @@ function MomZeroState() {
     momdate,
     setMomdate,
     category,
+    bulletPoints,
     setCategory,
     location,
     setLocation,
@@ -22,6 +23,7 @@ function MomZeroState() {
     removeEmail,
     emailValid,
     handlePointsField,
+    handlePointsTextArea,
     handleSubmitData,
     getClientProject
   } = useContext(MomContext);
@@ -141,8 +143,12 @@ function MomZeroState() {
             <textarea
               rows="10"
               cols="50"
+              value={bulletPoints.trim()}
               className="points-container border-df bg-color-fa padding-6 border-radius-4"
-              onChange={(e) => handlePointsField(e)}
+              onChange={handlePointsField}
+              onKeyDown={(e) => {
+                handlePointsTextArea(e);
+              }}
               placeholder="Type something here"
             ></textarea>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight,FiEdit2 } from "react-icons/fi";
@@ -31,21 +31,34 @@ function MomSection() {
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected,setCheckboxSelected]=useState([])
   const [opendeleteModal,setOpendeleteModal]=useState(false)
+  const [openMultipledeleteModal,setOpenMultipledeleteModal]=useState(false)
   const [singleDeleteMomID,setSingleDeleteMomID]=useState([]);
-  const [convertmodal,setConvertmodal]=useState(false)
+  const [draftMomId,setDraftMomId]=useState([]);
+  const [sentMomId,setSentMomId]=useState([])
+  const [AllSelectcheckbox,setAllSelectcheckbox]=useState(false)
   
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
   
-  ///----open delete MOM modal -----///
+  ///----open single delete MOM modal -----///
   const handleMomModal=(value,id)=>{
       if(value){
         setSingleDeleteMomID((prev)=>[...prev,id])
         setOpendeleteModal(value)
+    /* width: 1920px; */
       }
       else{
         setOpendeleteModal(value)
         setSingleDeleteMomID([])
+      }
+  }
+  ///----open multiple delete MOM modal -----///
+  const handleMultipleMomModal=(value)=>{
+      if(value){
+        setOpenMultipledeleteModal(value)
+      }
+      else{
+        setOpenMultipledeleteModal(value)
       }
   }
   ///----draftsdocs -----///
@@ -68,14 +81,25 @@ function MomSection() {
   
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
+    let newstr =""
     let dots = "...";
     let limit = 25;
-    const bullet = "\u2022";
-    if (pointslist.join("").length > limit) {
-      return pointslist.join("").replaceAll(`/${bullet}/gi`,"  ").substring(2, limit) + dots;
-    } else {
-      return pointslist.join("").replaceAll(`/${bullet}/gi`,"").substring(2,);
-    }
+    let bullet = "\u2022"
+    console.log(pointslist,typeof pointslist)
+    // for (let i=0;i<pointslist[0]?.length;i++){
+    //   if(bullet ==pointslist[0]?.charAt(i)){
+    //     continue
+    //   }
+    //   else{
+    //        newstr += pointslist[0]?.charAt(i);
+    //   }
+    // }
+    //   if(newstr.length>limit){
+    //     return newstr.substring(0,limit)+dots;
+    //   }
+    //   else{
+    //     return newstr.substring(2,);
+    //   }
   }
   ///---add three dots for title after limit out----///
   function add3dotsTitle(title) {
@@ -89,8 +113,6 @@ function MomSection() {
   }
   ///-----all checkbox ----///
   const check = document.getElementsByName("datacheck");
-  const AllSelectcheckbox =document.querySelector('#accept');
-  console.log(AllSelectcheckbox?.checked)
   ///--- AllSelect checkbox functionlality---///
   const handleSelectAll = (e) => {
     const { checked } = e.target;
@@ -104,6 +126,14 @@ function MomSection() {
       }
     }
   };
+  useEffect(()=>{
+     if(checkboxSelected.length === momDraftsdata.length){
+      setAllSelectcheckbox(true)
+     }
+     else{
+      setAllSelectcheckbox(false)
+     }
+  },[checkboxSelected])
   ///---checkbox functionality and show delete and share icon---///
   const handleCheckDeleteShare = (id,e) => {
     // if(!draftsflag){
@@ -138,10 +168,7 @@ function MomSection() {
       axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
       momIds:checkboxSelected
     }).then((res)=>{
-      if(res.status===200)
-      { 
-        window.location.reload(false);
-      }
+      window.location.reload(false)
     }).catch((err)=>{
       console.log(err)
     })
@@ -156,7 +183,6 @@ function MomSection() {
     }).then((res)=>{
       if(res.status===200){
         setSingleDeleteMomID([])
-        window.location.reload(false);
       }
       console.log(res)
     }).catch((err)=>{
@@ -226,8 +252,10 @@ function MomSection() {
   // }
   ///----api fetch data-----
   // let emailconvertArr = [];
+   
   useEffect(() => {
-    getApiData()
+    
+      getApiData()
       .then((res) => {
         setMomSentdata(res.data.momData.filter(({isDraft})=> isDraft ===false))
         setMomSentClonedata(res.data.momData.filter(({isDraft})=> isDraft ===false))
@@ -237,20 +265,26 @@ function MomSection() {
       .catch((error) => {
         console.error(error); 
       });
-    getClientProject()
+      getClientProject()
       // .then((res) => {
-      //   setRoomName(res.data.projects[0].rooms)
-      //   emailconvertArr.push(res.data.projects[0].clientId.email);
-      //   setEmaillist(emailconvertArr);
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
-  }, []);
-  return (
+        //   setRoomName(res.data.projects[0].rooms)
+        //   emailconvertArr.push(res.data.projects[0].clientId.email);
+        //   setEmaillist(emailconvertArr);
+        // })
+        // .catch((error) => {
+          //   console.error(error);
+          // });
+        }, []);
+          let draftIdarr =[];
+          for (let i=0;i<momDraftsdata.length;i++){
+            draftIdarr.push(momDraftsdata[i]._id);
+            // setDraftMomId((prevId)=>prevId, momDraftsdata[i]._id)
+          }
+          // console.log(draftMomId)
+        return (
     <>
       <div className="d-flex-col width-95 margin-left-3">
-     {/* ///------modal code for delete MOM */}
+     {/* ///------modal code for single delete MOM */}
     { opendeleteModal && <div className="main-modal-wrapper">
     <div className="modal-wrapper">
   <div className="content">
@@ -263,6 +297,22 @@ function MomSection() {
       Yes
     </div>
     <div className="ui button no-btn" onClick={()=>handleMomModal(false)}>No</div>
+  </div>
+    </div>
+    </div>}
+     {/* ///------modal code for multiple delete MOM */}
+    { openMultipledeleteModal && <div className="main-modal-wrapper">
+    <div className="modal-wrapper">
+  <div className="content">
+    <p className="notice-text"> Are you sure want to delete ?</p>
+  </div>
+  <div className="ui divider"></div>
+  <div className="actions">
+    <div className="ui button yes-btn" 
+    onClick={() => handleDeleteMOM()}>
+      Yes
+    </div>
+    <div className="ui button no-btn" onClick={()=>handleMultipleMomModal(false)}>No</div>
   </div>
     </div>
     </div>}
@@ -356,9 +406,9 @@ function MomSection() {
                       type="checkbox"
                       name="selectall"
                       id="accept"
+                      checked={AllSelectcheckbox}
                       onClick={(e) => handleSelectAll(e)}
                     />
-    
                     <div className="color-text font-size-13 font-weight-500">
                       Select All
                     </div>
@@ -372,8 +422,7 @@ function MomSection() {
                       {/* Share */}
                     </div>
                     <div className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer"
-                     onClick={() => handleDeleteMOM()}
-                    //  onClick={()=>handleMomModal(true)}
+                     onClick={()=>handleMultipleMomModal(true)}
                      >
                       <AiOutlineDelete className="share-icon" />
                       Delete
@@ -431,29 +480,29 @@ function MomSection() {
                       />
                           <div
                             className={ draftsflag ? "width-16" : "width-17"}
-                            onClick={() =>  gotoInnerMom(index,true)}>
+                            onClick={() =>  gotoInnerMom(_id,true)}>
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
                           <div className={ draftsflag ? "width-22":"width-24"}
-                            onClick={() => gotoInnerMom(index,true)}
+                            onClick={() => gotoInnerMom(_id,true)}
                             >
                             { title && add3dotsTitle(title)}
                           </div>
                           <div
                             className="width-16"
-                            onClick={() =>gotoInnerMom(index,true)}
+                            onClick={() =>gotoInnerMom(_id,true)}
                             >
                             {category}
                           </div>
                             <div
                               className="table-data"
-                              onClick={() => gotoInnerMom(index,true)}
+                              onClick={() => gotoInnerMom(_id,true)}
                               >
                               {emaillist[0]}
                             </div>
                           <div
                             className={ draftsflag ? "width-29" :"width-30"}
-                            onClick={() => gotoInnerMom(index,true)}
+                            onClick={() => gotoInnerMom(_id,true)}
                             >
                             { points && add3Dots(points)}
                           </div>

@@ -29,13 +29,13 @@
   }
   .email-input{
           flex: 1;
-          border: none;
+          /* border: none; */
           height: 4vh;
           font-size: 14px;
           padding: 2px
   }
   .email-input:hover{
-      border: none;
+      /* border: none; */
   }
   #tags {
     display: flex;

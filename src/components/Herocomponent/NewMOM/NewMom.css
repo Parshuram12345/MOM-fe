@@ -23,6 +23,10 @@
   font-weight: 400;
   color: #444444;
 }
+.newMOM-container{
+  overflow-y: scroll;
+  height: 90vh;
+}
 /* ////--------------- */
 .email-container {
   min-height: 6vh;
@@ -30,13 +34,14 @@
 }
 .email-input{
         flex: 1;
-        border: none;
+        /* border: none; */
         height: 4vh;
         font-size: 14px;
         padding: 2px;
 }
 .email-input:hover{
-    border: none;
+    /* border: none; */
+    border-color: #3B5998 !important;
 }
 .tags {
   display: flex;
@@ -84,10 +89,7 @@
   color: white;
   padding: 5px 38px;
 }
-input:focus { 
-  outline: none !important;
-  border-color: #3B5998;
-}
+
 /* textarea:focus{
   border-color: #3B5998;
 

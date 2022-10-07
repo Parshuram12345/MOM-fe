@@ -89,6 +89,10 @@
     color: #000000;
     font-size: 14px;
  }
+ .table-body{
+    height: 50vh;
+    overflow-y: scroll;
+ }
  .share-icon{
     color: #888888;
 }
@@ -178,7 +182,6 @@
     color: #ffffff;
     font-size: 12px;
     border-radius: 4px;
-    /* width: 22%; */
 }
 .notice-text{
     color: #666;

@@ -1,4 +1,5 @@
-import React,{useContext} from "react";
+import React,{useContext,useEffect,useParams} from "react";
+import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import {FiChevronRight} from "react-icons/fi";
@@ -9,7 +10,10 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const navigate= useNavigate();
+  const {id}=useParams;
+  const {BaseUrl,projectid,access_token}=data
     const {pointsdetails,draftsflag}=useContext(MomContext)
+    console.log(pointsdetails)
    ///-----highlight the match point text---///
    const highlightPoints =()=>{
    let textToSearch = document.getElementById("search-bar").value ;
@@ -32,6 +36,22 @@ function InnerPageMom() {
 
     }
 }
+ ///---get api data ----///
+ async function getApiData() {
+  return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+    headers: {
+      Authorization: access_token,
+    },
+  });
+}
+useEffect(()=>{
+  getApiData()
+  .then((res) => {
+  })
+  .catch((error) => {
+    console.error(error); 
+  });
+})
 ///----bullet points -----////
 const bullet = "\u2022";
   ///---navigate to home page ----///
