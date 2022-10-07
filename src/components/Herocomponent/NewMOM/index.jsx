@@ -27,7 +27,7 @@ function NewMom() {
     addEmail,removeEmail,handlePointsField,handlePointsTextArea,handleSubmitData
   } = useContext(MomContext);
    useEffect(()=>{
-    // getClientProject()
+    getClientProject()
    },[])
    console.log(roomName)
   return (

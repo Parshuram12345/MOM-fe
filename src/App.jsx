@@ -1,4 +1,5 @@
 import React, { useState, createContext} from "react";
+import axios from "axios";
 import { Route, Routes,useNavigate } from "react-router-dom";
 import "./Styles/index.css";
 import Home from "./views/Home";
@@ -6,6 +7,7 @@ import MomZeroStatePage from "./views/momZeroState";
 import NewMomPage from "./views/newMOM";
 import InnerPage from "./views/InnerPageMOM";
 import {data} from "./components/utils"
+import { useEffect } from "react";
 export const MomContext = createContext("context");
 function App() {
   const [momdate ,setMomdate]= useState("")
@@ -69,7 +71,6 @@ function App() {
         setEmaillist([...emaillist, event.target.value]);
         event.target.value=""
         setEmailValid(false)
-
       }
       else{
         setEmailValid(true)
@@ -116,6 +117,29 @@ function App() {
     navigate("/mominnerpage");
   }
   
+   ///---get client project ---////
+   async function getClientProject() {
+    return await axios.get(
+      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+      {
+        headers: {
+          Authorization: access_token,
+        },
+      }
+    );
+  }
+  let emailconvertArr=[];
+  useEffect(()=>{
+    getClientProject()
+      .then((res) => {
+        setRoomName(res.data.projects[0].rooms)
+        emailconvertArr.push(res.data.projects[0].clientId.email);
+        setEmaillist(emailconvertArr);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },[])
   //---save the data as Draft---///
   const handleSaveDraft=()=>{
     if(shareMom){
@@ -165,7 +189,6 @@ function App() {
       category ? setCategoryerror(false): setCategoryerror(true)
       pointsdata ? setPointserror(false): setPointserror(true);
     }
-
   }
   ////-----post the with submit btn data ------///
   const handlePostData = () => {
@@ -261,7 +284,7 @@ function App() {
           gotoInnerMom,
           handleSaveDraft,
           handleEditDraft,
-          addEmail,removeEmail,handlePointsField,handlePointsTextArea,handleSubmitData
+          addEmail,removeEmail,getClientProject,handlePointsField,handlePointsTextArea,handleSubmitData
         }}
       >
         <Routes>

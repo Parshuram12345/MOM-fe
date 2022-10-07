@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect,useContext } from "react";
 import "./momZeroState.css";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -23,8 +23,11 @@ function MomZeroState() {
     emailValid,
     handlePointsField,
     handleSubmitData,
+    getClientProject
   } = useContext(MomContext);
-  console.log(momdate);
+  useEffect(()=>{
+    getClientProject()
+   },[])
   return (
     <>
       <div className=" justify-around margin-left-3 width-75">

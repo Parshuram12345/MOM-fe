@@ -25,28 +25,28 @@ function MomSection() {
     setRoomName,
     handleShareMOM,
     handleEditDraft,
+    getClientProject
   } = useContext(MomContext);
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected,setCheckboxSelected]=useState([])
   const [opendeleteModal,setOpendeleteModal]=useState(false)
   const [singleDeleteMomID,setSingleDeleteMomID]=useState([]);
+  const [convertmodal,setConvertmodal]=useState(false)
   
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
-  // const history = useHistory();
   
- 
   ///----open delete MOM modal -----///
   const handleMomModal=(value,id)=>{
       if(value){
-      setSingleDeleteMomID((prev)=>[...prev,id])
-      setOpendeleteModal(value)
-    }
-    else{
-      setOpendeleteModal(value)
-      setSingleDeleteMomID([])
-    }
+        setSingleDeleteMomID((prev)=>[...prev,id])
+        setOpendeleteModal(value)
+      }
+      else{
+        setOpendeleteModal(value)
+        setSingleDeleteMomID([])
+      }
   }
   ///----draftsdocs -----///
   const handleSharedDocs = () => {
@@ -70,16 +70,17 @@ function MomSection() {
   function add3Dots(pointslist) {
     let dots = "...";
     let limit = 25;
+    const bullet = "\u2022";
     if (pointslist.join("").length > limit) {
-      return pointslist.join("").substring(2, limit) + dots;
+      return pointslist.join("").replaceAll(`/${bullet}/gi`,"  ").substring(2, limit) + dots;
     } else {
-      return pointslist.join("").substring(2,);
+      return pointslist.join("").replaceAll(`/${bullet}/gi`,"").substring(2,);
     }
   }
   ///---add three dots for title after limit out----///
   function add3dotsTitle(title) {
     let dots = "...";
-    let limit = 28;
+    let limit = 24;
     if (title.length > limit) {
       return title.substring(0, limit) + dots;
     } else {
@@ -132,6 +133,8 @@ function MomSection() {
   // console.log(checkboxSelected)
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
+    navigate("/")
+    setOpendeleteModal(false)
       axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
       momIds:checkboxSelected
     }).then((res)=>{
@@ -143,7 +146,6 @@ function MomSection() {
       console.log(err)
     })
   }
-   
   ///----delete the single selected MOM data----////
   const handleSingleDeleteMOM = async () => {
     navigate("/")
@@ -211,19 +213,19 @@ function MomSection() {
     });
   }
 
-  ///---get client project ---////
-  async function getClientProject() {
-    return await axios.get(
-      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
-      {
-        headers: {
-          Authorization: access_token,
-        },
-      }
-    );
-  }
+  // ///---get client project ---////
+  // async function getClientProject() {
+  //   return await axios.get(
+  //     `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+  //     {
+  //       headers: {
+  //         Authorization: access_token,
+  //       },
+  //     }
+  //   );
+  // }
   ///----api fetch data-----
-  let emailconvertArr = [];
+  // let emailconvertArr = [];
   useEffect(() => {
     getApiData()
       .then((res) => {
@@ -236,14 +238,14 @@ function MomSection() {
         console.error(error); 
       });
     getClientProject()
-      .then((res) => {
-        setRoomName(res.data.projects[0].rooms)
-        emailconvertArr.push(res.data.projects[0].clientId.email);
-        setEmaillist(emailconvertArr);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      // .then((res) => {
+      //   setRoomName(res.data.projects[0].rooms)
+      //   emailconvertArr.push(res.data.projects[0].clientId.email);
+      //   setEmaillist(emailconvertArr);
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
   }, []);
   return (
     <>
@@ -256,7 +258,8 @@ function MomSection() {
   </div>
   <div className="ui divider"></div>
   <div className="actions">
-    <div className="ui button yes-btn" onClick={()=>handleSingleDeleteMOM()}>
+    <div className="ui button yes-btn" 
+    onClick={()=> handleSingleDeleteMOM()}>
       Yes
     </div>
     <div className="ui button no-btn" onClick={()=>handleMomModal(false)}>No</div>
@@ -363,12 +366,15 @@ function MomSection() {
                   <div className="d-flex justify-around width-17">
                     <div
                       className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer"
-                      onClick={() => handleDeleteMOM()}
+                     
                     >
                       {/* <HiOutlineShare className="share-icon" /> */}
                       {/* Share */}
                     </div>
-                    <div className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer">
+                    <div className="d-flex align-center color-text font-weight-500 font-size-13 cursor-pointer"
+                     onClick={() => handleDeleteMOM()}
+                    //  onClick={()=>handleMomModal(true)}
+                     >
                       <AiOutlineDelete className="share-icon" />
                       Delete
                     </div>
