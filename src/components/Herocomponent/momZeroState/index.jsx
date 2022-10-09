@@ -22,6 +22,7 @@ function MomZeroState() {
     addEmail,
     removeEmail,
     emailValid,
+    roomName,
     handlePointsField,
     handlePointsTextArea,
     handleSubmitData,
@@ -68,8 +69,14 @@ function MomZeroState() {
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option>Select your category</option>
-                  <option>Layout</option>
-                  <option>Measurements</option>
+                  {roomName &&
+                    roomName?.map((room,index) => {
+                      return (
+                        <>
+                          <option key={index} value={room}>{room}</option>
+                        </>
+                      );
+                    })}
                 </select>
                 <AiFillCaretDown style={{background:"white"}} className="position-absolute right-3 color-text-888888" />
               </div>
@@ -146,7 +153,7 @@ function MomZeroState() {
               value={bulletPoints.trim()}
               className="points-container border-df bg-color-fa padding-6 border-radius-4"
               onChange={handlePointsField}
-              onKeyDown={(e) => {
+              onKeyup={(e) => {
                 handlePointsTextArea(e);
               }}
               placeholder="Type something here"

@@ -1,18 +1,19 @@
-import React,{useContext,useEffect,useParams} from "react";
+import React,{useContext,useEffect} from "react";
 import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import {FiChevronRight} from "react-icons/fi";
-import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate,useParams} from "react-router-dom";
 import "./InnerPageMom.css";
 import {data} from "../../utils/index"
 import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const navigate= useNavigate();
-  const {id}=useParams;
+  const {id}=useParams();
   const {BaseUrl,projectid,access_token}=data
-    const {pointsdetails,draftsflag}=useContext(MomContext)
+  const {pointsdetails,setPointsdetails,draftsflag
+    ,getClientProject,clientName}=useContext(MomContext)
     console.log(pointsdetails)
    ///-----highlight the match point text---///
    const highlightPoints =()=>{
@@ -45,13 +46,15 @@ function InnerPageMom() {
   });
 }
 useEffect(()=>{
+  getClientProject()
   getApiData()
   .then((res) => {
+    setPointsdetails(res?.data?.momData?.filter(({_id})=> _id===id)[0])
   })
   .catch((error) => {
     console.error(error); 
   });
-})
+},[])
 ///----bullet points -----////
 const bullet = "\u2022";
   ///---navigate to home page ----///
@@ -122,14 +125,12 @@ const bullet = "\u2022";
               {
                 pointsdetails && pointsdetails?.points?.map((elem, index)=>{
                   return (
-                    <>
                     <div  key={index} className="d-flex divider-margin-5">
-                      <span className="points-counter"> {bullet} </span>
+                      {elem !==bullet && <span className="points-counter"> { bullet} </span>}
                       <div  name="points-text"  className="points-area text-align-justify">
-                       {elem?.substring(2,)}
+                       {elem ?.substring(1,)}
                       </div>
                     </div>
-                    </>
                   );
                 })}
             </div>
@@ -138,7 +139,7 @@ const bullet = "\u2022";
               <div className="d-flex-col align-left justify-between">
                 { draftsflag && (
                   <>
-                <div>ok</div>
+                <div>{clientName}</div>
                   </>
                 )}
                 <div className="color-text d-flex align-center width-fit-content">

@@ -28,14 +28,12 @@
     margin-right: 3px;
 }
 .points-container-field{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     text-align: justify;
     padding: 6px;
     background-color: white;
     overflow-y: scroll;
     height: 55vh;
+    word-break: break-word;
 }                  
 .share-with-wrapper{
     margin-top: -3%;

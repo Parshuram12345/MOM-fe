@@ -8,7 +8,6 @@
 }
 /* @media  */
 .mobile-top-navbar{
-    width: 360px;
     height: 16vh;
     border: 1px solid #DFDFDF;
     text-align: center;
@@ -224,3 +223,6 @@ input:focus {
     outline: none !important;
     border-color: #3B5998;
   }
+::-webkit-scrollbar {
+    display: none;
+}

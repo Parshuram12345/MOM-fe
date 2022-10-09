@@ -21,15 +21,13 @@ i.search.icon{
 .points-counter{
     margin-right: 3px;
 }
-.points-container-field{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    text-align: justify;
+.points-container{
     background-color: white;
-    padding: 2px;
+    padding: 1px;
     color: #000000;
-    width: 100%;
+    word-break: break-word;
+    height: 55vh;
+    overflow-y: scroll;
 }   
 .a,a:hover{
     text-decoration: none;

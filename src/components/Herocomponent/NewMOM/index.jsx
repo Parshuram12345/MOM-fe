@@ -1,10 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import "./NewMom.css";
+import axios from "axios"
+import { useParams } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
-
+import {data} from "../../utils"
 function NewMom() {
+  const {id}=useParams();
   const {
     momdate,
     setMomdate,
@@ -26,14 +29,52 @@ function NewMom() {
     getClientProject,
     addEmail,
     removeEmail,
+    setBulletPoints,
     handlePointsField,
     handlePointsTextArea,
     handleSubmitData,
+    setDateerror,
+    setCategoryerror,
+    setPointserror
   } = useContext(MomContext);
+   const {access_token,projectid,BaseUrl}=data;
+  ///---get api data ----///
+ async function getApiData() {
+  return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+    headers: {
+      Authorization: access_token,
+    },
+  });
+}
+
+  ///---play with error ----///
+  if (momdate && dateerror) {
+    setDateerror(false);
+  }
+  if (category && categoryerror) {
+    setCategoryerror(false);
+  }
+  if (bulletPoints && pointserror) {
+    setPointserror(false);
+  }
   useEffect(() => {
+    getApiData()
+    .then((res) => {
+      let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+      { respoonseWithId.category && setCategory(respoonseWithId.category)}
+     { respoonseWithId.date && setMomdate(
+      `${respoonseWithId?.date?.substring(8, 10)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(0, 4)}`
+    );}
+    {respoonseWithId.location && setLocation(respoonseWithId?.location)};
+    {respoonseWithId.title && setTitle(respoonseWithId?.title)};
+    {respoonseWithId.points && setBulletPoints(respoonseWithId?.points?.map((item)=> item.trim()).join("\n"));}}
+    )
+    .catch((error) => {
+      console.error(error); 
+    });
     getClientProject();
   }, []);
-  // console.log(bulletPoints)
+  
   return (
     <>
       <div className="newMOM-container justify-around margin-left-3 width-75">
@@ -86,19 +127,17 @@ function NewMom() {
               <div className="d-flex align-center position-relative width-66">
                 <select
                   className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${
-                    category === "" ? "color-text-888888" : null
+                    category === "" && "color-text-888888"
                   }`}
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="">Select your category</option>
-                  {/* <option value="Layout">Layout</option>
-                  <option value="Measurements">Measurements</option> */}
                   {roomName &&
-                    roomName?.map((room) => {
+                    roomName?.map((room,index) => {
                       return (
                         <>
-                          <option value={room}>{room}</option>
+                          <option key={index} value={room}>{room}</option>
                         </>
                       );
                     })}
@@ -168,7 +207,7 @@ function NewMom() {
         </div>
         {emailValid && (
           <small className="" style={{ color: "red" }}>
-            Email isn't valid{" "}
+            Email isn't valid
           </small>
         )}
         <div className="d-flex-col divider-margin">
@@ -180,7 +219,7 @@ function NewMom() {
             className="border-df bg-color-fa padding-6 border-radius-5 border-radius-4"
             name="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value.replace(/\s+/gi," "))}
             placeholder="Write your title here"
           />
         </div>
@@ -192,9 +231,9 @@ function NewMom() {
             rows="8"
             cols="50"
             value={bulletPoints}
-            className="points-container border-df bg-color-fa padding-6 border-radius-4"
+            className="points-container border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
             onChange={handlePointsField}
-            onKeyDown={(e) => {
+            onKeyUp={(e) => {
               handlePointsTextArea(e);
             }}
             placeholder="Type something here"

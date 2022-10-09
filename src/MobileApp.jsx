@@ -1,11 +1,13 @@
-import React, { useState, createContext } from 'react'
-import NewMomMobilePage from './mobileViews/newMOM';
-import MomZeroStateMobilePage from './mobileViews/momZeroState';
-import MomMainSectionMobilePage from './mobileViews/MomMainSection';
-import InnerMomPage from './mobileViews/InnerPageMom';
-import "./Styles/mobile/mobile.css"
-import { Route, Routes,useNavigate } from 'react-router-dom';
-import {data} from "./components/utils";
+import React, { useState, createContext } from "react";
+import axios from "axios";
+import NewMomMobilePage from "./mobileViews/newMOM";
+import MomZeroStateMobilePage from "./mobileViews/momZeroState";
+import MomMainSectionMobilePage from "./mobileViews/MomMainSection";
+import InnerMomPage from "./mobileViews/InnerPageMom";
+import "./Styles/mobile/mobile.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { data } from "./components/utils";
+import { useEffect } from "react";
 export const momContext = createContext("context");
 
 function MobileApp() {
@@ -15,161 +17,211 @@ function MobileApp() {
   const [title, setTitle] = useState("");
   const [emaillist, setEmaillist] = useState([]);
   const [emailvalue, setEmailvalue] = useState("");
-  const [pointsdata, setPointsdata] = useState(null);
-  const [MOMdata, setMOMdata] = useState([]);
+  const [pointsdata, setPointsdata] = useState("");
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
-  const [ pointsdetails,setPoinstdetails]=useState({})
-  const [momdraftsdata,setMomdraftsdata]=useState([])
-  const [momsentdata,setMomsentdata]=useState([])
-  const [sharemom,setSharemom]= useState(false)
-  const {access_token,BaseUrl,projectid } = data;
+  const [pointsdetails, setPointsdetails] = useState({});
+  const [momdraftsdata, setMomdraftsdata] = useState([]);
+  const [momsentdata, setMomsentdata] = useState([]);
+  const [sharemom, setSharemom] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [roomName, setRoomName] = useState([]);
+  const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
+  const [clientname, setclientname] = useState("");
+  const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
 
   ///-----share condition with open newmom----///
- const handleSharedMOMdata=(value)=>{
-  navigate("/newmom")
-  setSharemom(value)
-}
+  const handleSharedMOMdata = (value) => {
+    navigate("/newmom");
+    setSharemom(value);
+  };
   ///-----remove the email----///
-  const removeEmail = indexToRemove => {
-		setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
-	};
+  const removeEmail = (indexToRemove) => {
+    setEmaillist([...emaillist.filter((_, index) => index !== indexToRemove)]);
+  };
 
-  ///----add the email---///
-	const addEmail = event => {
-		if (event.target.value !== "") {
-			setEmaillist([...emaillist, event.target.value]);
-			event.target.value = "";
-		}
-	};
-  ///------add the points in field -----///
-   ///------add the points with bullets point in field -----///
-   let previousLength = 0;
-   const handlePointsField = (event) => {
-       const bullet = "\u2022";
-       const newLength = event.target.value.length;
-       const characterCode = event.target.value.substr(-1).charCodeAt(0);
-   
-       if (newLength > previousLength) {
-           if (characterCode === 10) {
-               event.target.value = `${event.target.value}${bullet} `;
-           } else if (newLength === 1) {
-               event.target.value = `${bullet} ${event.target.value}`;
-           }
-       }
-       else{
-         setPointsdata(event.target.value.split("\n"));
-       }
-       previousLength = newLength;
-   }
-   ///------navigate to MOM inner page -----///
-  const naviagteInnerPage = (index,booleanValue) => {
-    navigate("/mominnerpage");
-    if(booleanValue){
-      setPoinstdetails(momdraftsdata[index]) 
-    }
-    else{
-      setPoinstdetails(momsentdata[index])
+  ///----add the email with validation---///
+  const addEmail = (event) => {
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
+    if (event.target.value !== "") {
+      if (event.target.value.match(mailformat)) {
+        setEmaillist([...emaillist, event.target.value]);
+        event.target.value = "";
+        setEmailValid(false);
+      } else {
+        setEmailValid(true);
+      }
     }
   };
-   
+  ///------add the points with bullets point in field -----///
+  const bullet = "\u2022";
+  const handlePointsField = (event) => {
+    let value = event.target.value;
+     console.log(pointsdata?.length,pointsdata)
+    if (pointsdata?.length < 1) {
+      setPointsdata(`${bullet}`);
+    } else {
+      setPointsdata(value);
+    }
+  };
+  ///----update the point state in array string with key enter'----///
+  const handlePointsTextArea = (e) => {
+    if (!pointsdata?.split("\n").includes("\u2022")) {
+      if (e.key === "Enter") {
+        // setPointsdata(`${pointsdata}${"\n\u2022"}`);
+        setPointsdata(`${pointsdata}${"\u2022"}`);
+      }
+    }
+  };
+  ///------navigate to MOM inner page -----///
+  const naviagteInnerPage = (id) => {
+    setUpdatedraftsusingId(id);
+    navigate(`/mominnerpage/${id}`);
+  };
+
+  ///---edit the draft data -----////
+  const handleEditDraftdata = (id) => {
+    navigate(`/newmom/${id}`);
+  };
+
   ///---save the draft data----////
   const handleSaveDraftData = () => {
-    console.log("sdfds")
-    const bodyData = JSON.stringify({
-      date: selectdate,
-      category: category,
-      location: location,
-      projectId:projectid,
-      title: title,
-      // sharedWith:emaillist,
-      points: pointsdata,
-    });
-
-    fetch(`${BaseUrl}/api/mom/addEditMOM`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: bodyData,
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate("/")
-          setSelectdate("");
-          setCategory("");
-          setLocation("");
-          setTitle("");
-          setPointsdata([]);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  ///---post the data----//
-  const handlePostData = () => {
-    console.log("sdfds")
-    const bodyData = JSON.stringify({
-      date: selectdate,
-      category: category,
-      location: location,
-      projectId:projectid,
-      title: title,
-      isDraft:false,
-      // sharedWith:emaillist,
-      points: pointsdata,
-    });
-
-    fetch(`${BaseUrl}/api/mom/addEditMOM`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: bodyData,
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate("/")
-          setSelectdate("");
-          setCategory("");
-          setLocation("");
-          setTitle("");
-          setPointsdata([]);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const handleSubmitData = () => {
-    console.log("vb", category);
-
     if (selectdate && category && pointsdata) {
-      handlePostData();
+      const bodyData = JSON.stringify({
+        date: selectdate,
+        category: category,
+        location: location,
+        projectId: projectid,
+        title: title,
+        // sharedWith:emaillist,
+        points:
+          pointsdata &&
+          pointsdata.split("\n").filter((emptystr) => emptystr !== ""),
+      });
+      fetch(`${BaseUrl}/api/mom/addEditMOM`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: bodyData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            navigate("/");
+            setSelectdate("");
+            setCategory("");
+            setLocation("");
+            setTitle("");
+            setPointsdata("");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       setDateerror(false);
       setCategoryerror(false);
       setPointserror(false);
     }
-     selectdate ? setDateerror(false):setDateerror(true)
-     category ? setCategoryerror(false):setCategoryerror(true)
-     pointsdata? setPointserror(false):setPointserror(true)
+    selectdate ? setDateerror(false) : setDateerror(true);
+    category ? setCategoryerror(false) : setCategoryerror(true);
+    pointsdata ? setPointserror(false) : setPointserror(true);
   };
+  ///---post the data----//
+  const handleSubmitData = () => {
+    const bodyData = JSON.stringify({
+      id: updatedraftusingId && updatedraftusingId,
+      date: selectdate,
+      category: category,
+      location: location,
+      projectId: projectid,
+      title: title,
+      isDraft: false,
+      // sharedWith:emaillist,
+      points:
+        pointsdata &&
+        pointsdata.split("\n").filter((emptystr) => emptystr !== ""),
+    });
+
+    if (selectdate && category && pointsdata) {
+      fetch(`${BaseUrl}/api/mom/addEditMOM`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: bodyData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            navigate("/");
+            setSelectdate("");
+            setCategory("");
+            setLocation("");
+            setTitle("");
+            setPointsdata("");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      setDateerror(false);
+      setCategoryerror(false);
+      setPointserror(false);
+    }
+    selectdate ? setDateerror(false) : setDateerror(true);
+    category ? setCategoryerror(false) : setCategoryerror(true);
+    pointsdata ? setPointserror(false) : setPointserror(true);
+  };
+  ///---get client project ---////
+  async function getClientProject() {
+    return await axios.get(
+      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+      {
+        headers: {
+          Authorization: access_token,
+        },
+      }
+    );
+  }
+   ///---play with error ----///
+   if (selectdate && dateerror) {
+    setDateerror(false);
+  }
+  if (category && categoryerror) {
+    setCategoryerror(false);
+  }
+  if (pointsdata && pointserror) {
+    setPointserror(false);
+  }
+  let emailconvertArr = [];
+  useEffect(() => {
+    ///---get client id project----///
+    getClientProject()
+      .then((res) => {
+        setRoomName(res.data.projects[0].rooms);
+        setclientname(res.data.projects[0].name);
+        emailconvertArr.push(res.data.projects[0].clientId.email);
+        setEmaillist(emailconvertArr);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+   
+  }, []);
   return (
     <>
-    <momContext.Provider
+      <momContext.Provider
         value={{
           selectdate,
           setSelectdate,
@@ -190,6 +242,7 @@ function MobileApp() {
           pointserror,
           naviagteInnerPage,
           pointsdetails,
+          setPointsdetails,
           setPointserror,
           emaillist,
           setEmaillist,
@@ -199,19 +252,31 @@ function MobileApp() {
           setMomsentdata,
           sharemom,
           setSharemom,
+          emailValid,
+          roomName,
+          setRoomName,
+          setEmailValid,
+          getClientProject,
           handleSharedMOMdata,
-          addEmail,removeEmail,handlePointsField,handleSubmitData,handleSaveDraftData
+          addEmail,
+          removeEmail,
+          handlePointsField,
+          handlePointsTextArea,
+          handleEditDraftdata,
+          handleSubmitData,
+          handleSaveDraftData,
         }}
       >
-       <Routes>
-       <Route path='/' element={ <MomMainSectionMobilePage/> } />
-       <Route path='/momzerostate' element={  <MomZeroStateMobilePage/> } />
-       <Route path='/newmom' element={ <NewMomMobilePage/> } />
-       <Route path='/mominnerpage' element={ <InnerMomPage/> } />
-       </Routes>
+        <Routes>
+          <Route exact path="/" element={<MomMainSectionMobilePage />} />
+          <Route path="/momzerostate" element={<MomZeroStateMobilePage />} />
+          <Route path="/newmom" element={<NewMomMobilePage />} />
+          <Route path="/newmom/:id" element={<NewMomMobilePage />} />
+          <Route path="/mominnerpage/:id" element={<InnerMomPage />} />
+        </Routes>
       </momContext.Provider>
     </>
-  )
+  );
 }
 
 export default MobileApp;

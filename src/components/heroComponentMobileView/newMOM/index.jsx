@@ -1,9 +1,11 @@
-import React,{useContext} from "react";
+import React,{useContext,useEffect} from "react";
+import axios from "axios"
 import "./newMOM.css";
 import { FiChevronRight } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams} from "react-router-dom";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
+import {data} from "../../utils";
 
 function NewMom() {
   const {
@@ -20,12 +22,52 @@ function NewMom() {
     categoryerror,
     pointserror,
     sharemom,
-    addEmail,removeEmail,handlePointsField,handleSubmitData,handleSaveDraftData
+    emailValid,
+    roomName,
+    pointsdata,
+    setPointsdata,
+    // getApiData,
+    getClientProject,
+    addEmail,removeEmail,handlePointsField,handlePointsTextArea,handleSubmitData,handleSaveDraftData
   } = useContext(momContext);
+  const {access_token,projectid,BaseUrl}=data;
    const navigate= useNavigate();
+   const {id}=useParams()
   const navigateHome=()=>{
     navigate("/")
   }
+
+  ///---get api data ----///
+ async function getApiData() {
+  return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+    headers: {
+      Authorization: access_token,
+    },
+  });
+ }
+  useEffect(() => {
+    getApiData()
+    .then((res) => {
+      if(res.status===200){
+        let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+        { respoonseWithId &&  
+      setCategory(respoonseWithId?.category)
+     { respoonseWithId.date && setSelectdate(
+       `${respoonseWithId?.date?.substring(8, 10)}-${respoonseWithId?.date?.substring(5, 7)}-${respoonseWithId?.date?.substring(0, 4)}`
+       );}
+       setLocation(respoonseWithId?.location);
+       setTitle(respoonseWithId?.title);
+       setPointsdata(respoonseWithId?.points.map((item)=> item.trim()).join("\n"));
+      }
+  }
+  })
+    .catch((error) => {
+      console.error(error); 
+    });
+    getClientProject();
+  }, []);
+ 
+  
   return (
     <>
       <div className="d-flex-col justify-around padding-3 height-90">
@@ -63,13 +105,16 @@ function NewMom() {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option name="select" value="">Select your category</option>
-              <option value="layout">Layout</option>
-              <option value="Measurements">Measurements</option>
+              {roomName && roomName.map((roomlist,index)=>{
+                return (
+                <option key={index} value={roomlist}>{roomlist}</option>
+                )
+              })}
             </select>
             <AiFillCaretDown style={{background:"white"}} className="position-absolute right-5 color-text-888888" />
           </div>
         {categoryerror && (
-          <small className="text-align-center margin-left-10"  style={{ color: "red" }}>category is required</small>
+          <small className="text-align-center margin-left-14"  style={{ color: "red" }}>category is required</small>
           )}
           </div>
         <div className="d-flex-col justify-between divider-margin">
@@ -84,7 +129,7 @@ function NewMom() {
         </div>
         <div className="d-flex-col divider-margin">
           <label className="label-text">Share with </label>
-        <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
+        <div className="email-container align-center width-100 border-df bg-color-fa border-radius-4">
 			  <ul className="tags">
 				{emaillist?.map((email, index) => (
 					<li key={index} className="email-wrapper border-df padding-5">
@@ -96,15 +141,17 @@ function NewMom() {
 						</span>
 					</li>
 				))}
-        </ul>
 			<input
 				type="email"
-        className="email-input bg-color-fa width-100"
-				onKeyUp={event => event.key === "Enter" ? addEmail(event) : null}
-				placeholder="Enter the Email ID"
+        className="email-input bg-color-fa"
+				onKeyUp={event => event.key === "Enter" && addEmail(event)}
+				placeholder={emaillist.length===0 ? "Enter the Email ID": null }
         autoFocus={sharemom}
         />
+        </ul>
 		</div>
+    { emailValid && <small className="" style={{ color: "red" }}>
+      Email isn't valid</small>}
 		</div>
         <div className="d-flex-col divider-margin">
           <label className="label-text" htmlFor="title">Title</label>
@@ -113,7 +160,7 @@ function NewMom() {
             className="border-df bg-color-fa padding-5 border-radius-4"
             name="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value.replace(/\s+/gi," "))}
             placeholder="Title of the MOM"
           />
         </div>
@@ -122,8 +169,12 @@ function NewMom() {
           <textarea
             rows="8"
             cols="50"
-            onChange={(e) => handlePointsField(e)}
-            className="padding-5 border-df border-radius-4"
+            value={pointsdata}
+            onChange={handlePointsField}
+            onKeyUp={(e) => {
+              handlePointsTextArea(e);
+            }}
+            className="padding-5 border-df bg-color-fa text-align-justify border-radius-4"
             placeholder="Write something here"
           ></textarea>
         </div>

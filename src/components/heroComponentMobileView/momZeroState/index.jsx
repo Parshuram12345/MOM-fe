@@ -17,6 +17,8 @@ function MomZeroState() {
     dateerror,
     categoryerror,
     pointserror,
+    emailValid,
+    roomName,
     addEmail,removeEmail,handlePointsField,handleSubmitData
   } = useContext(momContext);
   return (
@@ -56,9 +58,12 @@ function MomZeroState() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-              <option name="select" value="">Select your category</option>
-              <option value="layout">Layout</option>
-              <option value="measurements">Measurements</option>
+               <option name="select" value="">Select your category</option>
+              {roomName && roomName.map((roomlist,index)=>{
+                return (
+                <option key={index} value={roomlist}>{roomlist}</option>
+                )
+              })}
             </select>
             <AiFillCaretDown  style={{background:"white"}}  className="position-absolute right-3 color-text-888888" />
           </div>
@@ -94,9 +99,11 @@ function MomZeroState() {
 			<input
 				type="email"
         className="email-input bg-color-fa width-100"
-				onKeyUp={event => event.key === "Enter" ? addEmail(event) : null}
-        placeholder="Enter the Email ID"        />
+				onKeyUp={event => event.key === "Enter" && addEmail(event)}
+        placeholder="Enter the Email ID"/>
 		</div>
+    { emailValid && <small className="" style={{ color: "red" }}>
+      Email isn't valid</small>}
 		</div>
         <div className="d-flex-col divider-margin">
           <label className="label-text" htmlFor="title">Title</label>

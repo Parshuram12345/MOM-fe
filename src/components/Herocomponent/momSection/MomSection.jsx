@@ -33,9 +33,8 @@ function MomSection() {
   const [opendeleteModal,setOpendeleteModal]=useState(false)
   const [openMultipledeleteModal,setOpenMultipledeleteModal]=useState(false)
   const [singleDeleteMomID,setSingleDeleteMomID]=useState([]);
-  const [draftMomId,setDraftMomId]=useState([]);
-  const [sentMomId,setSentMomId]=useState([])
-  const [AllSelectcheckbox,setAllSelectcheckbox]=useState(false)
+  const [draftcheckboxAll, setDraftsCheckboxAll] = useState(false);
+  const [sentcheckboxall,setSentcheckboxall]=useState(false)
   
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
@@ -45,7 +44,6 @@ function MomSection() {
       if(value){
         setSingleDeleteMomID((prev)=>[...prev,id])
         setOpendeleteModal(value)
-    /* width: 1920px; */
       }
       else{
         setOpendeleteModal(value)
@@ -77,29 +75,18 @@ function MomSection() {
     navigate("/newmom");
   };
    ///---filter data ----///
-   
-  
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
-    let newstr =""
+    // console.log(pointslist)
     let dots = "...";
     let limit = 25;
-    let bullet = "\u2022"
-    console.log(pointslist,typeof pointslist)
-    // for (let i=0;i<pointslist[0]?.length;i++){
-    //   if(bullet ==pointslist[0]?.charAt(i)){
-    //     continue
-    //   }
-    //   else{
-    //        newstr += pointslist[0]?.charAt(i);
-    //   }
-    // }
-    //   if(newstr.length>limit){
-    //     return newstr.substring(0,limit)+dots;
-    //   }
-    //   else{
-    //     return newstr.substring(2,);
-    //   }
+    let newArrWithEmptyString = pointslist.filter(( emptystr)=> emptystr !=="")
+      if(newArrWithEmptyString[0]?.length>limit){
+        return newArrWithEmptyString[0]?.substring(1,limit)+dots;
+      }
+      else{
+        return newArrWithEmptyString[0]?.substring(1,);
+      }
   }
   ///---add three dots for title after limit out----///
   function add3dotsTitle(title) {
@@ -114,45 +101,45 @@ function MomSection() {
   ///-----all checkbox ----///
   const check = document.getElementsByName("datacheck");
   ///--- AllSelect checkbox functionlality---///
+  ///----select all drafts checkbox ----///
   const handleSelectAll = (e) => {
+    const { checked } = e.target;
+      if (checked) {
+        for (let i = 0; i < check.length; i++) {
+          check[i].checked = true;
+          const draftIds = momDraftsdata.map((draft)=> draft._id)
+          setCheckboxSelected(draftIds)
+          setDraftsCheckboxAll(true)
+        }
+      } else {
+        for (let i = 0; i < check.length; i++) {
+          check[i].checked = false;
+          setCheckboxSelected([])
+          setDraftsCheckboxAll(false)
+        }
+      }
+  };
+  
+  ///----select all sent checkbox ----///
+  const handleSelectAllSent=(e)=>{
     const { checked } = e.target;
     if (checked) {
       for (let i = 0; i < check.length; i++) {
         check[i].checked = true;
+        const sentIds = momSentdata.map((sent)=> sent._id)
+        setCheckboxSelected(sentIds)
+        setSentcheckboxall(true)
       }
     } else {
       for (let i = 0; i < check.length; i++) {
         check[i].checked = false;
+        setCheckboxSelected([])
+        setSentcheckboxall(false)
       }
     }
-  };
-  useEffect(()=>{
-     if(checkboxSelected.length === momDraftsdata.length){
-      setAllSelectcheckbox(true)
-     }
-     else{
-      setAllSelectcheckbox(false)
-     }
-  },[checkboxSelected])
+  }
   ///---checkbox functionality and show delete and share icon---///
   const handleCheckDeleteShare = (id,e) => {
-    // if(!draftsflag){
-    //   if(checkboxSelected.length===momDraftsdata.length){
-    //     AllSelectcheckbox.checked =true;
-    //   }
-    //   else{
-    //     AllSelectcheckbox.checked =false;
-    //   }
-    // }
-    // else{
-    //   if(checkboxSelected.length===momSentdata.length){
-    //     AllSelectcheckbox.checked =true;
-    //   }
-    //   else{
-    //     AllSelectcheckbox.checked =false;
-    //   }
-    // } 
-    // const {checked ,value}=e.target;
     if (checkboxSelected.includes(id)) {
       let checkbox = checkboxSelected.filter((itemid) => itemid !== id);
       setCheckboxSelected(checkbox)
@@ -160,7 +147,7 @@ function MomSection() {
       setCheckboxSelected((previousitem)=> [...previousitem,id])
     }
   };
-  // console.log(checkboxSelected)
+  console.log(checkboxSelected)
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
     navigate("/")
@@ -238,23 +225,9 @@ function MomSection() {
       },
     });
   }
-
-  // ///---get client project ---////
-  // async function getClientProject() {
-  //   return await axios.get(
-  //     `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
-  //     {
-  //       headers: {
-  //         Authorization: access_token,
-  //       },
-  //     }
-  //   );
-  // }
-  ///----api fetch data-----
-  // let emailconvertArr = [];
-   
+ 
+  ///------
   useEffect(() => {
-    
       getApiData()
       .then((res) => {
         setMomSentdata(res.data.momData.filter(({isDraft})=> isDraft ===false))
@@ -265,22 +238,29 @@ function MomSection() {
       .catch((error) => {
         console.error(error); 
       });
+      //---get client data----///
       getClientProject()
-      // .then((res) => {
-        //   setRoomName(res.data.projects[0].rooms)
-        //   emailconvertArr.push(res.data.projects[0].clientId.email);
-        //   setEmaillist(emailconvertArr);
-        // })
-        // .catch((error) => {
-          //   console.error(error);
-          // });
-        }, []);
-          let draftIdarr =[];
-          for (let i=0;i<momDraftsdata.length;i++){
-            draftIdarr.push(momDraftsdata[i]._id);
-            // setDraftMomId((prevId)=>prevId, momDraftsdata[i]._id)
+      }, []);
+
+////----condition for all select checkbox----///
+       useEffect(()=>{
+        if(!draftsflag){
+          if(checkboxSelected.length === momDraftsdata.length){
+            setDraftsCheckboxAll(true)
           }
-          // console.log(draftMomId)
+          else{
+            setDraftsCheckboxAll(false)
+          }
+        } 
+        else{
+          if(checkboxSelected.length === momSentdata.length){
+            setSentcheckboxall(true)
+          }
+          else{
+            setSentcheckboxall(false)
+          }
+        }
+       },[checkboxSelected])   
         return (
     <>
       <div className="d-flex-col width-95 margin-left-3">
@@ -402,13 +382,20 @@ function MomSection() {
               {checkboxSelected.length > 0 ? (
                 <div className="d-flex align-center justify-between divider-margin">
                   <div className="d-flex justify-around width-14">
-                    <input
+                   { !draftsflag ?( <input
                       type="checkbox"
                       name="selectall"
                       id="accept"
-                      checked={AllSelectcheckbox}
-                      onClick={(e) => handleSelectAll(e)}
-                    />
+                      checked={draftcheckboxAll}
+                      onChange={(e) => handleSelectAll(e)}
+                    />):
+                    (<input
+                      type="checkbox"
+                      name="selectall"
+                      id="accept"
+                      checked={sentcheckboxall}
+                      onChange={(e) => handleSelectAllSent(e)}
+                    />)}
                     <div className="color-text font-size-13 font-weight-500">
                       Select All
                     </div>
@@ -480,29 +467,29 @@ function MomSection() {
                       />
                           <div
                             className={ draftsflag ? "width-16" : "width-17"}
-                            onClick={() =>  gotoInnerMom(_id,true)}>
+                            onClick={() =>  gotoInnerMom(_id)}>
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
                           <div className={ draftsflag ? "width-22":"width-24"}
-                            onClick={() => gotoInnerMom(_id,true)}
+                            onClick={() => gotoInnerMom(_id)}
                             >
                             { title && add3dotsTitle(title)}
                           </div>
                           <div
                             className="width-16"
-                            onClick={() =>gotoInnerMom(_id,true)}
+                            onClick={() =>gotoInnerMom(_id)}
                             >
                             {category}
                           </div>
                             <div
                               className="table-data"
-                              onClick={() => gotoInnerMom(_id,true)}
+                              onClick={() => gotoInnerMom(_id)}
                               >
                               {emaillist[0]}
                             </div>
                           <div
                             className={ draftsflag ? "width-29" :"width-30"}
-                            onClick={() => gotoInnerMom(_id,true)}
+                            onClick={() => gotoInnerMom(_id)}
                             >
                             { points && add3Dots(points)}
                           </div>
@@ -524,7 +511,7 @@ function MomSection() {
                                   <HiOutlineShare className="share-icon" />
                                   Share
                                 </Dropdown.Item >
-                                <Dropdown.Item className="d-flex align-center" onClick={()=>handleEditDraft(index)}>
+                                <Dropdown.Item className="d-flex align-center" onClick={()=>handleEditDraft(_id)}>
                                   <FiEdit2 className="share-icon" />
                                   Edit
                                 </Dropdown.Item >
@@ -563,29 +550,29 @@ function MomSection() {
                       />
                           <div
                             className={ draftsflag ? "width-16" : "width-17"}
-                            onClick={() =>  gotoInnerMom(index)}>
+                            onClick={() =>  gotoInnerMom(_id)}>
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
                           <div className={ draftsflag ? "width-22":"width-24"}
-                            onClick={() => gotoInnerMom(index)}
+                            onClick={() => gotoInnerMom(_id)}
                             >
                             { title && add3dotsTitle(title)}
                           </div>
                           <div
                             className="width-16"
-                            onClick={() =>gotoInnerMom(index,false)}
+                            onClick={() =>gotoInnerMom(_id)}
                             >
                             {category}
                           </div>
                             <div
                               className="table-data"
-                              onClick={() => gotoInnerMom(index,false)}
+                              onClick={() => gotoInnerMom(_id)}
                               >
                               {emaillist[0]}
                             </div>
                           <div
                             className={ draftsflag ? "width-29" :"width-30"}
-                            onClick={() => gotoInnerMom(index,false)}
+                            onClick={() => gotoInnerMom(_id)}
                             >
                             { points && add3Dots(points)}
                           </div>

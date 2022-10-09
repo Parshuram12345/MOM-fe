@@ -12,7 +12,8 @@ const isMobile = resolution >= 320 && resolution <= 480;
 ReactDOM.render(
   <Router>
     <Provider store={store}>
-      {isMobile ? <MobileApp /> : <App />}
+      {isMobile ? <MobileApp /> : null}
+      {!isMobile ? <App /> : null}
       {/* <App /> */}
       {/* <MobileApp/> */}
     </Provider>

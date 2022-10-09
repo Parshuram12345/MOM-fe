@@ -1,17 +1,20 @@
-import React,{useContext} from "react";
+import React,{useContext,useEffect} from "react";
+import axios from "axios";
 import "./innerPage.css";
-import { Link} from "react-router-dom";
+import { Link,useParams} from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { FaRegEdit} from "react-icons/fa";
 import { momContext } from './../../../MobileApp.jsx';
+import {data} from "../../utils"
 
 function InnerPageMom() {
-  const {pointsdetails}=useContext(momContext);
+  const {id}=useParams()
+  const {BaseUrl,access_token,projectid}=data
+  const {pointsdetails,client,setPointsdetails,getClientProject}=useContext(momContext);
   ///-----highlight the match point text---///
-  const highlightPoints =(e)=>{
-    let textToSearch = document.getElementById("searchBar").value ;
+  const highlightPoints =(event)=>{
+    let textToSearch = event.target.value;
     let allpointslist = document.getElementsByClassName("points-field");
-    console.log(textToSearch,allpointslist[0].textContent)
     let special = /[\\[{().+*?|^$]/g;
      if(textToSearch!=="")
      {
@@ -30,6 +33,26 @@ function InnerPageMom() {
  
      }
  }
+
+  ////-----get api data -----///
+  async function getApiData() {
+    return axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+      headers: {
+        Authorization: access_token,
+      },
+    });
+  }
+ useEffect(()=>{
+      getApiData()
+      .then((res) => {
+        setPointsdetails(res.data.momData.filter(({ _id}) => _id ===id)[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      ///----get client project id -----///
+      getClientProject()
+ },[id])
   ///----bullet points -----////
   const bullet = "\u2022";
   return (
@@ -58,13 +81,14 @@ function InnerPageMom() {
           <div className="divider-bar">|</div>
           <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
           <div className="search-box d-flex align-center position-absolute right-22">
-            <input type="text" className="search-text" id="searchBar" onChange={(e)=>highlightPoints(e)} placeholder="search" />
+            <input type="text" className="search-text" id="searchBar" 
+            onChange={(e)=>highlightPoints(e)} placeholder="search" />
             <button className="search-btn">
             <img src={"/images/searchicon.svg"} alt="vector2" />
             </button>
           </div>
             <div className="edit-icon" 
-            ><Link to="newmom">
+            ><Link to="/newmom">
               <FaRegEdit />
             </Link>
             </div>
@@ -86,7 +110,7 @@ function InnerPageMom() {
         <div className="ui divider"></div>
         <div
           name="points"
-          className="points-container-field border-none bg-color-fa width-100"
+          className="points-container border-none"
         >
            {pointsdetails && pointsdetails?.points?.map((elem,index)=>{
               return (
@@ -94,8 +118,8 @@ function InnerPageMom() {
                   key={index}
                   className="d-flex font-weight-500 divider-margin"
                 >
-                  <span className="points-counter">{bullet} </span>
-                  <div className="points-field text-align-justify">{elem?.substring(2,)}</div>
+                 { elem !==bullet && <span className="points-counter">{bullet} </span>}
+                  <div className="points-field text-align-justify">{elem?.substring(1,)}</div>
                 </div>
               );
             })}
