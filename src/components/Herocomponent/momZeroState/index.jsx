@@ -26,6 +26,7 @@ function MomZeroState() {
     handlePointsField,
     handlePointsTextArea,
     handleSubmitData,
+    handleSaveDraft,
     getClientProject
   } = useContext(MomContext);
   useEffect(()=>{
@@ -43,8 +44,23 @@ function MomZeroState() {
           </span>
           <span className="color-text small-font-10">New MOM</span>
         </div>
+        <div className="d-flex align-center justify-between">
         <div className="font-size-18 font-w-500 divider-margin">
           Create a MOM
+        </div>
+        <div className="d-flex align-center justify-between width-27">
+            <button
+              className="savedata-button font-size-12 font-weight-400 border-radius-4"
+              onClick={() => handleSaveDraft()}
+            >
+              Save as Draft
+            </button>
+            <button
+              className="submitdata-button bg-color border-none border-radius-4"
+              onClick={() => handleSubmitData()}>
+              Submit
+            </button>
+          </div>
         </div>
         <div className="ui divider"></div>
         <div className="divider-margin">
@@ -65,7 +81,6 @@ function MomZeroState() {
                 <select
                   className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${category===""? "color-text-888888":""}`}
                   value={category}
-                 
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option>Select your category</option>
@@ -81,7 +96,7 @@ function MomZeroState() {
                 <AiFillCaretDown style={{background:"white"}} className="position-absolute right-3 color-text-888888" />
               </div>
             </div>
-            <div className="d-flex justify-between align-center width-27">
+            <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Location:</label>
               <input
                 type="text"
@@ -124,7 +139,7 @@ function MomZeroState() {
               className="email-input bg-color-fa"
               onKeyUp={(event) =>
                 event.key === "Enter" ? addEmail(event) : null}
-              placeholder="Enter the Email ID"
+              placeholder={emaillist.length===0 ? "Enter the Email ID": null }
             />
           </div>
           {emailValid &&  (
@@ -148,10 +163,10 @@ function MomZeroState() {
               Points
             </label>
             <textarea
-              rows="10"
+              rows="8"
               cols="50"
-              value={bulletPoints.trim()}
-              className="points-container border-df bg-color-fa padding-6 border-radius-4"
+              value={bulletPoints}
+              className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4"
               onChange={handlePointsField}
               onKeyup={(e) => {
                 handlePointsTextArea(e);
@@ -162,12 +177,6 @@ function MomZeroState() {
           {pointserror && (
             <small style={{ color: "red" }}>write something here</small>
           )}
-          <button
-            className="submit-button bg-color border-none padding-5 border-radius-4 divider-margin"
-            onClick={() => handleSubmitData()}
-          >
-            Submit
-          </button>
         </div>
       </div>
     </>

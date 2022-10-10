@@ -47,7 +47,7 @@
     font-weight: 400;
     color: #000000;
 }
-.mark,mark{
+mark{
     border-radius: 4px;
     background-color: yellow;
 }

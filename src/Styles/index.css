@@ -294,3 +294,7 @@ input:focus {
   ::-webkit-scrollbar {
     display: none;
 }
+textarea:focus { 
+    outline: none !important;
+    border-color: #3B5998 !important;
+}

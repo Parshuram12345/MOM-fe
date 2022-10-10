@@ -77,12 +77,12 @@ function MobileApp() {
   };
   ///------navigate to MOM inner page -----///
   const naviagteInnerPage = (id) => {
-    setUpdatedraftsusingId(id);
     navigate(`/mominnerpage/${id}`);
   };
-
+  
   ///---edit the draft data -----////
   const handleEditDraftdata = (id) => {
+    setUpdatedraftsusingId(id);
     navigate(`/newmom/${id}`);
   };
 
@@ -90,6 +90,7 @@ function MobileApp() {
   const handleSaveDraftData = () => {
     if (selectdate && category && pointsdata) {
       const bodyData = JSON.stringify({
+        id: updatedraftusingId && updatedraftusingId,
         date: selectdate,
         category: category,
         location: location,

@@ -1,4 +1,4 @@
-import React,{useContext,useEffect} from "react";
+import React,{useContext,useEffect,useState} from "react";
 import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
@@ -11,9 +11,9 @@ import { MomContext } from "../../../App.jsx";
 function InnerPageMom() {
   const navigate= useNavigate();
   const {id}=useParams();
+  const [clientName, setClientName] = useState("");
   const {BaseUrl,projectid,access_token}=data
-  const {pointsdetails,setPointsdetails,draftsflag
-    ,getClientProject,clientName}=useContext(MomContext)
+  const {pointsdetails,setPointsdetails,draftsflag}=useContext(MomContext)
     console.log(pointsdetails)
    ///-----highlight the match point text---///
    const highlightPoints =()=>{
@@ -45,8 +45,26 @@ function InnerPageMom() {
     },
   });
 }
+
+///---get client project ---////
+async function getClientProject() {
+  return await axios.get(
+    `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+    {
+      headers: {
+        Authorization: access_token,
+      },
+    }
+  );
+}
 useEffect(()=>{
   getClientProject()
+  .then((res) => {
+    setClientName(res.data.projects[0].name);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
   getApiData()
   .then((res) => {
     setPointsdetails(res?.data?.momData?.filter(({_id})=> _id===id)[0])

@@ -10,7 +10,7 @@
   padding: 1px;
 }
  */
-.points-container {
+.textarea-points-field {
   min-height: 35vh;
   height: fit-content;
 }
@@ -24,8 +24,8 @@
   color: #444444;
 }
 .newMOM-container{
-  overflow-y: scroll;
-  height: 90vh;
+  /* overflow-y: scroll;
+  height: 90vh; */
 }
 /* ////--------------- */
 .email-container {

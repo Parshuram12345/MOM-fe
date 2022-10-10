@@ -8,7 +8,7 @@
 }
 /* @media  */
 .mobile-top-navbar{
-    height: 16vh;
+    height: 10vh;
     border: 1px solid #DFDFDF;
     text-align: center;
 }
@@ -159,7 +159,7 @@
     min-height: 4vh;
 }
 .divider-margin{
-    margin: 10px 0px;
+    margin: 5px 0px;
 }
 .font-weight-500{
     font-weight: 500;
@@ -225,4 +225,8 @@ input:focus {
   }
 ::-webkit-scrollbar {
     display: none;
+}
+textarea:focus { 
+    outline: none !important;
+    border-color: #3B5998 !important;
 }

@@ -39,8 +39,8 @@
       padding:0 3px 
   }
   .table-row:hover{
-    cursor: pointer;
-    background: rgba(59, 89, 152, 0.1);
+    /* cursor: pointer;
+    background: rgba(59, 89, 152, 0.1); */
   }
   .margin-right-10{
     margin-right: 10px;

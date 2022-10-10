@@ -30,8 +30,8 @@ function App() {
   const [roomName, setRoomName] = useState([]);
   const [updatedraftId,setUpdatedraftId]=useState("")
   const [bulletPoints, setBulletPoints] = useState("");
-  
-
+  const [ newDraftUnread,setNewDraftUnread]=useState(false)
+  const [ newSentUnread,setNewSentUnread]=useState(false)
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
   ///-----share condition with open newmom----///
@@ -41,6 +41,7 @@ function App() {
   };
   ///------Edit the draft data and post it-----///
   const handleEditDraft = (id) => {
+    setNewDraftUnread(true)
     setUpdatedraftId(id)
     navigate(`/newmom/${id}`);
   };
@@ -84,6 +85,12 @@ function App() {
   }
   ///got to mom inner page ----///
   const gotoInnerMom = (id) => {
+    if(!draftsflag){
+      setNewDraftUnread(true)
+    }
+    else{
+      setNewSentUnread(true)
+    }
     navigate(`/mominnerpage/${id}`)
   }
 
@@ -103,7 +110,9 @@ function App() {
     if (shareMom) {
       setShareMom(false)
     }
+    if (momdate && category && bulletPoints) {
     const bodyData = JSON.stringify({
+      id:updatedraftId && updatedraftId,
       date: momdate,
       category: category,
       location: location,
@@ -112,7 +121,6 @@ function App() {
       sharedWith: emaillist,
       points: bulletPoints && bulletPoints.split("\n").filter((emptystr)=>emptystr!==""),
     });
-    if (momdate && category && bulletPoints) {
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
         method: "post",
         headers: {
@@ -140,11 +148,11 @@ function App() {
         .catch((error) => {
           console.log(error);
         });
-    } else {
+    } 
       momdate ? setDateerror(false) : setDateerror(true);
       category ? setCategoryerror(false) : setCategoryerror(true);
       bulletPoints ? setPointserror(false) : setPointserror(true);
-    }
+    
   };
   ////-----post the with submit btn data ------///
   const handleSubmitData = () => {
@@ -253,6 +261,8 @@ function App() {
           roomName,
           setRoomName,
           clientName,
+          newDraftUnread,
+          newSentUnread,
           handleShareMOM,
           gotoInnerMom,
           handleSaveDraft,

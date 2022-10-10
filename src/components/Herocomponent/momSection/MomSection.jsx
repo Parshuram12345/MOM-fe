@@ -19,10 +19,9 @@ function MomSection() {
     draftsflag,
     setDraftsflag,
     setSentflag,
-    setEmaillist,
+    newDraftUnread,
+    newSentUnread,
     emaillist,
-    roomName,
-    setRoomName,
     handleShareMOM,
     handleEditDraft,
     getClientProject
@@ -35,7 +34,6 @@ function MomSection() {
   const [singleDeleteMomID,setSingleDeleteMomID]=useState([]);
   const [draftcheckboxAll, setDraftsCheckboxAll] = useState(false);
   const [sentcheckboxall,setSentcheckboxall]=useState(false)
-  
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
   
@@ -155,6 +153,7 @@ function MomSection() {
       axios.put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
       momIds:checkboxSelected
     }).then((res)=>{
+      if(res.status===200)
       window.location.reload(false)
     }).catch((err)=>{
       console.log(err)
@@ -170,6 +169,7 @@ function MomSection() {
     }).then((res)=>{
       if(res.status===200){
         setSingleDeleteMomID([])
+        window.location.reload(false)
       }
       console.log(res)
     }).catch((err)=>{
@@ -454,7 +454,7 @@ function MomSection() {
                         <>
                         <div
                           key={_id}
-                          style={{background:index ===0 ? "#ECEFF5" :""}}
+                          style={{background:newDraftUnread ?  "" :"#ECEFF5"}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
                           border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
                         >  
@@ -537,7 +537,7 @@ function MomSection() {
                         <>
                         <div
                           key={_id}
-                          style={{background:index ===0 ? "#ECEFF5" :""}}
+                          style={{background:newSentUnread ? "" :"#ECEFF5"}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
                           border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
                         >  

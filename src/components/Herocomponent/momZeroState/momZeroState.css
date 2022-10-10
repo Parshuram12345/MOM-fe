@@ -34,14 +34,27 @@
           font-size: 14px;
           padding: 2px
   }
-  .email-input:hover{
-      /* border: none; */
+  .textarea-points-field {
+    min-height: 35vh;
+    height: fit-content;
   }
   #tags {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
     margin-bottom: 0;
+  }
+  .savedata-button{
+    width: fit-content;
+    color: #3B5998;
+    border: 1px solid #3B5998;
+    background-color: #ffffff;
+    padding: 5px 20px;
+  }
+  .submitdata-button{
+    width: fit-content;
+    color: white;
+    padding: 5px 38px;
   }
   
   .email-wrapper {

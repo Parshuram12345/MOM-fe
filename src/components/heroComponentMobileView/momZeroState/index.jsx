@@ -19,7 +19,7 @@ function MomZeroState() {
     pointserror,
     emailValid,
     roomName,
-    addEmail,removeEmail,handlePointsField,handleSubmitData
+    addEmail,removeEmail,handlePointsField,handleSaveDraftData,handleSubmitData
   } = useContext(momContext);
   return (
     <>
@@ -34,7 +34,7 @@ function MomZeroState() {
         <div className="font-size-16 font-weight-500 divider-margin">
           Create a MOMs
         </div>
-        <div className="ui divider"></div>
+        <div style={{margin:"0 0%"}} className="ui divider"></div>
         <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
@@ -71,7 +71,7 @@ function MomZeroState() {
           <small className="text-align-center margin-left-10"  style={{ color: "red" }}>category is required</small>
           )}
           </div>
-        <div className="d-flex-col justify-between divider-margin">
+        <div className="d-flex-col justify-between">
           <label className="label-text">Location:</label>
           <input
             type="text"
@@ -100,7 +100,7 @@ function MomZeroState() {
 				type="email"
         className="email-input bg-color-fa width-100"
 				onKeyUp={event => event.key === "Enter" && addEmail(event)}
-        placeholder="Enter the Email ID"/>
+        placeholder={emaillist.length===0 ? "Enter the Email ID": null }/>
 		</div>
     { emailValid && <small className="" style={{ color: "red" }}>
       Email isn't valid</small>}
@@ -131,13 +131,21 @@ function MomZeroState() {
             Write something here
           </small>
         )}
+        <div className="d-flex align-center justify-between">
+         <button
+          className="save-draft-btn border-radius-4"
+          onClick={() => handleSaveDraftData()}
+          >
+          Save as Draft
+        </button>
         <button
           type="submit"
-          className="submitbtn bg-color border-none padding-5 border-radius-4"
+          className="submitbtn bg-color padding-5 border-radius-4"
           onClick={() => handleSubmitData()}
-        >
+          >
           Submit
         </button>
+          </div>
       </div>
     </>
   );

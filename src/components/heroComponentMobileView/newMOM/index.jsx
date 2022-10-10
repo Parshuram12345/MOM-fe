@@ -53,7 +53,7 @@ function NewMom() {
         { respoonseWithId &&  
       setCategory(respoonseWithId?.category)
      { respoonseWithId.date && setSelectdate(
-       `${respoonseWithId?.date?.substring(8, 10)}-${respoonseWithId?.date?.substring(5, 7)}-${respoonseWithId?.date?.substring(0, 4)}`
+       `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date?.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
        );}
        setLocation(respoonseWithId?.location);
        setTitle(respoonseWithId?.title);
@@ -81,7 +81,7 @@ function NewMom() {
         <div className="font-size-16 font-weight-500 divider-margin">
           Create a MOMs
         </div>
-        <div className="ui divider"></div>
+        <div style={{margin:"0 0%"}} className="ui divider"></div>
         <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
@@ -117,7 +117,7 @@ function NewMom() {
           <small className="text-align-center margin-left-14"  style={{ color: "red" }}>category is required</small>
           )}
           </div>
-        <div className="d-flex-col justify-between divider-margin">
+        <div className="d-flex-col justify-between">
           <label className="label-text">Location:</label>
           <input
             type="text"
@@ -143,7 +143,7 @@ function NewMom() {
 				))}
 			<input
 				type="email"
-        className="email-input bg-color-fa"
+        className="email-input border-df bg-color-fa"
 				onKeyUp={event => event.key === "Enter" && addEmail(event)}
 				placeholder={emaillist.length===0 ? "Enter the Email ID": null }
         autoFocus={sharemom}
@@ -183,18 +183,19 @@ function NewMom() {
             Write something here
           </small>
         )}
+        <div className="d-flex align-center justify-between">
         <button
           className="save-draft-btn border-radius-4"
-          onClick={() => handleSaveDraftData()}
-        >
+          onClick={() => handleSaveDraftData()}>
           Save as Draft
         </button>
         <button
-          className="submitbtn bg-color border-none border-radius-4"
+          className="submitbtn bg-color border-radius-4"
           onClick={() => handleSubmitData()}
-        >
+          >
           Submit
         </button>
+          </div>
       </div>
     </>
   );

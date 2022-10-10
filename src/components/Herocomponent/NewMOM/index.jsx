@@ -63,7 +63,7 @@ function NewMom() {
       let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
       { respoonseWithId.category && setCategory(respoonseWithId.category)}
      { respoonseWithId.date && setMomdate(
-      `${respoonseWithId?.date?.substring(8, 10)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(0, 4)}`
+      `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
     );}
     {respoonseWithId.location && setLocation(respoonseWithId?.location)};
     {respoonseWithId.title && setTitle(respoonseWithId?.title)};
@@ -74,7 +74,6 @@ function NewMom() {
     });
     getClientProject();
   }, []);
-  
   return (
     <>
       <div className="newMOM-container justify-around margin-left-3 width-75">
@@ -93,7 +92,7 @@ function NewMom() {
           <div className="font-size-18 font-w-500 color-text divider-margin">
             Create a MOM
           </div>
-          <div className="d-flex align-center justify-between width-30">
+          <div className="d-flex align-center justify-between width-27">
             <button
               className="savedata-button font-size-12 font-weight-400 border-radius-4"
               onClick={() => handleSaveDraft()}
@@ -117,7 +116,9 @@ function NewMom() {
                 type="text"
                 className="border-df bg-color-fa padding-5 border-radius-4 width-75"
                 value={momdate}
-                onChange={(newdate) => setMomdate(newdate.target.value)}
+                onChange={(newdate) => 
+                  setMomdate(newdate.target.value)
+                }
                 placeholder="Select date"
                 onFocus={(e) => (e.target.type = "date")}
               />
@@ -200,7 +201,7 @@ function NewMom() {
               type="email"
               className="email-input bg-color-fa"
               onKeyUp={(event) => event.key === "Enter" && addEmail(event)}
-              placeholder="Enter the email ID"
+              placeholder={emaillist.length===0 ? "Enter the Email ID": null }
               autoFocus={shareMom}
             />
           </div>
@@ -231,13 +232,13 @@ function NewMom() {
             rows="8"
             cols="50"
             value={bulletPoints}
-            className="points-container border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
+            className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
             onChange={handlePointsField}
             onKeyUp={(e) => {
               handlePointsTextArea(e);
             }}
             placeholder="Type something here"
-            style={{ resize: "none" }}
+            // style={{ resize: "none" }}
           />
         </div>
         {pointserror && (

@@ -3,9 +3,9 @@
     margin: 3px 2px;
 }
 .submitbtn{
-    margin-top: 10px;
+    width: 42%;
     color: #ffffff;
-    padding: 7px 20px;
+    padding: 8px 30px;
     font-size: 15px;
     border: 2px solid #3B5998;
   }
@@ -13,7 +13,7 @@
     color: #3B5998;
     font-size: 15px;
     background-color: #ffffff;
-    padding: 7px 20px;
+    padding: 5px 25px;
     border: 2px solid #3B5998;
 }
 .label-text{
@@ -29,15 +29,15 @@
     padding: 0 5px;
   }
   .email-input{
-          /* flex: 1; */
           width: 38%;
           border: none;
+          border-radius: 4px;
           height: 4vh;
           font-size: 14px;
           padding: 4px 0 0 4px ;
   }
-  .email-input:hover{
-      border: none;
+  input:focus{
+    border: 1px solid #3B5998;
   }
   .tags {
     display: flex;
@@ -45,7 +45,6 @@
     margin-bottom: 0;
     padding-left: 0;
   }
-  
   .email-wrapper {
     width: auto;
     display: flex;

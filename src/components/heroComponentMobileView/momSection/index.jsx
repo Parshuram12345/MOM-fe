@@ -189,8 +189,13 @@ function MomSection() {
   ///----remove bullet points form points-field----///
   const removeBulletsPoints = (points) => {
     let newstrpoints = "";
+    let limit = 150;
+    let dots = "...";
     for (let i = 0; i < points.length; i++) {
       newstrpoints += points[i].substring(1,);
+      if(newstrpoints.length>limit){
+        return newstrpoints.substring(0,limit) + dots;
+      }
     }
     return newstrpoints;
   };
@@ -386,14 +391,13 @@ function MomSection() {
               </div>
             </div>
             <div className="d-flex justify-around width-35">
+              <div className="color-text font-weight-500 font-size-15">
+                {/* Share */}
+              </div>
               <div
                 className="color-text font-weight-500 font-size-15"
-                onClick={() => handleMultipleMOMModal(true)}
-              >
+                onClick={() => handleMultipleMOMModal(true)}>
                 Delete
-              </div>
-              <div className="color-text font-weight-500 font-size-15">
-                Share
               </div>
             </div>
           </div>
