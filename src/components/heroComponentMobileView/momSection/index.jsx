@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {useNavigate } from "react-router-dom";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete,AiOutlineCloseCircle} from "react-icons/ai";
+// import { CiCircleRemove } from "react-icons/ci";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight, FiEdit2 } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
@@ -31,7 +32,12 @@ function MomSection() {
   const [singleDeleteMomid, setSingleDeleteMomid] = useState([]);
   const [checkboxAllSelected, setCheckboxAllSelected] = useState([]);
   const [allselectcheckbox, setAllselectcheckbox] = useState(false);
+  const [searchbarToggle,setSearchToggle]=useState(false)
   const { access_token, BaseUrl, projectid } = data;
+  ///----toggle searchbar -----////
+  const toggleSearchbarEffect=(value)=>{
+    setSearchToggle(value)
+  }
   ///=----draftsdocs----////
   const handleDraftsDocs = () => {
     setDraftsflag(false);
@@ -342,10 +348,10 @@ function MomSection() {
           <div className="mom-head font-weight-500 margin-right-10">
             Minutes of Meetings
           </div>
-          <div className="search-box d-flex align-center position-absolute right-22">
+          <div className={`search-box d-flex align-center position-absolute ${ !searchbarToggle ? "right-22" :"right-0"}`}>
             <input
               type="text"
-              className="search-text"
+              className={ !searchbarToggle ? "search-text" : "open-state"}
               placeholder="search"
               onChange={(e) =>
                 // handleSearchByTitle(e)}
@@ -353,8 +359,14 @@ function MomSection() {
               }
             />
             <button className="search-btn">
-              <img src={"/images/searchicon.svg"} alt="vector" />
+              { !searchbarToggle ?(<img onClick={()=>toggleSearchbarEffect(true)} src={"/images/searchicon.svg"} alt="vector" />)
+              :(<div className="circum-close-icon" onClick={()=>toggleSearchbarEffect(false)}>
+               <AiOutlineCloseCircle/>
+                {/* <CiCircleRemove/> */}
+                </div>
+            )}
             </button>
+
           </div>
 
           <div className="edit-icon" onClick={() => navigateNewMom()}>

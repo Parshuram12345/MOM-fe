@@ -1,7 +1,8 @@
-import React,{useContext,useEffect} from "react";
+import React,{useContext,useEffect,useState} from "react";
 import axios from "axios";
 import "./innerPage.css";
 import { Link,useParams} from "react-router-dom";
+import { AiOutlineCloseCircle} from "react-icons/ai";
 import { FiChevronRight } from "react-icons/fi";
 import { FaRegEdit} from "react-icons/fa";
 import { momContext } from './../../../MobileApp.jsx';
@@ -10,7 +11,13 @@ import {data} from "../../utils"
 function InnerPageMom() {
   const {id}=useParams()
   const {BaseUrl,access_token,projectid}=data
+  const [searchbarToggle,setSearchToggle]=useState(false)
   const {pointsdetails,client,setPointsdetails,getClientProject}=useContext(momContext);
+   ///----toggle searchbar -----////
+   const toggleSearchbarEffect=(value)=>{
+    setSearchToggle(value)
+  }
+
   ///-----highlight the match point text---///
   const highlightPoints =(event)=>{
     let textToSearch = event.target.value;
@@ -80,11 +87,18 @@ function InnerPageMom() {
           </div>
           <div className="divider-bar">|</div>
           <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
-          <div className="search-box d-flex align-center position-absolute right-22">
-            <input type="text" className="search-text" id="searchBar" 
+          <div className={`search-box d-flex align-center position-absolute ${ !searchbarToggle ? "right-22" :"right-0"}`}>
+            <input type="text" 
+            className={ !searchbarToggle ? "search-text" : "open-state"} 
+            id="searchBar" 
             onChange={(e)=>highlightPoints(e)} placeholder="search" />
             <button className="search-btn">
-            <img src={"/images/searchicon.svg"} alt="vector2" />
+            { !searchbarToggle ?(<img onClick={()=>toggleSearchbarEffect(true)} src={"/images/searchicon.svg"} alt="vector" />)
+              :(<div className="circum-close-icon" onClick={()=>toggleSearchbarEffect(false)}>
+               <AiOutlineCloseCircle/>
+                {/* <CiCircleRemove/> */}
+                </div>
+            )}
             </button>
           </div>
             <div className="edit-icon" 

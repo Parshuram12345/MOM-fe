@@ -52,12 +52,22 @@ i.search.icon{
     border: none;
     background: none;
 }
-.search-box:hover> .search-text{
-    right: 0rem;
-    width:17rem;
+.open-state
+{
+    transition: all 0.2s;
+    transition-duration: 0.5s;
+    border-radius: 15px;
+    width:20rem;
     padding:7px;
     opacity: 1;
     border: 1px solid #888888;
+}
+.circum-close-icon{
+    opacity: 0.5;
+    font-size: 20px;
+}
+.right-0{
+    right:-1px
 }
 .mark,mark{
     border-radius: 4px;
