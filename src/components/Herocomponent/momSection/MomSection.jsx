@@ -145,7 +145,7 @@ function MomSection() {
       setCheckboxSelected((previousitem)=> [...previousitem,id])
     }
   };
-  console.log(checkboxSelected)
+  // console.log(checkboxSelected)
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
     navigate("/")
@@ -289,7 +289,7 @@ function MomSection() {
   <div className="ui divider"></div>
   <div className="actions">
     <div className="ui button yes-btn" 
-    onClick={() => handleDeleteMOM()}>
+    onClick={() => handleDeleteMOM()}>          
       Yes
     </div>
     <div className="ui button no-btn" onClick={()=>handleMultipleMomModal(false)}>No</div>
@@ -298,13 +298,13 @@ function MomSection() {
     </div>}
     {/* ///-------//// */}
         <div className="d-flex align-center justify-between width-fit-content divider-margin">
-          <div className="small-font-10 color-text-888888">
+          <div className="small-font-12 color-text-888888">
             Ashok rathi residence
           </div>
-          <span className="d-flex align-center color-text-888888 small-font-12">
+          <span className="d-flex align-center color-text-888888 font-size-14">
             <FiChevronRight />
           </span>
-          <div className="color-text font-weight-500 small-font-10 cursor-pointer">MOM</div>
+          <div className="color-text font-weight-500 small-font-12 cursor-pointer">MOM</div>
         </div>
         <div className="momHead-wrapper d-flex justify-between align-center">
           <div className="d-flex width-60 align-center justify-between">
@@ -449,12 +449,12 @@ function MomSection() {
               <div className="table-body">
                 { !draftsflag &&
                   momDraftsdata.map(
-                    ({date, title, category, points, _id }, index) => {
+                    ({date, title, category, points, _id,isRead }, index) => {
                       return (
                         <>
                         <div
                           key={_id}
-                          style={{background:newDraftUnread ?  "" :"#ECEFF5"}}
+                          style={{background:isRead ?  "" :"#ECEFF5"}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
                           border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
                         >  
@@ -532,12 +532,12 @@ function MomSection() {
                   )}
                 { draftsflag &&
                   momSentdata.map(
-                    ({date, title, category,points, _id }, index) => {
+                    ({date, title, category,points, _id,isRead}, index) => {
                       return (
                         <>
                         <div
                           key={_id}
-                          style={{background:newSentUnread ? "" :"#ECEFF5"}}
+                          style={{background:isRead ? "" :"#ECEFF5"}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
                           border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
                         >  

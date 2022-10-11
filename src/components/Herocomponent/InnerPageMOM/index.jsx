@@ -1,9 +1,9 @@
 import React,{useContext,useEffect,useState} from "react";
 import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { HiOutlineShare } from "react-icons/hi";
+// import { HiOutlineShare } from "react-icons/hi";
 import {FiChevronRight} from "react-icons/fi";
-import { Link,useNavigate,useParams} from "react-router-dom";
+import {  Link,useNavigate,useParams} from "react-router-dom";
 import "./InnerPageMom.css";
 import {data} from "../../utils/index"
 import { MomContext } from "../../../App.jsx";
@@ -11,10 +11,11 @@ import { MomContext } from "../../../App.jsx";
 function InnerPageMom() {
   const navigate= useNavigate();
   const {id}=useParams();
+  console.log(id)
   const [clientName, setClientName] = useState("");
   const {BaseUrl,projectid,access_token}=data
   const {pointsdetails,setPointsdetails,draftsflag}=useContext(MomContext)
-    console.log(pointsdetails)
+    // console.log(pointsdetails)
    ///-----highlight the match point text---///
    const highlightPoints =()=>{
    let textToSearch = document.getElementById("search-bar").value ;
@@ -27,7 +28,7 @@ function InnerPageMom() {
       }
       let regexp = new RegExp(textToSearch,"gi");
       for (let i=0;i<allpointslist.length;i++){
-        allpointslist[i].innerHTML = (allpointslist[i].textContent).replace(regexp,"<mark>$&</mark>")
+        allpointslist[i].innerHTML = (allpointslist[i].textContent).replace(regexp,"<mark classname='match-text'>$&</mark>")
       }
     }
     else{
@@ -45,11 +46,27 @@ function InnerPageMom() {
     },
   });
 }
+///---read the mom and edit it---///
+async function getReadMOM(){
+  return  await axios({
+    method:"post",
+    url:`${BaseUrl}/api/mom/addEditMOM/`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: access_token,
+    },
+    data: {
+      id:id,
+      isRead:true,
+      projectId: projectid,
+    },
+  })
+}
 
 ///---get client project ---////
 async function getClientProject() {
   return await axios.get(
-    `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+    `${BaseUrl}/api/projects/getProjects?projectId=${projectid}`,
     {
       headers: {
         Authorization: access_token,
@@ -72,6 +89,17 @@ useEffect(()=>{
   .catch((error) => {
     console.error(error); 
   });
+  
+  ///----read mom ----///
+  getReadMOM()
+  .then((response)=>{
+    if(response.status===200){
+     console.log(response.data)
+    }
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
 },[])
 ///----bullet points -----////
 const bullet = "\u2022";

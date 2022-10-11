@@ -30,7 +30,7 @@ function InnerPageMom() {
        }
        let regexp = new RegExp(textToSearch,"gi");
        for (let i=0;i<allpointslist.length;i++){
-         allpointslist[i].innerHTML = (allpointslist[i].textContent).replace(regexp,"<mark>$&</mark>")
+         allpointslist[i].innerHTML = (allpointslist[i].textContent).replace(regexp,"<mark className='match-txt'>$&</mark>")
        }
      }
      else{
@@ -49,6 +49,23 @@ function InnerPageMom() {
       },
     });
   }
+
+  ///---read the mom and edit it---///
+  async function getReadMom(){
+  return  await axios({
+    method:"post",
+    url:`${BaseUrl}/api/mom/addEditMOM/`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: access_token,
+    },
+    data: {
+      id:id,
+      isRead:true,
+      projectId: projectid,
+    },
+  })
+}
  useEffect(()=>{
       getApiData()
       .then((res) => {
@@ -59,6 +76,17 @@ function InnerPageMom() {
       });
       ///----get client project id -----///
       getClientProject()
+
+       ///----read mom ----///
+   getReadMom()
+  .then((response)=>{
+    if(response.status===200){
+     console.log(response.data)
+    }
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
  },[id])
   ///----bullet points -----////
   const bullet = "\u2022";

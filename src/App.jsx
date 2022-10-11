@@ -8,6 +8,7 @@ import NewMomPage from "./views/newMOM";
 import InnerPage from "./views/InnerPageMOM";
 import { data } from "./components/utils";
 import { useEffect } from "react";
+import { set } from "react-hook-form";
 export const MomContext = createContext("context");
 function App() {
   const [momdate, setMomdate] = useState("");
@@ -32,6 +33,7 @@ function App() {
   const [bulletPoints, setBulletPoints] = useState("");
   const [ newDraftUnread,setNewDraftUnread]=useState(false)
   const [ newSentUnread,setNewSentUnread]=useState(false)
+  const [readonlyTextarea,setReadonlyTextarea]=useState(false)
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
   ///-----share condition with open newmom----///
@@ -76,13 +78,23 @@ function App() {
   }
   ///----update the point state in array string with key enter'----///
   const handlePointsTextArea = (e) => {
-    if (!bulletPoints.split("\n").includes("\u2022")) {
-      if (e.key === "Enter") {
+    if (!bulletPoints.split("\n").includes("\u2022") ) {
+      // setReadonlyTextarea(false)
+      // if(bulletPoints.split("\u2022").lastIndexOf("\n\n") !===-1){
+        // setReadonlyTextarea(true)
+        // e.preventDefault()
+      // }
+      // else{
+        // setReadonlyTextarea(false)
+      // }
+      if (e.key === "Enter" && bulletPoints.split("\u2022").lastIndexOf("\n")===-1  ) {
         // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
         setBulletPoints(`${bulletPoints}${"\u2022"}`);
       }
     }
   }
+  // console.log(bulletPoints.split("\u2022"))
+  // console.log(bulletPoints.split("\u2022").lastIndexOf("\n\n")===-1)
   ///got to mom inner page ----///
   const gotoInnerMom = (id) => {
     if(!draftsflag){
@@ -274,6 +286,7 @@ function App() {
           handlePointsTextArea,
           handleSubmitData,
           bulletPoints,
+          readonlyTextarea
         }}
       >
         <Routes>

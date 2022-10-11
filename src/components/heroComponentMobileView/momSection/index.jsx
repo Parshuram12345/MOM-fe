@@ -437,11 +437,11 @@ function MomSection() {
             </div>
           ) : !draftsflag ? (
             momdraftsdata?.map(
-              ({ _id, date, title, category, points }, index) => {
+              ({ _id, date, title, category, points,isRead }, index) => {
                 return (
                   <div
                     key={index}
-                    style={{ background: index === 0 ? "#ECEFF5" : "" }}
+                    style={{ background: isRead? "" :  "#ECEFF5" }}
                     className="mom-field border-df border-radius-5 divider-margin"
                   >
                     <div className="d-flex justify-around align-center padding-3">
@@ -528,11 +528,11 @@ function MomSection() {
             )
           ) : (
             momsentdata?.map(
-              ({ _id, date, title, category, points }, index) => {
+              ({ _id, date, title, category, points,isRead }, index) => {
                 return (
                   <div
                     key={index}
-                    style={{ background: index === 0 ? "#ECEFF5" : "" }}
+                    style={{ background: isRead ? "" :  "#ECEFF5" }}
                     className="mom-field border-df border-radius-5 divider-margin"
                   >
                     <div className="d-flex justify-around align-center padding-3">

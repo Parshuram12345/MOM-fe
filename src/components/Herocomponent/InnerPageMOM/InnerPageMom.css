@@ -51,7 +51,11 @@ mark{
     border-radius: 4px;
     background-color: yellow;
 }
+.match-text{
+    color: #000000;
+    background-color: yellow;
 
+}
 .divider-margin-5{
     margin: 5px 0;
 }

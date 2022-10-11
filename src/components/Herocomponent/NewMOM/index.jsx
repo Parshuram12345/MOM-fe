@@ -35,7 +35,8 @@ function NewMom() {
     handleSubmitData,
     setDateerror,
     setCategoryerror,
-    setPointserror
+    setPointserror,
+    readonlyTextarea
   } = useContext(MomContext);
    const {access_token,projectid,BaseUrl}=data;
   ///---get api data ----///
@@ -231,6 +232,7 @@ function NewMom() {
           <textarea
             rows="8"
             cols="50"
+            readOnly={readonlyTextarea}
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
             onChange={handlePointsField}
