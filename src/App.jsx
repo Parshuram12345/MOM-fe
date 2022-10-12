@@ -75,9 +75,16 @@ function App() {
         setBulletPoints(value);
       }
   }
+  const handleEnterkey=(e)=>{
+  //   if(e.key ="Enter" && !bulletPoints.split("\u2022").slice(-1)[0]===""  )
+  //   {
+  //     e.preventDefault();
+  //   }
+     
+  }
   ///----update the point state in array string with key enter'----///
   const handlePointsTextArea = (e) => {
-    if (!bulletPoints.split("\n").includes("\u2022") ) {
+    if (!bulletPoints.split("\n").includes("\u2022")) {
       // setReadonlyTextarea(false)
       // if(bulletPoints.split("\u2022").lastIndexOf("\n\n") !===-1){
         // setReadonlyTextarea(true)
@@ -86,14 +93,14 @@ function App() {
       // else{
         // setReadonlyTextarea(false)
       // }
-      if (e.key === "Enter" && bulletPoints.split("\u2022").lastIndexOf("\n")===-1  ) {
+      if (e.key === "Enter") {
         // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
         setBulletPoints(`${bulletPoints}${"\u2022"}`);
       }
     }
   }
   // console.log(bulletPoints.split("\u2022"))
-  // console.log(bulletPoints.split("\u2022").lastIndexOf("\n\n")===-1)
+  // console.log(bulletPoints.split("\u2022").slice(-1)[0]==="")
   ///got to mom inner page ----///
   const gotoInnerMom = (id) => {
     if(!draftsflag){
@@ -179,7 +186,7 @@ function App() {
         title: title,
         isDraft: false,
         projectId: projectid,
-        sharedWith: emaillist,
+        // sharedWith: emaillist,
         points: bulletPoints && bulletPoints.split("\n").filter((emptystr)=>emptystr!==""),
       });
   
@@ -285,6 +292,7 @@ function App() {
           handlePointsTextArea,
           handleSubmitData,
           bulletPoints,
+          handleEnterkey
         }}
       >
         <Routes>

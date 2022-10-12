@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight,FiEdit2 } from "react-icons/fi";
@@ -19,8 +19,6 @@ function MomSection() {
     draftsflag,
     setDraftsflag,
     setSentflag,
-    newDraftUnread,
-    newSentUnread,
     emaillist,
     handleShareMOM,
     handleEditDraft,
@@ -230,6 +228,9 @@ function MomSection() {
   useEffect(() => {
       getApiData()
       .then((res) => {
+        console.log(res.data.momData[0].createdAt,typeof res.data.momData[0].createdAt)
+        const today = new Date(res.data.momData[0].createdAt);
+        console.log(today)
         setMomSentdata(res.data.momData.filter(({isDraft})=> isDraft ===false))
         setMomSentClonedata(res.data.momData.filter(({isDraft})=> isDraft ===false))
         setMomDraftsdata(res.data.momData.filter(({isDraft})=>isDraft ===true))

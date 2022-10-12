@@ -36,6 +36,7 @@ function NewMom() {
     setDateerror,
     setCategoryerror,
     setPointserror,
+    handleEnterkey,
   } = useContext(MomContext);
    const {access_token,projectid,BaseUrl}=data;
   ///---get api data ----///
@@ -233,6 +234,7 @@ function NewMom() {
             cols="50"
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
+            onKeyDown={handleEnterkey}
             onChange={handlePointsField}
             onKeyUp={(e) => {
               handlePointsTextArea(e);
