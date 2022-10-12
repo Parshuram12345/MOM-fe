@@ -447,8 +447,28 @@ function MomSection() {
                 </div>
               )}
               <div className="table-body">
-                { !draftsflag &&
-                  momDraftsdata.map(
+          { !draftsflag && momDraftsdata.length < 1 ? (
+          <div className="margin-top-7">
+          <div className="d-flex-col align-center justify-center font-weight-500 m-auto">
+            <div className="add-mom-bg">
+              <img
+                className="add-mom-img"
+                src={"/images/add_mom.svg"}
+                alt="add-notes"
+              />
+            </div>
+            <div className="color-text-888888 small-font-12">
+              you haven't added any MOMs yet
+            </div>
+            <div className="color-text small-font-12"
+              onClick={() => navigateNewMOM()}
+              >
+              Add now
+            </div>
+          </div>
+            </div>):
+                 !draftsflag &&
+                  momDraftsdata?.map(
                     ({date, title, category, points, _id,isRead }, index) => {
                       return (
                         <>
@@ -456,7 +476,7 @@ function MomSection() {
                           key={_id}
                           style={{background:isRead ?  "" :"#ECEFF5"}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
-                          border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
+                          border-radius-4 font-weight-400 color-text-000000 margin-bottom-4 cursor-pointer"
                         >  
                         <input
                         className="checkbox-field width-5"
@@ -466,28 +486,32 @@ function MomSection() {
                         onChange={(e) => handleCheckDeleteShare(_id,e)}
                       />
                           <div
+                            style={{color:"#000000",fontWeight:"400"}}
                             className={ draftsflag ? "width-16" : "width-17"}
                             onClick={() =>  gotoInnerMom(_id)}>
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
-                          <div className={ draftsflag ? "width-22":"width-24"}
+                          <div   style={{color:"#000000",fontWeight:"400"}} 
+                          className={ draftsflag ? "width-22":"width-24"}
                             onClick={() => gotoInnerMom(_id)}
                             >
                             { title && add3dotsTitle(title)}
                           </div>
                           <div
+                            style={{color:"#000000",fontWeight:"400"}}
                             className="width-16"
                             onClick={() =>gotoInnerMom(_id)}
                             >
                             {category}
                           </div>
                             <div
+                              style={{color:"#000000",fontWeight:"400"}}
                               className="table-data"
                               onClick={() => gotoInnerMom(_id)}
                               >
                               {emaillist[0]}
                             </div>
-                          <div
+                          <div   style={{color:"#000000",fontWeight:"400"}}
                             className={ draftsflag ? "width-29" :"width-30"}
                             onClick={() => gotoInnerMom(_id)}
                             >
@@ -529,9 +553,28 @@ function MomSection() {
                           </>
                       );
                     }
-                  )}
-                { draftsflag &&
-                  momSentdata.map(
+                  )
+                  }
+                { draftsflag && momSentdata.length <1 ?(
+                   <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
+                   <div className="add-mom-bg">
+                     <img
+                       className="add-mom-img"
+                       src={"/images/add_mom.svg"}
+                       alt="add-notes"
+                     />
+                   </div>
+                   <div className="color-text-888888 small-font-12">
+                     you haven't Sent any MOMs yet
+                   </div>
+                   <div className="color-text small-font-12"
+                     onClick={() => navigateNewMOM()}
+                     >
+                     Add now
+                   </div>
+                 </div>
+                ):
+                  draftsflag &&  momSentdata.map(
                     ({date, title, category,points, _id,isRead}, index) => {
                       return (
                         <>
@@ -539,7 +582,7 @@ function MomSection() {
                           key={_id}
                           style={{background:isRead ? "" :"#ECEFF5"}}
                           className="d-flex align-center justify-flex-start table-row  height-7 
-                          border-radius-4 font-weight-400 color-text-000000 margin-bottom-4"
+                          border-radius-4 font-weight-400 color-text-000000 margin-bottom-4 cursor-pointer"
                         >  
                         <input
                         className="checkbox-field width-5"
@@ -549,34 +592,35 @@ function MomSection() {
                         onChange={(e) => handleCheckDeleteShare(_id,e)}
                       />
                           <div
-                            className={ draftsflag ? "width-16" : "width-17"}
+                            className={`color-text-000000 font-weight-400 ${ draftsflag ? "width-16" : "width-17"}`}
                             onClick={() =>  gotoInnerMom(_id)}>
                             {`${date.substring(8, 10)}-${date.substring(5,7)}-${date.substring(0,4)}`}
                           </div>
-                          <div className={ draftsflag ? "width-22":"width-24"}
+                          <div className={`color-text-000000 font-weight-400 ${ draftsflag ? "width-22":"width-24"}`}
                             onClick={() => gotoInnerMom(_id)}
                             >
                             { title && add3dotsTitle(title)}
                           </div>
                           <div
-                            className="width-16"
+                            className="width-16 color-text-000000 font-weight-400"
                             onClick={() =>gotoInnerMom(_id)}
                             >
                             {category}
                           </div>
                             <div
-                              className="table-data"
+                              className="table-data color-text-000000 font-weight-400"
                               onClick={() => gotoInnerMom(_id)}
                               >
                               {emaillist[0]}
                             </div>
                           <div
+                          style={{color:"#000000",fontWeight:"400"}}
                             className={ draftsflag ? "width-29" :"width-30"}
                             onClick={() => gotoInnerMom(_id)}
                             >
                             { points && add3Dots(points)}
                           </div>
-                          {!draftsflag && (
+                          {/* {!draftsflag && (
                             <Dropdown className={ draftsflag ? "" :"margin-right-13"}>
                               <Dropdown.Toggle
                                 as="button" className="threedots-btn bg-color-fa"
@@ -607,7 +651,7 @@ function MomSection() {
                                 </Dropdown.Item>
                               </Dropdown.Menu>
                             </Dropdown>
-                          )}
+                          )} */}
                         </div>
                         </>
                       )
@@ -618,7 +662,6 @@ function MomSection() {
           </>
         )}
     </div>
-
     </>
   );
 }

@@ -69,9 +69,12 @@ i.search.icon{
 .right-0{
     right:-1px
 }
+mark,.mark{
+    background-color:none;
 
+}
 .match-txt{
     color: #000000;
-    background-color: yellow;
+    background-color: yellow 
 
 }

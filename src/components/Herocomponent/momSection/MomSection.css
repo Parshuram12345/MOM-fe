@@ -98,7 +98,7 @@
 }
 .add-mom-bg{
     display: flex;
-    width: 9%;
+    width: 7%;
     background: #F0F0F0;
     border-radius: 50%;
     align-items: center;
@@ -185,4 +185,8 @@
 }
 .notice-text{
     color: #666;
+}
+.color-text-000000{
+    color: #000000;
+    
 }

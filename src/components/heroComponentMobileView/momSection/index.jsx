@@ -87,10 +87,6 @@ function MomSection() {
     }
   }
 
-  ///----sent checkbox functionality----///
-  // const SelectAllSent=(e)=>{
-       
-  // }
   // console.log(checkboxAllSelected)
   ///---navigate to new mom page -----///
   const navigateNewMom = () => {
@@ -366,9 +362,7 @@ function MomSection() {
                 </div>
             )}
             </button>
-
           </div>
-
           <div className="edit-icon" onClick={() => navigateNewMom()}>
             <FaRegEdit />
           </div>

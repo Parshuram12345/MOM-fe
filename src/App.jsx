@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 import axios from "axios";
-import { Route, Routes, useNavigate,useParams } from "react-router-dom";
+import { Route, Routes, useNavigate} from "react-router-dom";
 import "./Styles/index.css";
 import Home from "./views/Home";
 import MomZeroStatePage from "./views/momZeroState";
@@ -8,7 +8,6 @@ import NewMomPage from "./views/newMOM";
 import InnerPage from "./views/InnerPageMOM";
 import { data } from "./components/utils";
 import { useEffect } from "react";
-import { set } from "react-hook-form";
 export const MomContext = createContext("context");
 function App() {
   const [momdate, setMomdate] = useState("");
@@ -33,7 +32,7 @@ function App() {
   const [bulletPoints, setBulletPoints] = useState("");
   const [ newDraftUnread,setNewDraftUnread]=useState(false)
   const [ newSentUnread,setNewSentUnread]=useState(false)
-  const [readonlyTextarea,setReadonlyTextarea]=useState(false)
+  // const [readonlyTextarea,setReadonlyTextarea]=useState(false)
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
   ///-----share condition with open newmom----///
@@ -286,7 +285,6 @@ function App() {
           handlePointsTextArea,
           handleSubmitData,
           bulletPoints,
-          readonlyTextarea
         }}
       >
         <Routes>
