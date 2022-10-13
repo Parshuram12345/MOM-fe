@@ -136,7 +136,7 @@ function App() {
       location: location,
       title: title,
       projectId: projectid,
-      sharedWith: emaillist,
+      // sharedWith: emaillist,
       points: bulletPoints && bulletPoints.split("\n").filter((emptystr)=>emptystr!==""),
     });
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
@@ -172,12 +172,15 @@ function App() {
       bulletPoints ? setPointserror(false) : setPointserror(true);
     
   };
+
+  
   ////-----post the with submit btn data ------///
   const handleSubmitData = () => {
     if (shareMom) {
       setShareMom(false);
     }
     if (momdate && category && bulletPoints) {
+    
     const bodyData = JSON.stringify({
         id: updatedraftId && updatedraftId,
         date: momdate,
@@ -229,7 +232,7 @@ function App() {
     getClientProject()
       .then((res) => {
         setRoomName(res.data.projects[0].rooms);
-        setclientName(res.data.projects[0].name);
+        setclientName(res.data.projects[0].clientId.name);
         emailconvertArr.push(res.data.projects[0].clientId.email);
         setEmaillist(emailconvertArr);
       })

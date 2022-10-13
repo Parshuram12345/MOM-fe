@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import {useNavigate } from "react-router-dom";
-import { AiOutlineDelete,AiOutlineCloseCircle} from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineDelete, AiOutlineCloseCircle } from "react-icons/ai";
 // import { CiCircleRemove } from "react-icons/ci";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight, FiEdit2 } from "react-icons/fi";
-import { FaRegEdit } from "react-icons/fa";
 import { data } from "../../utils";
 import "./momSection.css";
 import { momContext } from "./../../../MobileApp";
@@ -20,7 +19,8 @@ function MomSection() {
     setMomsentdata,
     handleSharedMOMdata,
     getClientProject,
-    handleEditDraftdata
+    handleEditDraftdata,
+    clientname
   } = useContext(momContext);
   const navigate = useNavigate();
   const [draftsflag, setDraftsflag] = useState(false);
@@ -32,12 +32,12 @@ function MomSection() {
   const [singleDeleteMomid, setSingleDeleteMomid] = useState([]);
   const [checkboxAllSelected, setCheckboxAllSelected] = useState([]);
   const [allselectcheckbox, setAllselectcheckbox] = useState(false);
-  const [searchbarToggle,setSearchToggle]=useState(false)
-  const { access_token, BaseUrl, projectid } = data;
+  const [searchbarToggle, setSearchToggle] = useState(false);
+  const { access_token, BaseUrl, projectid,monthList } = data;
   ///----toggle searchbar -----////
-  const toggleSearchbarEffect=(value)=>{
-    setSearchToggle(value)
-  }
+  const toggleSearchbarEffect = (value) => {
+    setSearchToggle(value);
+  };
   ///=----draftsdocs----////
   const handleDraftsDocs = () => {
     setDraftsflag(false);
@@ -53,44 +53,45 @@ function MomSection() {
   ///-----all checkbox ----///
   const SelectAll = (e) => {
     const { checked } = e.target;
-    if(!draftsflag){
+    if (!draftsflag) {
       if (checked) {
         for (let i = 0; i < check.length; i++) {
           check[i].checked = true;
-          const draftIds = momdraftsdata.map((draft)=> draft._id)
-          setCheckboxAllSelected(draftIds)
-          setAllselectcheckbox(true)
+          const draftIds = momdraftsdata.map((draft) => draft._id);
+          setCheckboxAllSelected(draftIds);
+          setAllselectcheckbox(true);
         }
       } else {
         for (let i = 0; i < check.length; i++) {
           check[i].checked = false;
-          setCheckboxAllSelected([])
-          setAllselectcheckbox(false)
+          setCheckboxAllSelected([]);
+          setAllselectcheckbox(false);
         }
       }
-    }
-    else{
+    } else {
       if (checked) {
         for (let i = 0; i < check.length; i++) {
           check[i].checked = true;
-          const sentIds = momsentdata.map((draft)=> draft._id)
-          setCheckboxAllSelected(sentIds)
-          setAllselectcheckbox(true)
+          const sentIds = momsentdata.map((draft) => draft._id);
+          setCheckboxAllSelected(sentIds);
+          setAllselectcheckbox(true);
         }
       } else {
         for (let i = 0; i < check.length; i++) {
           check[i].checked = false;
-          setCheckboxAllSelected([])
-          setAllselectcheckbox(false)
+          setCheckboxAllSelected([]);
+          setAllselectcheckbox(false);
         }
       }
     }
-  }
+  };
 
-  ///----sent checkbox functionality----///
-  // const SelectAllSent=(e)=>{
-       
-  // }
+  ///----make short name of client -----////
+  function shortName(nameString){
+    const fullName = nameString.split(' ');
+    const initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);
+    return initials.toUpperCase(); 
+  }
   // console.log(checkboxAllSelected)
   ///---navigate to new mom page -----///
   const navigateNewMom = () => {
@@ -133,11 +134,11 @@ function MomSection() {
     navigate("/");
     setOpenMultipledeleteModal(false);
     await axios
-    .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
         momIds: checkboxAllSelected,
       })
       .then((res) => {
-        if (res.status=200) {
+        if ((res.status = 200)) {
           window.location.reload(false);
         }
         console.log(res);
@@ -157,7 +158,7 @@ function MomSection() {
         momIds: singleDeleteMomid,
       })
       .then((res) => {
-        if (res.status===200) {
+        if (res.status === 200) {
           window.location.reload(false);
           setSingleDeleteMomid([]);
         }
@@ -198,9 +199,9 @@ function MomSection() {
     let limit = 150;
     let dots = "...";
     for (let i = 0; i < points.length; i++) {
-      newstrpoints += points[i].substring(1,);
-      if(newstrpoints.length>limit){
-        return newstrpoints.substring(0,limit) + dots;
+      newstrpoints += points[i].substring(1);
+      if (newstrpoints.length > limit) {
+        return newstrpoints.substring(0, limit) + dots;
       }
     }
     return newstrpoints;
@@ -250,23 +251,18 @@ function MomSection() {
 
     ///---get client id project----///
     getClientProject();
-    
-    ///-----read the draft mom after 24 hours------///
-    const draftsmom = document.getElementsByName("draftMOM");
-    console.log(draftsmom[0]?.textContent);
 
   }, []);
 
   useEffect(() => {
     ///---condition for all select checkbox----///
-    if(!draftsflag){
+    if (!draftsflag) {
       if (checkboxAllSelected.length === momdraftsdata.length) {
         setAllselectcheckbox(true);
       } else {
         setAllselectcheckbox(false);
       }
-    }
-    else{
+    } else {
       if (checkboxAllSelected.length === momsentdata.length) {
         setAllselectcheckbox(true);
       } else {
@@ -353,10 +349,14 @@ function MomSection() {
           <div className="mom-head font-weight-500 margin-right-10">
             Minutes of Meetings
           </div>
-          <div className={`search-box d-flex align-center position-absolute ${ !searchbarToggle ? "right-22" :"right-0"}`}>
+          <div
+            className={`search-box d-flex align-center position-absolute ${
+              !searchbarToggle ? "right-22" : "right-0"
+            }`}
+          >
             <input
               type="text"
-              className={ !searchbarToggle ? "search-text" : "open-state"}
+              className={!searchbarToggle ? "search-text" : "open-state"}
               placeholder="search"
               onChange={(e) =>
                 // handleSearchByTitle(e)}
@@ -364,23 +364,31 @@ function MomSection() {
               }
             />
             <button className="search-btn">
-              { !searchbarToggle ?(<img onClick={()=>toggleSearchbarEffect(true)} src={"/images/searchicon.svg"} alt="vector" />)
-              :(<div className="circum-close-icon" onClick={()=>toggleSearchbarEffect(false)}>
-               <AiOutlineCloseCircle/>
-                {/* <CiCircleRemove/> */}
+              {!searchbarToggle ? (
+                <img
+                  onClick={() => toggleSearchbarEffect(true)}
+                  src={"/images/searchicon.svg"}
+                  alt="vector"
+                />
+              ) : (
+                <div
+                  className="circum-close-icon"
+                  onClick={() => toggleSearchbarEffect(false)}
+                >
+                  <AiOutlineCloseCircle />
+                  {/* <CiCircleRemove/> */}
                 </div>
-            )}
+              )}
             </button>
-
           </div>
 
           <div className="edit-icon" onClick={() => navigateNewMom()}>
-            <FaRegEdit />
+            <img src={"/images/createmom.svg"} alt="create-mom" />
           </div>
         </div>
         <div className="ui divider"></div>
         {!checkboxAllSelected?.length ? (
-          <div className="d-flex width-40 justify-between">
+          <div className="d-flex width-35  justify-between">
             <div
               className={!draftsflag ? "drafts-tab" : "sents-tab"}
               onClick={() => handleDraftsDocs()}
@@ -413,7 +421,8 @@ function MomSection() {
               </div>
               <div
                 className="color-text font-weight-500 font-size-15"
-                onClick={() => handleMultipleMOMModal(true)}>
+                onClick={() => handleMultipleMOMModal(true)}
+              >
                 Delete
               </div>
             </div>
@@ -421,140 +430,125 @@ function MomSection() {
         )}
         <div style={{ marginTop: "0%" }} className="ui divider"></div>
         <div className="momdata-wrapper d-flex-col divider-margin">
-          {momdraftsdata.length < 1 && momsentdata.length < 1 ? (
-            <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
-              <div className="add-mom-Bg">
-                <img
-                  className="addMomImg"
-                  src={"/images/add_mom.svg"}
-                  alt="add-notes"
-                />
-              </div>
-              <div className="color-text-888888 small-font-12">
-                you haven't added any MOMs yet
-              </div>
-              <div
-                className="color-text small-font-12"
-                onClick={() => navigateNewMom()}
-              >
-                Add now
-              </div>
-            </div>
-          ) : !draftsflag ? (
-            momdraftsdata.length < 1 ? (
+           { !draftsflag && momdraftsdata.length < 1 ? (
               <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
-              <div className="add-mom-Bg">
-                <img
-                  className="addMomImg"
-                  src={"/images/add_mom.svg"}
-                  alt="add-notes"
-                />
+                <div className="add-mom-Bg">
+                  <img
+                    className="addMomImg"
+                    src={"/images/add_mom.svg"}
+                    alt="add-notes"
+                  />
+                </div>
+                <div className="color-text-888888 small-font-12">
+                  you haven't added any MOMs yet
+                </div>
+                <div
+                  className="color-text small-font-12"
+                  onClick={() => navigateNewMom()}
+                >
+                  Add now
+                </div>
               </div>
-              <div className="color-text-888888 small-font-12">
-                you haven't added any MOMs yet
-              </div>
-              <div
-                className="color-text small-font-12"
-                onClick={() => navigateNewMom()}
-              >
-                Add now
-              </div>
-            </div>
-            ):(
-            momdraftsdata?.map(
-              ({ _id, date, title, category, points,isRead }, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{ background: isRead? "" :  "#ECEFF5" }}
-                    className="mom-field border-df border-radius-5 divider-margin"
-                    name="draftMOM"
-                  >
-                    <div className="d-flex justify-around align-center padding-3">
-                      <input
-                        type="checkbox"
-                        name="pointscheck"
-                        onChange={() => handleCheckDeleteShare(_id)}
-                      />
-                      <div
-                        className="title-font-size font-weight-500"
-                        onClick={() => naviagteInnerPage(_id)}
-                      >
-                        {title}
-                      </div>
-                      <div
-                        className="mom-layout color-text border-radius-25"
-                        onClick={() => naviagteInnerPage(_id)}
-                      >
-                        #{category}
-                      </div>
-                      {!draftsflag && (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            as="button"
-                            style={{
-                              border: "none",
-                              backgroundColor: "#ECEFF5",
-                            }}
-                          >
-                            <img
-                              src={"/images/threedots.svg"}
-                              alt="threedots"
-                            />
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() => handleSharedMOMdata(true)}
-                            >
-                              <HiOutlineShare className="share-icon" />
-                              Share
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={()=>handleEditDraftdata(_id)}>
-                              <FiEdit2 className="share-icon" />
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => handleMOMModal(true, _id)}
-                            >
-                              <AiOutlineDelete className="share-icon" />
-                              Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      )}
-                    </div>
+            ) : (
+              !draftsflag &&
+              momdraftsdata?.map(
+                ({ _id, date, title, category, points, isRead }, index) => {
+                  return (
                     <div
-                      className="mom-points text-align-justify"
-                      onClick={() => naviagteInnerPage(_id)}
+                      key={index}
+                      style={{ background: isRead ? "" : "#ECEFF5" }}
+                      className="mom-field border-df border-radius-5 divider-margin"
+                      name="draftMOM"
                     >
-                      {points && removeBulletsPoints(points)}
-                    </div>
-                    <div className="d-flex justify-between align-center padding-3">
-                      <div onClick={() => naviagteInnerPage(_id)}>
-                        { date && `${date?.substring(8, 10)}-${date?.substring(5,7)}-${date?.substring(0, 4)}`}
-                      </div>
-                      <div className="d-flex justify-between align-center width-20">
-                        <div
-                          className="as-on color-text border-radius-25"
-                          onClick={() => naviagteInnerPage(_id)}
-                        >
-                          AS
+                      <div className="d-flex justify-around align-center padding-3">
+                        <input
+                          type="checkbox"
+                          name="pointscheck"
+                          onChange={() => handleCheckDeleteShare(_id)}
+                        />
+                        <div className="d-flex align-center justify-between width-100 margin-left-5">
+                          <div
+                            className="title-font-size font-weight-500"
+                            onClick={() => naviagteInnerPage(_id)}
+                          >
+                            {title}
+                          </div>
+                          <div
+                            className="mom-layout color-text border-radius-25"
+                            onClick={() => naviagteInnerPage(_id)}
+                          >
+                            #{category}
+                          </div>
+                          {!draftsflag && (
+                            <Dropdown>
+                              <Dropdown.Toggle
+                                as="button"
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "#ECEFF5",
+                                }}
+                              >
+                                <img
+                                  src={"/images/threedots.svg"}
+                                  alt="threedots"
+                                />
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                <Dropdown.Item
+                                  className="d-flex align-center"
+                                  onClick={() => handleSharedMOMdata(true)}
+                                >
+                                  <HiOutlineShare className="share-icon margin-right-5" />
+                                  Share
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  className="d-flex align-center"
+                                  onClick={() => handleEditDraftdata(_id)}
+                                >
+                                  <FiEdit2 className="share-icon margin-right-5" />
+                                  Edit
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  className="d-flex align-center"
+                                  onClick={() => handleMOMModal(true, _id)}
+                                >
+                                  <AiOutlineDelete className="share-icon margin-right-5" />
+                                  Delete
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          )}
                         </div>
-                        <div
-                          className="as-on color-text border-radius-25"
-                          onClick={() => naviagteInnerPage(_id)}
-                        >
-                          DN
+                      </div>
+                      <div
+                        className="mom-points text-align-justify"
+                        onClick={() => naviagteInnerPage(_id)}
+                      >
+                        {points && removeBulletsPoints(points)}
+                      </div>
+                      <div className="d-flex justify-between align-center padding-3">
+                        <div onClick={() => naviagteInnerPage(_id)}>
+                          {date &&
+                            `${date?.substring(8, 10)} ${ monthList[date?.substring(
+                              5,
+                              7
+                            )]} ${date?.substring(0, 4)}`}
+                        </div>
+                          <div
+                            className="as-on color-text border-radius-25"
+                            onClick={() => naviagteInnerPage(_id)}
+                          >
+                           { clientname && shortName(clientname)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              }
+                  );
+                }
+              )
             )
-          )) :(
-            draftsflag ? (
-              <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
+          }
+          {draftsflag && momsentdata.length < 1 ? (
+            <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
               <div className="add-mom-Bg">
                 <img
                   className="addMomImg"
@@ -572,13 +566,13 @@ function MomSection() {
                 Add now
               </div>
             </div>
-            ):(
-            momsentdata?.map(
-              ({ _id, date, title, category, points,isRead }, index) => {
+          ) : (
+            draftsflag && momsentdata?.map(
+              ({ _id, date, title, category, points, isRead }, index) => {
                 return (
                   <div
                     key={index}
-                    style={{ background: isRead ? "" :  "#ECEFF5" }}
+                    style={{ background: isRead ? "" : "#ECEFF5" }}
                     name="sentMOM"
                     className="mom-field border-df border-radius-5 divider-margin"
                   >
@@ -642,30 +636,22 @@ function MomSection() {
                     <div className="d-flex justify-between align-center padding-3">
                       <div
                         onClick={() => naviagteInnerPage(_id)}
-                      >{`${date.substring(8, 10)}-${date.substring(
-                        5,
-                        7
-                      )}-${date.substring(0, 4)}`}</div>
-                      <div className="d-flex justify-between align-center width-20">
+                      >{date &&
+                        `${date?.substring(8, 10)} ${ monthList[date?.substring(
+                          5,
+                          7
+                        )]} ${date?.substring(0, 4)}`}</div>
                         <div
                           className="as-on color-text border-radius-25"
                           onClick={() => naviagteInnerPage(_id)}
                         >
-                          AS
+                          { clientname && shortName(clientname)}
                         </div>
-                        <div
-                          className="as-on color-text border-radius-25"
-                          onClick={() => naviagteInnerPage(_id)}
-                        >
-                          DN
-                        </div>
-                      </div>
                     </div>
                   </div>
                 );
               }
             )
-          )
           )}
         </div>
       </div>

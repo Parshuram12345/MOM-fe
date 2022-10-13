@@ -4,13 +4,12 @@ import "./innerPage.css";
 import { Link,useParams} from "react-router-dom";
 import { AiOutlineCloseCircle} from "react-icons/ai";
 import { FiChevronRight } from "react-icons/fi";
-import { FaRegEdit} from "react-icons/fa";
 import { momContext } from './../../../MobileApp.jsx';
 import {data} from "../../utils"
 
 function InnerPageMom() {
   const {id}=useParams()
-  const {BaseUrl,access_token,projectid}=data
+  const {BaseUrl,access_token,projectid,monthList}=data
   const [searchbarToggle,setSearchToggle]=useState(false)
   const {pointsdetails,client,setPointsdetails,getClientProject}=useContext(momContext);
    ///----toggle searchbar -----////
@@ -131,7 +130,7 @@ function InnerPageMom() {
           </div>
             <div className="edit-icon" 
             ><Link to="/newmom">
-              <FaRegEdit />
+               <img src={"/images/createmom.svg"} alt="create-mom" />
             </Link>
             </div>
         </div>
@@ -140,11 +139,12 @@ function InnerPageMom() {
             {pointsdetails?.title}
           </div>
           <div className="d-flex justify-between">
-            <div className="color-text-888888 font-size-15">
-            { pointsdetails?.date && `${pointsdetails?.date?.substring(8, 10)}-${pointsdetails?.date?.substring(5,7)}-${pointsdetails?.date?.substring(0,4)}`} . 
+            <div className="color-text-888888 font-size-13">
+            { pointsdetails?.date && `${pointsdetails?.date?.substring(8, 10)} ${monthList[pointsdetails?.date?.substring(5,7)]} ${pointsdetails?.date?.substring(0,4)}`}
+            <img  style={{ margin:"0 5px"}}src={"/images/fulldots.svg"} alt="fullpoints"/> 
             {pointsdetails?.location}
             </div>
-            <div className="color-text-888888 font-size-15">
+            <div className="color-text-888888 font-size-13 text-align-center">
             {pointsdetails?.category}
               </div>
           </div>

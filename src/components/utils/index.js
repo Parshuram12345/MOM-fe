@@ -1,7 +1,7 @@
 import { tableHeadings } from "./StaticData/tableHeading";
 import { MomContent,pointsData } from './StaticData/MomContent';
 import { sideNavLinkArray } from './StaticData/sideNavLinkArray';
-import {access_token,BaseUrl,projectid} from "./StaticData/AccessToken"
+import {access_token,BaseUrl,projectid,monthList} from "./StaticData/AccessToken"
 export const data = {
     tableHeadings,
     MomContent,
@@ -10,4 +10,5 @@ export const data = {
     access_token,
     BaseUrl,
     projectid,
+    monthList
 }

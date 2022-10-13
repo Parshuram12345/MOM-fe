@@ -68,7 +68,7 @@ function MomZeroState() {
             <div className="d-flex justify-between align-center width-25">
               <label className="label-text">Date:</label>
                 <input type="text"
-                  className="border-df bg-color-fa padding-5 border-radius-4 width-75"
+                  className="border-df bg-color-fa padding-5 border-radius-4 width-80"
                   placeholder="Select date"
                   value={momdate}
                    onChange={(e)=>setMomdate(e.target.value)}
@@ -77,7 +77,7 @@ function MomZeroState() {
             </div>
             <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Category:</label>
-              <div className="d-flex align-center position-relative width-66">
+              <div className="d-flex align-center position-relative width-75">
                 <select
                   className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${category===""? "color-text-888888":""}`}
                   value={category}
@@ -103,21 +103,31 @@ function MomZeroState() {
                 placeholder="Where did you the meet?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="border-df bg-color-fa padding-5 border-radius-4"
+                className="border-df bg-color-fa padding-5 border-radius-4 width-75"
               />
             </div>
           </div>
-          <div className="d-flex justify-between align-center margin-left-10 width-50">
+          <div className="position-relative">
             {dateerror && (
-              <small style={{ color: "red" }}>date is required</small>
+              <small
+                className="position-absolute"
+                style={{ color: "red",marginLeft:"4.5%" }}
+              >
+                date is required
+              </small>
             )}
             {categoryerror && (
-              <small style={{ color: "red" }}>category is required</small>
+              <small
+                className="position-absolute"
+                style={{ color: "red",marginLeft:"40%" }}
+              >
+                category is required
+              </small>
             )}
           </div>
         </div>
-        <div className="d-flex-col">
-          <label className="label-text">
+        <div style={{ marginTop: "22px" }}  className="d-flex-col">
+          <label style={{marginBottom:"1px"}} className="label-text">
             Share with (add more email ID as required):
           </label>
           <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
@@ -145,8 +155,8 @@ function MomZeroState() {
           {emailValid &&  (
               <small className="" style={{ color: "red" }}>Email isn't valid </small>
             )} 
-          <div className="d-flex-col divider-margin">
-            <label className="label-text" htmlFor="title">
+          <div className="d-flex-col divider-margin-15">
+            <label className="label-text" style={{marginBottom:"0"}} htmlFor="title">
               Title
             </label>
             <input
@@ -158,12 +168,12 @@ function MomZeroState() {
               placeholder="Write your title here"
             />
           </div>
-          <div className="d-flex-col divider-margin">
-            <label className="label-text" htmlFor="points">
+          <div className="d-flex-col margin-top-5">
+            <label className="label-text" style={{marginBottom:"0"}}  htmlFor="points">
               Points
             </label>
             <textarea
-              rows="8"
+              rows="6"
               cols="50"
               value={bulletPoints}
               className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4"

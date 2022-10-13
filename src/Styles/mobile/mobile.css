@@ -47,7 +47,9 @@
 .height-40{
     height: 40vh;
 } 
-
+.font-size-13{
+    font-size: 13px;
+}
 .font-size-16{
    font-size: 16px;
 }
@@ -208,6 +210,10 @@
 }
 .font-size-20{
     font-size: 20px;
+}
+.margin-left-5
+{
+    margin-left: 5px;
 }
 
 .margin-right-10{

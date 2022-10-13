@@ -59,7 +59,6 @@ function MobileApp() {
   const bullet = "\u2022";
   const handlePointsField = (event) => {
     let value = event.target.value;
-     console.log(pointsdata?.length,pointsdata)
     if (pointsdata?.length < 1) {
       setPointsdata(`${bullet}`);
     } else {
@@ -171,7 +170,7 @@ function MobileApp() {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          // console.log(data);
         })
         .catch((error) => {
           console.log(error);
@@ -211,7 +210,7 @@ function MobileApp() {
     getClientProject()
       .then((res) => {
         setRoomName(res.data.projects[0].rooms);
-        setclientname(res.data.projects[0].name);
+        setclientname(res.data.projects[0].clientId.name);
         emailconvertArr.push(res.data.projects[0].clientId.email);
         setEmaillist(emailconvertArr);
       })
@@ -255,6 +254,7 @@ function MobileApp() {
           setSharemom,
           emailValid,
           roomName,
+          clientname,
           setRoomName,
           setEmailValid,
           getClientProject,

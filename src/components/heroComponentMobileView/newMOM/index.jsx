@@ -46,26 +46,26 @@ function NewMom() {
   });
  }
   useEffect(() => {
-    getApiData()
-    .then((res) => {
-      if(res.status===200){
+    if(id){
+      getApiData()
+      .then((res) => {
+        if(res.status===200){
         let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
-        { respoonseWithId &&  
       setCategory(respoonseWithId?.category)
-     { respoonseWithId.date && setSelectdate(
+      setSelectdate(
        `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date?.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
-       );}
+       );
        setLocation(respoonseWithId?.location);
        setTitle(respoonseWithId?.title);
        setPointsdata(respoonseWithId?.points.map((item)=> item.trim()).join("\n"));
       }
-  }
   })
-    .catch((error) => {
-      console.error(error); 
-    });
-    getClientProject();
-  }, []);
+  .catch((error) => {
+    console.error(error); 
+  });
+}
+  getClientProject();
+}, [id]);
  
   
   return (

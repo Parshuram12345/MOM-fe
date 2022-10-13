@@ -53,7 +53,10 @@
     padding-right: 30px;
  }
  .checkbox-field{
-    margin-right: 5%;
+    width: 4%;
+ }
+ .empty-div{
+    width: 4.2%;
  }
  .threedots{
    margin-left: 4%;
@@ -96,9 +99,9 @@
  .share-icon{
     color: #888888;
 }
-.add-mom-bg{
+.add-mom-bg-circle{
     display: flex;
-    width: 7%;
+    width: 6%;
     background: #F0F0F0;
     border-radius: 50%;
     align-items: center;
@@ -144,7 +147,7 @@
     width: 10px;
 }
 .threedots-btn:hover{
-    background-color: rgba(59, 89, 152, 0.1);
+    background-color:none
 }
 .main-modal-wrapper{
     display: flex;

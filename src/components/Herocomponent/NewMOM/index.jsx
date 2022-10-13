@@ -59,26 +59,29 @@ function NewMom() {
     setPointserror(false);
   }
   useEffect(() => {
-    getApiData()
-    .then((res) => {
-      let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
-      { respoonseWithId.category && setCategory(respoonseWithId.category)}
-     { respoonseWithId.date && setMomdate(
+    if(id){
+
+      getApiData()
+      .then((res) => {
+        let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+        setCategory(respoonseWithId.category)
+        setMomdate(
       `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
-    );}
-    {respoonseWithId.location && setLocation(respoonseWithId?.location)};
-    {respoonseWithId.title && setTitle(respoonseWithId?.title)};
-    {respoonseWithId.points && setBulletPoints(respoonseWithId?.points?.map((item)=> item.trim()).join("\n"));}}
-    )
-    .catch((error) => {
-      console.error(error); 
-    });
+      );
+       setLocation(respoonseWithId?.location);
+       setTitle(respoonseWithId?.title)
+       setBulletPoints(respoonseWithId?.points?.map((item)=> item.trim()).join("\n"));}
+      )
+      .catch((error) => {
+        console.error(error); 
+      });
+    }
     getClientProject();
-  }, []);
+  }, [id]);
   return (
     <>
       <div className="newMOM-container justify-around margin-left-3 width-75">
-        <div className="d-flex align-center justify-between width-fit-content divider-margin">
+        <div className="d-flex align-center justify-between width-fit-content margin-top-10">
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
@@ -115,7 +118,7 @@ function NewMom() {
               <label className="label-text">Date:</label>
               <input
                 type="text"
-                className="border-df bg-color-fa padding-5 border-radius-4 width-75"
+                className="border-df bg-color-fa padding-5 border-radius-4 width-80"
                 value={momdate}
                 onChange={(newdate) => 
                   setMomdate(newdate.target.value)
@@ -126,7 +129,7 @@ function NewMom() {
             </div>
             <div className="d-flex justify-between align-center width-30">
               <label className="label-text">Category:</label>
-              <div className="d-flex align-center position-relative width-66">
+              <div className="d-flex align-center position-relative width-75">
                 <select
                   className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${
                     category === "" && "color-text-888888"
@@ -157,7 +160,7 @@ function NewMom() {
                 placeholder="Where did you the meet?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className=" width-70 border-df bg-color-fa padding-5 border-radius-4"
+                className=" width-75 border-df bg-color-fa padding-5 border-radius-4"
               />
             </div>
           </div>
@@ -165,7 +168,7 @@ function NewMom() {
             {dateerror && (
               <small
                 className="position-absolute"
-                style={{ color: "red",marginLeft:"6.5%" }}
+                style={{ color: "red",marginLeft:"4.5%" }}
               >
                 date is required
               </small>
@@ -173,15 +176,15 @@ function NewMom() {
             {categoryerror && (
               <small
                 className="position-absolute"
-                style={{ color: "red",marginLeft:"43%" }}
+                style={{ color: "red",marginLeft:"40%" }}
               >
                 category is required
               </small>
             )}
           </div>
         </div>
-        <div style={{ marginTop: "2%" }} className="d-flex-col">
-          <label className="label-text">
+        <div style={{ marginTop: "22px" }} className="d-flex-col">
+          <label style={{marginBottom:"1px"}} className="label-text">
             Share with (add more email ID as required):
           </label>
           <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
@@ -212,8 +215,8 @@ function NewMom() {
             Email isn't valid
           </small>
         )}
-        <div className="d-flex-col divider-margin">
-          <label className="label-text" htmlFor="title">
+        <div className="d-flex-col divider-margin-15">
+          <label className="label-text" style={{marginBottom:"0"}} htmlFor="title">
             Title
           </label>
           <input
@@ -225,12 +228,12 @@ function NewMom() {
             placeholder="Write your title here"
           />
         </div>
-        <div className="d-flex-col divider-margin">
-          <label className="label-text" htmlFor="points">
+        <div className="d-flex-col margin-top-5">
+          <label className="label-text" style={{marginBottom:"0"}} htmlFor="points">
             Points
           </label>
           <textarea
-            rows="8"
+            rows="6"
             cols="50"
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
