@@ -130,7 +130,7 @@ function NewMom() {
         <div className="d-flex-col divider-margin">
           <label className="label-text">Share with </label>
         <div className="email-container align-center width-100 border-df bg-color-fa border-radius-4">
-			  <ul className="tags">
+			  <ul className="tags-mobile">
 				{emaillist?.map((email, index) => (
 					<li key={index} className="email-wrapper border-df padding-5">
 						<span>{email}</span>
@@ -143,7 +143,7 @@ function NewMom() {
 				))}
 			<input
 				type="email"
-        className="email-input border-df bg-color-fa"
+        className="email-input-mobile bg-color-fa"
 				onKeyUp={event => event.key === "Enter" && addEmail(event)}
 				placeholder={emaillist.length===0 ? "Enter the Email ID": null }
         autoFocus={sharemom}

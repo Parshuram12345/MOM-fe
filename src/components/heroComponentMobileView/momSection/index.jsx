@@ -250,6 +250,11 @@ function MomSection() {
 
     ///---get client id project----///
     getClientProject();
+    
+    ///-----read the draft mom after 24 hours------///
+    const draftsmom = document.getElementsByName("draftMOM");
+    console.log(draftsmom[0]?.textContent);
+
   }, []);
 
   useEffect(() => {
@@ -436,6 +441,26 @@ function MomSection() {
               </div>
             </div>
           ) : !draftsflag ? (
+            momdraftsdata.length < 1 ? (
+              <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
+              <div className="add-mom-Bg">
+                <img
+                  className="addMomImg"
+                  src={"/images/add_mom.svg"}
+                  alt="add-notes"
+                />
+              </div>
+              <div className="color-text-888888 small-font-12">
+                you haven't added any MOMs yet
+              </div>
+              <div
+                className="color-text small-font-12"
+                onClick={() => navigateNewMom()}
+              >
+                Add now
+              </div>
+            </div>
+            ):(
             momdraftsdata?.map(
               ({ _id, date, title, category, points,isRead }, index) => {
                 return (
@@ -443,6 +468,7 @@ function MomSection() {
                     key={index}
                     style={{ background: isRead? "" :  "#ECEFF5" }}
                     className="mom-field border-df border-radius-5 divider-margin"
+                    name="draftMOM"
                   >
                     <div className="d-flex justify-around align-center padding-3">
                       <input
@@ -526,13 +552,34 @@ function MomSection() {
                 );
               }
             )
-          ) : (
+          )) :(
+            draftsflag ? (
+              <div className="d-flex-col align-center justify-center font-weight-500 m-auto height-50">
+              <div className="add-mom-Bg">
+                <img
+                  className="addMomImg"
+                  src={"/images/add_mom.svg"}
+                  alt="add-notes"
+                />
+              </div>
+              <div className="color-text-888888 small-font-12">
+                you haven't Sent any MOMs yet
+              </div>
+              <div
+                className="color-text small-font-12"
+                onClick={() => navigateNewMom()}
+              >
+                Add now
+              </div>
+            </div>
+            ):(
             momsentdata?.map(
               ({ _id, date, title, category, points,isRead }, index) => {
                 return (
                   <div
                     key={index}
                     style={{ background: isRead ? "" :  "#ECEFF5" }}
+                    name="sentMOM"
                     className="mom-field border-df border-radius-5 divider-margin"
                   >
                     <div className="d-flex justify-around align-center padding-3">
@@ -618,6 +665,7 @@ function MomSection() {
                 );
               }
             )
+          )
           )}
         </div>
       </div>
