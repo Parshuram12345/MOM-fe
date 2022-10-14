@@ -73,11 +73,11 @@ function MomSection() {
   ///---filter data ----///
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
-    console.log(pointslist)
+    // console.log(pointslist)
     let dots = "...";
     let limit = 30;
     let newArrWithEmptyString = pointslist.filter(
-      (emptystr) => emptystr !== ""
+      (emptystr) => emptystr 
     );
     if (newArrWithEmptyString[0]?.length > limit) {
       return newArrWithEmptyString[0]?.substring(1, limit) + dots;
@@ -181,28 +181,7 @@ function MomSection() {
       });
   };
 
-  ///----search by title -----///
-  //   async function handleSearchByTitle(searchtitle) {
-  //     if (searchtitle !== "") {
-  //         await axios.get(
-  //           `${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,
-  //           {
-  //             headers: {
-  //               Authorization: access_token,
-  //             },
-  //             body: {
-  //               search: searchtitle,
-  //             },
-  //           }
-  //         ).then((res)=>{
-  //           if (res.ok) {
-  //             setMOMdata(res.data.momData);
-  //           }
-  //         }).catch((err)=>{
-  //             console.log(err)
-  //         })
-  //   }
-  // }
+ 
   // /---search by title without API ----///
   function handleSearch(e) {
     if (!draftsflag) {
@@ -227,6 +206,22 @@ function MomSection() {
     });
   }
 
+  ///---read the mom after 24 hours---///
+  async function getReadMOM(id) {
+    return await axios({
+      method: "post",
+      url: `${BaseUrl}/api/mom/addEditMOM/`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: access_token,
+      },
+      data: {
+        id: id,
+        isRead: true,
+        projectId: projectid,
+      },
+    });
+  }
  
   ///------
   useEffect(() => {
@@ -244,7 +239,18 @@ function MomSection() {
         setMomDraftsClonedata(
           res.data.momData.filter(({ isDraft }) => isDraft === true)
         );
-    
+       
+        ///read the mom after 24 hours ---- when users unread the mom ----///
+        const createdAtMOM = new Date(res.data.momData[0].createdAt)
+        let newmomId = res.data.momData[0]._id
+        const today =new Date();
+        if( today - createdAtMOM >86399452){
+             console.log("24 hour has gone")
+              //  getReadMOM(newmomId)
+            }
+            else{
+              console.log("24 hour has not gone")
+          }
       })
       .catch((error) => {
         console.error(error);

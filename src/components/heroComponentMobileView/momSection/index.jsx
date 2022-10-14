@@ -169,30 +169,6 @@ function MomSection() {
       });
   };
 
-  ///----search by title -----///
-  // async function handleSearchByTitle(searchtitle){
-  //   if(searchtitle.target.value)
-  //   {
-  //     try {
-  //       const response = await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`,{
-  //       headers: {
-  //         Authorization: access_token,
-  //       },
-  //       body:{
-  //         search:searchtitle.target.value
-  //       }
-  //     });
-  //     if(response.ok){
-  //       setMOMdata(response.data.momData)
-  //     }
-  //     console.log(response.data.momData);
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  // else
-  //       setMOMdata(MOMClonedata)
-  // }
   ///----remove bullet points form points-field----///
   const removeBulletsPoints = (points) => {
     let newstrpoints = "";
@@ -206,6 +182,17 @@ function MomSection() {
     }
     return newstrpoints;
   };
+
+   ///---add three dots for title after limit out----///
+   function add3dotsTitle(title) {
+    let dots = "...";
+    let limit = 26;
+    if (title.length > limit) {
+      return title.substring(0, limit) + dots;
+    } else {
+      return title;
+    }
+  }
   ///---search by title without API ----///
   function handleSearch(e) {
     if (!draftsflag) {
@@ -359,7 +346,6 @@ function MomSection() {
               className={!searchbarToggle ? "search-text" : "open-state"}
               placeholder="search"
               onChange={(e) =>
-                // handleSearchByTitle(e)}
                 handleSearch(e.target.value)
               }
             />
@@ -471,7 +457,7 @@ function MomSection() {
                             className="title-font-size font-weight-500"
                             onClick={() => naviagteInnerPage(_id)}
                           >
-                            {title}
+                            {add3dotsTitle(title)}
                           </div>
                           <div
                             className="mom-layout color-text border-radius-25"
@@ -586,7 +572,7 @@ function MomSection() {
                         className="title-font-size font-weight-500"
                         onClick={() => naviagteInnerPage(_id)}
                       >
-                        {title}
+                        {add3dotsTitle(title)}
                       </div>
                       <div
                         className="mom-layout color-text border-radius-25"

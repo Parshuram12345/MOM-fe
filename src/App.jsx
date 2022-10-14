@@ -115,7 +115,7 @@ function App() {
   ///---get client project ---////
   async function getClientProject() {
     return await axios.get(
-      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+      `${BaseUrl}/api/projects/getProjects?projectId=${projectid}`,
       {
         headers: {
           Authorization: access_token,
@@ -137,7 +137,7 @@ function App() {
       title: title,
       projectId: projectid,
       // sharedWith: emaillist,
-      points: bulletPoints && bulletPoints.split("\n").filter((emptystr)=>emptystr!==""),
+      points: bulletPoints && bulletPoints.split("\u2022").filter((emptystr)=>emptystr!==""),
     });
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
         method: "post",
@@ -176,11 +176,11 @@ function App() {
   
   ////-----post the with submit btn data ------///
   const handleSubmitData = () => {
+    console.log(bulletPoints.split("\u2022"))
     if (shareMom) {
       setShareMom(false);
     }
     if (momdate && category && bulletPoints) {
-    
     const bodyData = JSON.stringify({
         id: updatedraftId && updatedraftId,
         date: momdate,
@@ -190,7 +190,7 @@ function App() {
         isDraft: false,
         projectId: projectid,
         // sharedWith: emaillist,
-        points: bulletPoints && bulletPoints.split("\n").filter((emptystr)=>emptystr!==""),
+        points: bulletPoints && bulletPoints.split("\u2022").filter((emptystr)=>emptystr!==""),
       });
   
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {

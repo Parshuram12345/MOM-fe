@@ -16,7 +16,7 @@ function InnerPageMom() {
   const { BaseUrl, projectid, access_token, monthList } = data;
   const { pointsdetails, setPointsdetails, draftsflag} =
     useContext(MomContext);
-  // console.log(pointsdetails)
+  console.log(pointsdetails)
   ///-----highlight the match point text---///
   const highlightPoints = () => {
     let textToSearch = document.getElementById("search-bar").value;
