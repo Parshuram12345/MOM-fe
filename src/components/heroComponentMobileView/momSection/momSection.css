@@ -43,10 +43,6 @@ i.search.icon{
     text-align: center;
     background: rgba(59, 89, 152, 0.2);
 }
-.mom-field:hover{
-    cursor: pointer;
-    background: rgba(59, 89, 152, 0.2);
-}
 .mom-points{
     padding: 3%;
     color: #888888;
@@ -55,11 +51,11 @@ i.search.icon{
 .as-on{
     font-size: 12px;
     background: rgba(59, 89, 152, 0.2);
-    padding: 3px 7px;
+    padding: 6px 7px;
     text-align: center;
 }
 .momdata-wrapper{
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 66vh;
 }
 a,a:hover{
@@ -85,12 +81,11 @@ a,a:hover{
     border: none;
     background: none;
 }
-.open-state
-{
+.open-state{
     transition: all 0.2s;
     transition-duration: 0.5s;
     border-radius: 15px;
-    width:20rem;
+    width:19rem;
     padding:7px;
     opacity: 1;
     border: 1px solid #888888;
@@ -135,17 +130,20 @@ a,a:hover{
     box-shadow: 0 20px 75px rgba(0 0 0 /13%);
 }
 .ui.button.yes-btn{
-    border: 1px solid #888;
+    border: 1px solid #3B5998;
     color: #888;
     background-color: #ffffff;
     border-radius: 4px;
 }
 .ui.button.no-btn{
-    border: 1px solid #176091;
-    background-color: #176091;
+    margin-left: 3%;
+    border: 1px solid #3B5998;
+    background: #3B5998;
     color: #ffffff;
     border-radius: 4px;
 }
 .notice-text{
-    color: #666;
+    color: #000000;
+    font-size: 15px;
+    font-weight: 15px;
 }

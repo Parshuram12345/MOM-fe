@@ -19,7 +19,8 @@ function MomZeroState() {
     pointserror,
     emailValid,
     roomName,
-    addEmail,removeEmail,handlePointsField,handleSaveDraftData,handleSubmitData
+    pointsdata,
+    addEmail,removeEmail,handlePointsField,handlePointsTextArea,handleSaveDraftData,handleSubmitData
   } = useContext(momContext);
   return (
     <>
@@ -34,7 +35,7 @@ function MomZeroState() {
         <div className="font-size-16 font-weight-500 divider-margin">
           Create a MOMs
         </div>
-        <div style={{margin:"0 0%"}} className="ui divider"></div>
+        <div style={{margin:"0"}} className="ui divider"></div>
         <div className="d-flex-col justify-around height-14 divider-margin">
           <div className="d-flex justify-between align-center">
             <label className="label-text">Date:</label>
@@ -49,7 +50,7 @@ function MomZeroState() {
                 </div>
           </div>
           {dateerror && (
-              <small className="text-align-center margin-left-3" style={{ color: "red" }}>date is required</small>
+              <small className="text-align-center margin-left-10" style={{ color: "red" }}>date is required</small>
             )}
           <div className="d-flex justify-between align-center position-relative">
             <label className="label-text">Category:</label>
@@ -68,7 +69,7 @@ function MomZeroState() {
             <AiFillCaretDown  style={{background:"white"}}  className="position-absolute right-3 color-text-888888" />
           </div>
         {categoryerror && (
-          <small className="text-align-center margin-left-10"  style={{ color: "red" }}>category is required</small>
+          <small className="text-align-center margin-left-15"  style={{ color: "red" }}>category is required</small>
           )}
           </div>
         <div className="d-flex-col justify-between">
@@ -119,9 +120,14 @@ function MomZeroState() {
         <div className="d-flex-col justify-around divider-margin">
           <label className="label-text" htmlFor="points">Points</label>
           <textarea
-            rows="8"
+            rows="6"
             cols="50"
+            value={pointsdata}
+            style={{resize:"none"}}
             onChange={(e) => handlePointsField(e)}
+            onKeyUp={(e) => {
+              handlePointsTextArea(e)
+            }}
             className="padding-5 border-df border-radius-4"
             placeholder="write something here"
           ></textarea>
@@ -131,7 +137,7 @@ function MomZeroState() {
             Write something here
           </small>
         )}
-        <div className="d-flex align-center justify-between">
+        <div style={{marginTop:"15%"}} className="d-flex align-center justify-between">
          <button
           className="save-draft-btn border-radius-4"
           onClick={() => handleSaveDraftData()}
@@ -140,7 +146,7 @@ function MomZeroState() {
         </button>
         <button
           type="submit"
-          className="submitbtn bg-color padding-5 border-radius-4"
+          className="submitbtn bg-color border-radius-4"
           onClick={() => handleSubmitData()}
           >
           Submit

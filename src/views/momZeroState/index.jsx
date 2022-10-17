@@ -13,7 +13,9 @@ import MomZeroState from '../../components/Herocomponent/momZeroState/index';
         <div className="side-navbar">
           <SideNavWeb/>
         </div>
+        <div className='rightside-navbar'>
         <MomZeroState/>
+          </div>
       </div>
     </>
   )

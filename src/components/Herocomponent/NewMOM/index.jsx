@@ -80,7 +80,7 @@ function NewMom() {
   }, [id]);
   return (
     <>
-      <div className="newMOM-container justify-around margin-left-3 width-75">
+      <div className="newMOM-container justify-around margin-left-3 width-95">
         <div className="d-flex align-center justify-between width-fit-content margin-top-10">
           <div className="small-font-10 color-text-888888">
             Ashok rathi residence
@@ -92,19 +92,19 @@ function NewMom() {
             New MOM
           </div>
         </div>
-        <div className="d-flex align-center justify-between">
+        <div className="d-flex align-center justify-between margin-top-10">
           <div className="font-size-18 font-w-500 color-text divider-margin">
             Create a MOM
           </div>
-          <div className="d-flex align-center justify-between width-27">
+          <div className="d-flex align-center justify-between width-25">
             <button
-              className="savedata-button font-size-12 font-weight-400 border-radius-4"
+              className="savedata-button small-font-12 font-weight-400 border-radius-4"
               onClick={() => handleSaveDraft()}
             >
               Save as Draft
             </button>
             <button
-              className="submitdata-button bg-color border-none border-radius-4"
+              className="submitdata-button small-font-12 bg-color border-none border-radius-4"
               onClick={() => handleSubmitData()}
             >
               Submit
@@ -115,7 +115,7 @@ function NewMom() {
         <div className="divider-margin">
           <div className="d-flex justify-between align-center">
             <div className="d-flex justify-between align-center width-25">
-              <label className="label-text">Date:</label>
+              <label className="label-text margin-top-5">Date:</label>
               <input
                 type="text"
                 className="border-df bg-color-fa padding-5 border-radius-4 width-80"
@@ -128,7 +128,7 @@ function NewMom() {
               />
             </div>
             <div className="d-flex justify-between align-center width-30">
-              <label className="label-text">Category:</label>
+              <label className="label-text margin-top-5">Category:</label>
               <div className="d-flex align-center position-relative width-75">
                 <select
                   className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${
@@ -154,13 +154,13 @@ function NewMom() {
               </div>
             </div>
             <div className="d-flex justify-between align-center width-30">
-              <label className="label-text">Location:</label>
+              <label className="label-text margin-top-5">Location:</label>
               <input
                 type="text"
                 placeholder="Where did you the meet?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className=" width-75 border-df bg-color-fa padding-5 border-radius-4"
+                className="width-75 border-df bg-color-fa padding-5 border-radius-4"
               />
             </div>
           </div>
@@ -235,13 +235,22 @@ function NewMom() {
           <textarea
             rows="6"
             cols="50"
+            style={{resize:"none"}}
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
             onKeyDown={handleEnterkey}
-            onChange={handlePointsField}
-            onKeyUp={(e) => {
-              handlePointsTextArea(e);
-            }}
+            onChange={
+              handlePointsField
+            }
+            onKeyUp={(e) => { bulletPoints.split("\u2022").slice(-1)[0]!=="" &&  handlePointsTextArea(e)}
+              // if(bulletPoints.split("\u2022").slice(-1)[0]===""){
+              //   return (e.key !=="Enter")
+              // }
+              // else{
+              //   handlePointsTextArea(e);
+
+              // }
+            }
             placeholder="Type something here"
             // style={{ resize: "none" }}
           />

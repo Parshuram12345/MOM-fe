@@ -114,7 +114,7 @@ function NewMom() {
             <AiFillCaretDown style={{background:"white"}} className="position-absolute right-5 color-text-888888" />
           </div>
         {categoryerror && (
-          <small className="text-align-center margin-left-14"  style={{ color: "red" }}>category is required</small>
+          <small className="text-align-center margin-left-15"  style={{ color: "red" }}>category is required</small>
           )}
           </div>
         <div className="d-flex-col justify-between">
@@ -132,7 +132,7 @@ function NewMom() {
         <div className="email-container align-center width-100 border-df bg-color-fa border-radius-4">
 			  <ul className="tags-mobile">
 				{emaillist?.map((email, index) => (
-					<li key={index} className="email-wrapper border-df padding-5">
+					<li key={index} className="email-wrapper border-df width-fit-content padding-5">
 						<span>{email}</span>
 						<span className='tag-close-icon'
 							onClick={() => removeEmail(index)}
@@ -141,6 +141,7 @@ function NewMom() {
 						</span>
 					</li>
 				))}
+        </ul>
 			<input
 				type="email"
         className="email-input-mobile bg-color-fa"
@@ -148,7 +149,6 @@ function NewMom() {
 				placeholder={emaillist.length===0 ? "Enter the Email ID": null }
         autoFocus={sharemom}
         />
-        </ul>
 		</div>
     { emailValid && <small className="" style={{ color: "red" }}>
       Email isn't valid</small>}
@@ -167,13 +167,14 @@ function NewMom() {
         <div className="d-flex-col justify-around divider-margin">
           <label className="label-text" htmlFor="points">Points</label>
           <textarea
-            rows="8"
+            rows="6"
             cols="50"
             value={pointsdata}
             onChange={handlePointsField}
             onKeyUp={(e) => {
               handlePointsTextArea(e);
             }}
+            style={{resize:"none"}}
             className="padding-5 border-df bg-color-fa text-align-justify border-radius-4"
             placeholder="Write something here"
           ></textarea>
@@ -183,7 +184,7 @@ function NewMom() {
             Write something here
           </small>
         )}
-        <div className="d-flex align-center justify-between">
+        <div style={{marginTop:"15%"}} className="d-flex align-center justify-between">
         <button
           className="save-draft-btn border-radius-4"
           onClick={() => handleSaveDraftData()}>

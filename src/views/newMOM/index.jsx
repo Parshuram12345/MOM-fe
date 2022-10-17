@@ -13,9 +13,9 @@ function NewMomPage() {
         <div className="side-navbar">
           <SideNavWeb/>
         </div>
-        {/* <div className='righside-navbar'> */}
+        <div className='rightside-navbar'>
         <NewMom/>
-        {/* </div> */}
+        </div>
       </div>
     </>
   )

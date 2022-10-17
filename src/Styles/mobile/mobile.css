@@ -6,6 +6,10 @@
     box-sizing: border-box;
     font-family: 'Inter';
 }
+body ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
 /* @media  */
 .mobile-top-navbar{
     height: 10vh;
@@ -229,10 +233,10 @@ input:focus {
     outline: none !important;
     border-color: #3B5998;
   }
-::-webkit-scrollbar {
-    display: none;
-}
 textarea:focus { 
     outline: none !important;
     border-color: #3B5998 !important;
+}
+textarea{
+    resize: none;
 }

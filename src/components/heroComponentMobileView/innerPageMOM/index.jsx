@@ -1,7 +1,7 @@
 import React,{useContext,useEffect,useState} from "react";
 import axios from "axios";
 import "./innerPage.css";
-import { Link,useParams} from "react-router-dom";
+import { Link,useNavigate,useParams} from "react-router-dom";
 import { AiOutlineCloseCircle} from "react-icons/ai";
 import { FiChevronRight } from "react-icons/fi";
 import { momContext } from './../../../MobileApp.jsx';
@@ -9,6 +9,7 @@ import {data} from "../../utils"
 
 function InnerPageMom() {
   const {id}=useParams()
+  const navigate = useNavigate()
   const {BaseUrl,access_token,projectid,monthList}=data
   const [searchbarToggle,setSearchToggle]=useState(false)
   const {pointsdetails,client,setPointsdetails,getClientProject}=useContext(momContext);
@@ -87,20 +88,21 @@ function InnerPageMom() {
     console.log(err)
   })
  },[id])
+ const gotoNavigate=()=>{
+  navigate("/")
+ }
   ///----bullet points -----////
   const bullet = "\u2022";
   return (
     <>
       <div className="padding-5">
-      <div className="d-flex justify-around font-weight-500 width-fit-content align-center">
+      <div className="d-flex justify-around font-weight-500 width-fit-content align-center margin-top-4">
           <div className="color-text-888888 small-font-10 cursor-pointer">Pr's saini</div>
           <div className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
           </div>
-          <Link to="/">
-          <div className="small-font-10 color-text-888888 cursor-pointer" 
+          <div className="small-font-10 color-text-888888 cursor-pointer" onClick={()=>gotoNavigate()} 
           >MOM</div>
-          </Link>
           <div className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
           </div>
@@ -161,7 +163,7 @@ function InnerPageMom() {
                   className="d-flex font-weight-500 divider-margin"
                 >
                  { elem !==bullet && <span className="points-counter">{bullet} </span>}
-                  <div className="points-field text-align-justify">{elem?.substring(1,)}</div>
+                  <div className="points-field text-align-justify">{elem.substring(1,)}</div>
                 </div>
               );
             })}

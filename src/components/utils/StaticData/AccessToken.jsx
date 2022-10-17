@@ -5,15 +5,15 @@
  export const projectid="63416ac33bd583f4ed04d730";
  export const monthList =
    ["zero",
-    "January",
-    "February",
+    "Jan",
+    "Feb",
     "March",
     "April",
     "May",
     "June",
     "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"]
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"]

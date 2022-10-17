@@ -25,9 +25,9 @@ function MomSection() {
     getClientProject,
     clientName
   } = useContext(MomContext);
-  console.log(clientName)
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
+  const [MomReadAuto,setMOMreadAuto]=useState([])
   const [checkboxSelected, setCheckboxSelected] = useState([]);
   const [opendeleteModal, setOpendeleteModal] = useState(false);
   const [openMultipledeleteModal, setOpenMultipledeleteModal] = useState(false);
@@ -80,9 +80,9 @@ function MomSection() {
       (emptystr) => emptystr 
     );
     if (newArrWithEmptyString[0]?.length > limit) {
-      return newArrWithEmptyString[0]?.substring(1, limit) + dots;
+      return newArrWithEmptyString[0]?.substring(0, limit) + dots;
     } else {
-      return newArrWithEmptyString[0]?.substring(1);
+      return newArrWithEmptyString[0]?.substring(0);
     }
   }
   ///---add three dots for title after limit out----///
@@ -208,7 +208,7 @@ function MomSection() {
 
   ///---read the mom after 24 hours---///
   async function getReadMOM(id) {
-    return await axios({
+     await axios({
       method: "post",
       url: `${BaseUrl}/api/mom/addEditMOM/`,
       headers: {
@@ -220,49 +220,72 @@ function MomSection() {
         isRead: true,
         projectId: projectid,
       },
-    });
+    })
+    .then((res)=>{
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
  
   ///------
   useEffect(() => {
     getApiData()
       .then((res) => {
-        setMomSentdata(
-          res.data.momData.filter(({ isDraft }) => isDraft === false)
-        );
-        setMomSentClonedata(
-          res.data.momData.filter(({ isDraft }) => isDraft === false)
-        );
-        setMomDraftsdata(
-          res.data.momData.filter(({ isDraft }) => isDraft === true)
-        );
-        setMomDraftsClonedata(
-          res.data.momData.filter(({ isDraft }) => isDraft === true)
-        );
+        setMomSentdata(res.data.momData.filter(({ isDraft }) => isDraft === false));
+        setMomSentClonedata(res.data.momData.filter(({ isDraft }) => isDraft === false));
+        setMomDraftsdata(res.data.momData.filter(({ isDraft }) => isDraft === true));
+        setMomDraftsClonedata(res.data.momData.filter(({ isDraft }) => isDraft === true));
        
-        ///read the mom after 24 hours ---- when users unread the mom ----///
-        const createdAtMOM = new Date(res.data.momData[0].createdAt)
-        let newmomId = res.data.momData[0]._id
+        ///read the mom auto after 24 hours ---- when users doesn't read the mom ----///
+        let allunreadMOM = res.data.momData.filter((elem)=> elem.isDraft===true)
         const today =new Date();
-        if( today - createdAtMOM >86399452){
-             console.log("24 hour has gone")
-              //  getReadMOM(newmomId)
-            }
-            else{
-              console.log("24 hour has not gone")
+        // const draftsUnreadMOM = document.getElementsByName("draftsUnreadMOM")
+        if(allunreadMOM){
+        for(let i=0;i<allunreadMOM.length;i++){
+              const createdAtMOM = new Date(allunreadMOM[i].createdAt);
+              let newmomId = allunreadMOM[i]._id;
+              if( today - createdAtMOM > 86399452){
+                // console.log("24 hour has gone")
+                // draftsUnreadMOM[i].style.backgroundColor="red"
+                  getReadMOM(newmomId)
+               }
+               else{
+                //  console.log("24 hour has not gone")
+             }
           }
+        }
       })
       .catch((error) => {
         console.error(error);
       });
     //---get client data----///
     getClientProject();
-
-    
     ///-----read the Sent mom after 24 hours------///
   
   }, []);
+  useEffect(()=>{
+    // const today =new Date();
+    // console.log(MomReadAuto)
+    // for(let i=0;i<MomReadAuto.length;i++){
+    //   console.log(MomReadAuto[i].createdAt,MomReadAuto[i]._id)
+    //     if(MomReadAuto[i].isRead===false){
+    //       const createdAtMOM = new Date(MomReadAuto[i].createdAt);
+    //       console.log(createdAtMOM)
+    //       let newmomId = MomReadAuto[i]._id;
+    //       if( today - createdAtMOM > 86399452){
+    //         console.log("24 hour has gone")
+    //           getReadMOM(newmomId)
+    //        }
+    //        else{
+    //          console.log("24 hour has not gone")
+    //      }
+            
+    //     }
+    //   }
+      // MomReadAuto.createdAt
 
+    })
   ////----condition for all select checkbox----///
   useEffect(() => {
     if (!draftsflag) {
@@ -287,10 +310,9 @@ function MomSection() {
           <div className="main-modal-wrapper">
             <div className="modal-wrapper">
               <div className="content">
-                <p className="notice-text"> Are you sure want to delete ?</p>
+                <p className="notice-text"> Are you sure you want to delete this?</p>
               </div>
-              <div className="ui divider"></div>
-              <div className="actions">
+              <div style={{marginTop:"20px"}} className="actions">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleSingleDeleteMOM()}
@@ -312,10 +334,9 @@ function MomSection() {
           <div className="main-modal-wrapper">
             <div className="modal-wrapper">
               <div className="content">
-                <p className="notice-text"> Are you sure want to delete ?</p>
+                <p className="notice-text">Are you sure you want to delete this?</p>
               </div>
-              <div className="ui divider"></div>
-              <div className="actions">
+              <div  style={{marginTop:"20px"}} className="actions">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleDeleteMOM()}
@@ -334,13 +355,13 @@ function MomSection() {
         )}
         {/* ///-------//// */}
         <div className="d-flex align-center justify-between width-fit-content margin-top-10">
-          <div className="small-font-12 color-text-888888">
+          <div className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
-          <span className="d-flex align-center color-text-888888 font-size-14">
+          <span className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
           </span>
-          <div className="color-text font-weight-500 small-font-12 cursor-pointer">
+          <div className="color-text font-weight-500 small-font-10 cursor-pointer">
             MOM
           </div>
         </div>
@@ -410,7 +431,7 @@ function MomSection() {
                 />
               </div>
               <div className="color-text-888888 small-font-12">
-                you haven't added any MOMs yet
+                You haven't added any MOMs yet
               </div>
               <div
                 className="color-text small-font-12"
@@ -431,7 +452,7 @@ function MomSection() {
                 />
               </div>
               <div className="color-text-888888 small-font-12">
-                you haven't sent any MOMs yet
+                You haven't sent any MOMs yet
               </div>
               <div
                 className="color-text small-font-12"
@@ -566,7 +587,7 @@ function MomSection() {
                               {clientName}
                             </div>
                             <div
-                              className="color-text-000000 font-weight-400 width-31"
+                              className="points-pad color-text-000000 font-weight-400 width-31"
                               onClick={() => gotoInnerMom(_id)}
                             >
                               {points && add3Dots(points)}
@@ -629,7 +650,7 @@ function MomSection() {
                       />
                     </div>
                     <div className="color-text-888888 small-font-12">
-                      you haven't Sent any MOMs yet
+                      You haven't sent any MOMs yet
                     </div>
                     <div
                       className="color-text small-font-12"
@@ -687,7 +708,7 @@ function MomSection() {
                             </div>
                             <div
                               style={{ color: "#000000", fontWeight: "400" }}
-                              className="width-32"
+                              className="points-pad width-32"
                               onClick={() => gotoInnerMom(_id)}
                             >
                               {points && add3Dots(points)}

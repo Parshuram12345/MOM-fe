@@ -112,8 +112,8 @@ function InnerPageMom() {
   };
   return (
     <>
-      <div className="d-flex-col width-75 margin-left-3">
-        <div className="d-flex font-weight-500 small-font-10 width-fit-content justify-between align-center divider-margin">
+      <div className="d-flex-col width-95 margin-left-3">
+        <div className="d-flex font-weight-500 small-font-10 width-fit-content justify-between align-center margin-top-10">
           <div id="ids" className="small-font-10 color-text-888888">
             Ashok rathi residence
           </div>
@@ -135,7 +135,7 @@ function InnerPageMom() {
           <div className="d-flex width-42 align-center justify-between">
             <div className="mom-head font-w-500">Minutes of Meetings</div>
             <div className="ui fluid category search">
-              <div className="ui icon input">
+              <div style={{ width: "16rem" }} className="ui icon input">
                 <input
                   style={{ borderRadius: "4px" }}
                   className="prompt"
@@ -198,13 +198,13 @@ function InnerPageMom() {
                   return (
                     <div key={index} className="d-flex divider-margin-5">
                       {elem !== bullet && (
-                        <span className="points-counter"> {bullet} </span>
+                        <span className="points-counter">{bullet}</span>
                       )}
                       <div
                         name="points-text"
                         className="points-area text-align-justify"
                       >
-                        {elem?.substring(1)}
+                        {elem?.substring(1,)}
                       </div>
                     </div>
                   );

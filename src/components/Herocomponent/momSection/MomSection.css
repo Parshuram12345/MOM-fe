@@ -38,10 +38,9 @@
       margin-bottom: 8px;
       padding:0 3px 
   }
-  .table-row:hover{
-    /* cursor: pointer;
-    background: rgba(59, 89, 152, 0.1); */
-  }
+ .table-header{
+    padding-right: 5px;
+ }
   .margin-right-10{
     margin-right: 10px;
   }
@@ -93,8 +92,9 @@
     font-size: 14px;
  }
  .table-body{
+    padding-right: 3px;
     height: 50vh;
-    overflow-y: scroll;
+    overflow-y: auto;
  }
  .share-icon{
     color: #888888;
@@ -107,6 +107,9 @@
     align-items: center;
     justify-content: center;
     height: 10vh;
+}
+.points-pad{
+    padding-left: 3px;
 }
 .add-mom-img{
     width: 2vw;
@@ -164,7 +167,7 @@
     height: 100vh;
 }
 .modal-wrapper{
-    width: 18%;
+    width: 23%;
     border-radius: 10px;
     border: 1px solid #DFDFDF;
     padding: 20px;
@@ -172,16 +175,17 @@
     box-shadow: 0 20px 75px rgba(0 0 0 /13%);
 }
 .ui.button.yes-btn{
-    border: 1px solid #888;
+    border: 1px solid #3B5998;
     color: #888;
     font-size: 12px;
-    background-color: #ffffff;
+    background: #ffffff;
     border-radius: 4px;
 }
 .ui.button.no-btn{
+    margin-left: 3%;
     font-weight: 300;
-    border: 1px solid #176091;
-    background-color: #176091;
+    border: 1px solid #3B5998;
+    background: #3B5998;
     color: #ffffff;
     font-size: 12px;
     border-radius: 4px;

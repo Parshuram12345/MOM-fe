@@ -69,22 +69,37 @@ function App() {
   const handlePointsField = (event) => {
     let value = event.target.value;
     //  console.log(bulletPoints.length,bulletPoints)
-      if (bulletPoints.length < 1) {
-        setBulletPoints(`${bullet}`);
-      } else {
-        setBulletPoints(value);
-      }
+    //  if(bulletPoints.split("\u2022").slice(-1)[0]===""){
+        // return (event.key !=="Enter")
+      // }
+      // else{
+        // handlePointsTextArea(e);
+        if (bulletPoints.length < 1) {
+          setBulletPoints(`${bullet}`);
+        } else {
+          setBulletPoints(value);
+        }
+      // }
   }
   const handleEnterkey=(e)=>{
-  //   if(e.key ="Enter" && !bulletPoints.split("\u2022").slice(-1)[0]===""  )
-  //   {
-  //     e.preventDefault();
-  //   }
-     
+  // console.log(bulletPoints.split("\u2022").slice(-1)[0])
+    if(e.which ===13 && !bulletPoints.split("\u2022").slice(-1)[0]==="")
+    {
+      return (e.which!==13)
+    }
   }
   ///----update the point state in array string with key enter'----///
   const handlePointsTextArea = (e) => {
-    if (!bulletPoints.split("\n").includes("\u2022")) {
+    // if(e.which ===13 && !bulletPoints.split("\u2022").slice(-1)[0]==="")
+    {
+      // return (e.which!==13)
+    }
+    // else{
+    if (
+      !bulletPoints.split("\n").includes("\u2022") 
+      // &&
+    //  !bulletPoints.split("\u2022").slice(-1)[0]===""
+     ) {
       // setReadonlyTextarea(false)
       // if(bulletPoints.split("\u2022").lastIndexOf("\n\n") !===-1){
         // setReadonlyTextarea(true)
@@ -93,14 +108,23 @@ function App() {
       // else{
         // setReadonlyTextarea(false)
       // }
-      if (e.key === "Enter") {
-        // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
-        setBulletPoints(`${bulletPoints}${"\u2022"}`);
+      // if(!bulletPoints.split("\u2022").slice(-1)[0]===""){
+
+        if (e.key === "Enter") {
+          // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
+          setBulletPoints(`${bulletPoints}${"\u2022"}`);
+        }
+        
       }
-    }
-  }
-  // console.log(bulletPoints.split("\u2022"))
-  // console.log(bulletPoints.split("\u2022").slice(-1)[0]==="")
+      else{
+          console.log("kdsfsdlf")
+        return e.preventDefault()
+      }
+   
+}
+console.log(bulletPoints.split("\n").includes("\u2022"))
+  console.log(bulletPoints.split("\u2022"))
+  console.log(bulletPoints.split("\u2022").slice(-1)[0]==="")
   ///got to mom inner page ----///
   const gotoInnerMom = (id) => {
     if(!draftsflag){

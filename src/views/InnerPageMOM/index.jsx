@@ -13,7 +13,9 @@ import InnerPageMom from './../../components/Herocomponent/InnerPageMOM/index';
         <div className="side-navbar">
           <SideNavWeb/>
         </div>
+        <div className='rightside-navbar'>
         <InnerPageMom/>
+          </div>
       </div>
     </>
   )

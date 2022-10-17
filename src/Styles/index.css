@@ -7,6 +7,11 @@
     font-family: 'Inter';
 }
 
+body ::-webkit-scrollbar {
+    /* -webkit-appearance: none; */
+    width: 3px;
+    height: 3px;
+}
 .dropdown-toggle::after{
     display: none !important;
 }
@@ -158,6 +163,9 @@
 }
 .margin-left-45{
     margin-left:45%
+}
+.margin-top-5{
+    margin-top: 5px;
 }
 .margin-top-7{
     margin-top: 7%;
@@ -327,10 +335,16 @@ input:focus {
     /* outline: none !important; */
     border-color: #3B5998 !important;
   }
-  ::-webkit-scrollbar {
-    display: none;
+::-webkit-scrollbar {
+    scrollbar-width: thin;
+    width: 2px; 
+    height: 4px;
+    background: none;
 }
 textarea:focus { 
     outline: none !important;
     border-color: #3B5998 !important;
+}
+textarea{
+    resize: none;
 }

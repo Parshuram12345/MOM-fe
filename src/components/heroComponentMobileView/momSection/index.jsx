@@ -175,7 +175,7 @@ function MomSection() {
     let limit = 150;
     let dots = "...";
     for (let i = 0; i < points.length; i++) {
-      newstrpoints += points[i].substring(1);
+      newstrpoints += points[i].substring(1,);
       if (newstrpoints.length > limit) {
         return newstrpoints.substring(0, limit) + dots;
       }
@@ -216,6 +216,28 @@ function MomSection() {
     });
   }
 
+   ///---read the mom after 24 hours---///
+   async function getReadMOM(id) {
+    await axios({
+     method: "post",
+     url: `${BaseUrl}/api/mom/addEditMOM/`,
+     headers: {
+       "Content-Type": "application/json",
+       Authorization: access_token,
+     },
+     data: {
+       id: id,
+       isRead: true,
+       projectId: projectid,
+     },
+   })
+   .then((res)=>{
+   })
+   .catch((err)=>{
+     console.log(err)
+   })
+ }
+
   useEffect(() => {
     getApiData()
       .then((res) => {
@@ -231,6 +253,28 @@ function MomSection() {
         setmomdraftsclonedata(
           res.data.momData.filter(({ isDraft }) => isDraft === true)
         );
+       
+         ///read the mom auto after 24 hours ---- when users doesn't read the mom ----///
+         let allunreadMOM = res.data.momData.filter((elem)=> elem.isRead===false)
+         const today =new Date();
+         // console.log(allunreadMOM)
+         if(allunreadMOM){
+         for(let i=0;i<allunreadMOM.length;i++){
+           // console.log(allunreadMOM[i].createdAt,allunreadMOM[i]._id)
+               const createdAtMOM = new Date(allunreadMOM[i].createdAt);
+               console.log(createdAtMOM)
+               let newmomId = allunreadMOM[i]._id;
+               if( today - createdAtMOM > 86399452){
+                 console.log("24 hour has gone")
+                   getReadMOM(newmomId)
+                }
+                else{
+                  console.log("24 hour has not gone")
+              }
+           }
+         }
+
+
       })
       .catch((error) => {
         console.error(error);
@@ -273,10 +317,9 @@ function MomSection() {
           <div className="main-modal-container">
             <div className="modals-wrapper">
               <div className="content">
-                <p className="notice-text"> Are you sure want to delete ?</p>
+                <p className="notice-text"> Are you sure you want to delete this?</p>
               </div>
-              <div className="ui divider"></div>
-              <div className="actions">
+              <div  style={{marginTop:"10%"}} className="actions">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleSingleDeleteMOM()}
@@ -298,10 +341,9 @@ function MomSection() {
           <div className="main-modal-container">
             <div className="modals-wrapper">
               <div className="content">
-                <p className="notice-text"> Are you sure want to delete ?</p>
+                <p className="notice-text">Are you sure you want to delete this?</p>
               </div>
-              <div className="ui divider"></div>
-              <div className="actions">
+              <div  style={{marginTop:"10%"}} className="actions">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleMultipleDeleteMOM()}
@@ -426,7 +468,7 @@ function MomSection() {
                   />
                 </div>
                 <div className="color-text-888888 small-font-12">
-                  you haven't added any MOMs yet
+                  You haven't added any MOMs yet
                 </div>
                 <div
                   className="color-text small-font-12"
@@ -444,8 +486,7 @@ function MomSection() {
                       key={index}
                       style={{ background: isRead ? "" : "#ECEFF5" }}
                       className="mom-field border-df border-radius-5 divider-margin"
-                      name="draftMOM"
-                    >
+                      name="draftMOM">
                       <div className="d-flex justify-around align-center padding-3">
                         <input
                           type="checkbox"
@@ -543,7 +584,7 @@ function MomSection() {
                 />
               </div>
               <div className="color-text-888888 small-font-12">
-                you haven't Sent any MOMs yet
+                You haven't sent any MOMs yet
               </div>
               <div
                 className="color-text small-font-12"

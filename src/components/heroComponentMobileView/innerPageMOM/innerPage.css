@@ -24,10 +24,11 @@ i.search.icon{
 .points-container{
     background-color: white;
     padding: 1px;
+    padding-right: 3px;
     color: #000000;
     word-break: break-word;
     height: 62vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }   
 .a,a:hover{
     text-decoration: none;
@@ -57,7 +58,7 @@ i.search.icon{
     transition: all 0.2s;
     transition-duration: 0.5s;
     border-radius: 15px;
-    width:20rem;
+    width:19rem;
     padding:7px;
     opacity: 1;
     border: 1px solid #888888;
@@ -77,4 +78,7 @@ mark,.mark{
     color: #000000;
     background-color: yellow 
 
+}
+.margin-top-4{
+    margin-top: 4px;
 }

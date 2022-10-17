@@ -66,7 +66,7 @@ function MomZeroState() {
         <div className="divider-margin">
           <div className="d-flex justify-between align-center">
             <div className="d-flex justify-between align-center width-25">
-              <label className="label-text">Date:</label>
+              <label className="label-text marign-top-5">Date:</label>
                 <input type="text"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-80"
                   placeholder="Select date"
@@ -76,7 +76,7 @@ function MomZeroState() {
                 />
             </div>
             <div className="d-flex justify-between align-center width-30">
-              <label className="label-text">Category:</label>
+              <label className="label-text marign-top-5">Category:</label>
               <div className="d-flex align-center position-relative width-75">
                 <select
                   className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${category===""? "color-text-888888":""}`}
@@ -97,7 +97,7 @@ function MomZeroState() {
               </div>
             </div>
             <div className="d-flex justify-between align-center width-30">
-              <label className="label-text">Location:</label>
+              <label className="label-text marign-top-5">Location:</label>
               <input
                 type="text"
                 placeholder="Where did you the meet?"
@@ -175,6 +175,7 @@ function MomZeroState() {
             <textarea
               rows="6"
               cols="50"
+              style={{resize:"none"}}
               value={bulletPoints}
               className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4"
               onChange={handlePointsField}
