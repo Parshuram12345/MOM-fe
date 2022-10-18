@@ -98,7 +98,7 @@ function MobileApp() {
         // sharedWith:emaillist,
         points:
           pointsdata &&
-          pointsdata.split("\n").filter((emptystr) => emptystr !== ""),
+          pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
       });
       fetch(`${BaseUrl}/api/mom/addEditMOM`, {
         method: "post",
@@ -146,7 +146,7 @@ function MobileApp() {
       // sharedWith:emaillist,
       points:
         pointsdata &&
-        pointsdata.split("\n").filter((emptystr) => emptystr !== ""),
+        pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
     });
 
     if (selectdate && category && pointsdata) {

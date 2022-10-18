@@ -40,11 +40,13 @@ function MomSection() {
   };
   ///=----draftsdocs----////
   const handleDraftsDocs = () => {
+    setCheckboxAllSelected([]);
     setDraftsflag(false);
     setSentflag(true);
   };
   ///=----sentdocs----////
   const handleSentDocs = () => {
+    setCheckboxAllSelected([]);
     setDraftsflag(true);
     setSentflag(false);
   };

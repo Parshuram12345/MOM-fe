@@ -57,11 +57,13 @@ function MomSection() {
   };
   ///----draftsdocs -----///
   const handleSharedDocs = () => {
+    setCheckboxSelected([]);
     setDraftsflag(false);
     setSentflag(true);
   };
   ///=----sentdocs----////
   const handleSentDocs = () => {
+    setCheckboxSelected([]);
     setDraftsflag(true);
     setSentflag(false);
   };
@@ -73,17 +75,17 @@ function MomSection() {
   ///---filter data ----///
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
-    // console.log(pointslist)
+    console.log(pointslist)
     let dots = "...";
     let limit = 30;
     let newArrWithEmptyString = pointslist.filter(
       (emptystr) => emptystr 
     );
     if (newArrWithEmptyString[0]?.length > limit) {
-      return newArrWithEmptyString[0]?.substring(0, limit) + dots;
+      return newArrWithEmptyString[0]?.substring(1, limit) + dots;
     } else {
-      return newArrWithEmptyString[0]?.substring(0);
-    }
+      return newArrWithEmptyString[0]?.substring(1);
+    } 
   }
   ///---add three dots for title after limit out----///
   function add3dotsTitle(title) {
@@ -187,7 +189,7 @@ function MomSection() {
     if (!draftsflag) {
       const newdata = momDraftsClonedata.filter((element) => {
         return element.title.toLowerCase().includes(e.toLowerCase());
-      });
+      })
       setMomDraftsdata(newdata);
     } else {
       const newdata = momSentClonedata.filter((element) => {

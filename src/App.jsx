@@ -82,7 +82,6 @@ function App() {
       // }
   }
   const handleEnterkey=(e)=>{
-  // console.log(bulletPoints.split("\u2022").slice(-1)[0])
     if(e.which ===13 && !bulletPoints.split("\u2022").slice(-1)[0]==="")
     {
       return (e.which!==13)
@@ -95,11 +94,7 @@ function App() {
       // return (e.which!==13)
     }
     // else{
-    if (
-      !bulletPoints.split("\n").includes("\u2022") 
-      // &&
-    //  !bulletPoints.split("\u2022").slice(-1)[0]===""
-     ) {
+    if (!bulletPoints.split("\n").includes("\u2022")) {
       // setReadonlyTextarea(false)
       // if(bulletPoints.split("\u2022").lastIndexOf("\n\n") !===-1){
         // setReadonlyTextarea(true)
@@ -122,8 +117,8 @@ function App() {
       }
    
 }
-console.log(bulletPoints.split("\n").includes("\u2022"))
-  console.log(bulletPoints.split("\u2022"))
+  console.log(bulletPoints.split("\n").includes("\u2022"))
+  console.log(bulletPoints.trim(),bulletPoints.trim().length)
   console.log(bulletPoints.split("\u2022").slice(-1)[0]==="")
   ///got to mom inner page ----///
   const gotoInnerMom = (id) => {
@@ -161,7 +156,7 @@ console.log(bulletPoints.split("\n").includes("\u2022"))
       title: title,
       projectId: projectid,
       // sharedWith: emaillist,
-      points: bulletPoints && bulletPoints.split("\u2022").filter((emptystr)=>emptystr!==""),
+      points: bulletPoints && bulletPoints.trim().split("\u2022").filter((emptystr)=>emptystr!==""),
     });
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
         method: "post",
@@ -214,7 +209,7 @@ console.log(bulletPoints.split("\n").includes("\u2022"))
         isDraft: false,
         projectId: projectid,
         // sharedWith: emaillist,
-        points: bulletPoints && bulletPoints.split("\u2022").filter((emptystr)=>emptystr!==""),
+        points: bulletPoints && bulletPoints.trim().split("\u2022").filter((emptystr)=>emptystr!==""),
       });
   
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
