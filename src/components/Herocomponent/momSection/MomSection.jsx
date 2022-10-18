@@ -27,7 +27,6 @@ function MomSection() {
   } = useContext(MomContext);
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
-  const [MomReadAuto,setMOMreadAuto]=useState([])
   const [checkboxSelected, setCheckboxSelected] = useState([]);
   const [opendeleteModal, setOpendeleteModal] = useState(false);
   const [openMultipledeleteModal, setOpenMultipledeleteModal] = useState(false);
@@ -249,7 +248,6 @@ function MomSection() {
               let newmomId = allunreadMOM[i]._id;
               if( today - createdAtMOM > 86399452){
                 // console.log("24 hour has gone")
-                // draftsUnreadMOM[i].style.backgroundColor="red"
                   getReadMOM(newmomId)
                }
                else{
@@ -266,28 +264,7 @@ function MomSection() {
     ///-----read the Sent mom after 24 hours------///
   
   }, []);
-  useEffect(()=>{
-    // const today =new Date();
-    // console.log(MomReadAuto)
-    // for(let i=0;i<MomReadAuto.length;i++){
-    //   console.log(MomReadAuto[i].createdAt,MomReadAuto[i]._id)
-    //     if(MomReadAuto[i].isRead===false){
-    //       const createdAtMOM = new Date(MomReadAuto[i].createdAt);
-    //       console.log(createdAtMOM)
-    //       let newmomId = MomReadAuto[i]._id;
-    //       if( today - createdAtMOM > 86399452){
-    //         console.log("24 hour has gone")
-    //           getReadMOM(newmomId)
-    //        }
-    //        else{
-    //          console.log("24 hour has not gone")
-    //      }
-            
-    //     }
-    //   }
-      // MomReadAuto.createdAt
 
-    })
   ////----condition for all select checkbox----///
   useEffect(() => {
     if (!draftsflag) {

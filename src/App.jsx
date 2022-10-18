@@ -35,6 +35,7 @@ function App() {
   // const [readonlyTextarea,setReadonlyTextarea]=useState(false)
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
+  
   ///-----share condition with open newmom----///
   const handleShareMOM = (value) => {
     navigate("/newmom");

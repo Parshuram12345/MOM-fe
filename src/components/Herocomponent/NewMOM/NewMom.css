@@ -9,7 +9,6 @@
 .padding-1 {
   padding: 1px;
 }
- */
 .textarea-points-field {
   min-height: 35vh;
   height: fit-content;
@@ -23,7 +22,6 @@
   font-weight: 400;
   color: #444444;
 }
-/* ////--------------- */
 .email-container {
   min-height: 6vh;
   padding: 0 5px;
@@ -37,7 +35,6 @@
         border-radius: 4px;
 }
 .email-input:hover{
-    /* border: none; */
     border-color: #3B5998 !important;
 }
 input:focus{
@@ -90,8 +87,3 @@ input:focus{
   color: white;
   padding: 5px 38px;
 }
-
-/* textarea:focus{
-  border-color: #3B5998;
-
-} */

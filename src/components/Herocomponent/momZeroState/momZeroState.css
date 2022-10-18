@@ -22,14 +22,12 @@
     font-weight: 400;
     color:#444444;
 }
-  /* ////--- */
   .email-container {
     min-height: 6vh;
     padding: 0 5px;
   }
   .email-input{
           flex: 1;
-          /* border: none; */
           height: 4vh;
           font-size: 14px;
           padding: 2px

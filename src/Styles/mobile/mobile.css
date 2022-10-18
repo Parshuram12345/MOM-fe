@@ -10,7 +10,6 @@ body ::-webkit-scrollbar {
     width: 3px;
     height: 3px;
 }
-/* @media  */
 .mobile-top-navbar{
     height: 10vh;
     border: 1px solid #DFDFDF;
@@ -230,7 +229,6 @@ body ::-webkit-scrollbar {
     cursor: pointer;
   }
 input:focus { 
-    outline: none !important;
     border-color: #3B5998;
   }
 textarea:focus { 
