@@ -10,7 +10,7 @@ store.subscribe(() => console.log(store.getState()));
 const resolution = window.innerWidth;
 const isMobile = resolution >= 320 && resolution <= 480;
 ReactDOM.render(
-  <Router>
+  <Router basename="dev-mom">
     <Provider store={store}>
       {isMobile ? <MobileApp /> : <App />}
       {/* <App /> */}

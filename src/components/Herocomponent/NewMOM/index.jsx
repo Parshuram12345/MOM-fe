@@ -238,11 +238,13 @@ function NewMom() {
             style={{resize:"none"}}
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
-            onKeyDown={handleEnterkey}
+            // onKeyDown={handleEnterkey}
             onChange={
               handlePointsField
             }
-            onKeyUp={(e) => { bulletPoints.split("\u2022").slice(-1)[0]!=="" &&  handlePointsTextArea(e)}
+            onKeyUp={(e) => { 
+              // bulletPoints.split("\u2022").slice(-1)[0]!=="" &&
+              handlePointsTextArea(e)}
               // if(bulletPoints.split("\u2022").slice(-1)[0]===""){
               //   return (e.key !=="Enter")
               // }

@@ -28,7 +28,7 @@ function App() {
   const [momSentdata, setMomSentdata] = useState([]);
   const [shareMom, setShareMom] = useState(false);
   const [roomName, setRoomName] = useState([]);
-  const [updatedraftId,setUpdatedraftId]=useState("")
+  const [updatedraftId,setUpdatedraftId]=useState("");
   const [bulletPoints, setBulletPoints] = useState("");
   const [ newDraftUnread,setNewDraftUnread]=useState(false)
   const [ newSentUnread,setNewSentUnread]=useState(false)
@@ -82,18 +82,14 @@ function App() {
       // }
   }
   const handleEnterkey=(e)=>{
-    if(e.which ===13 && !bulletPoints.split("\u2022").slice(-1)[0]==="")
-    {
-      return (e.which!==13)
-    }
+  //   if(e.which ===13 && !bulletPoints.split("\u2022").slice(-1)[0]==="")
+  //   {
+  //     return (e.which!==13)
+  //   }
   }
+
   ///----update the point state in array string with key enter'----///
   const handlePointsTextArea = (e) => {
-    // if(e.which ===13 && !bulletPoints.split("\u2022").slice(-1)[0]==="")
-    {
-      // return (e.which!==13)
-    }
-    // else{
     if (!bulletPoints.split("\n").includes("\u2022")) {
       // setReadonlyTextarea(false)
       // if(bulletPoints.split("\u2022").lastIndexOf("\n\n") !===-1){
@@ -106,20 +102,27 @@ function App() {
       // if(!bulletPoints.split("\u2022").slice(-1)[0]===""){
 
         if (e.key === "Enter") {
+          console.log("enter key")
           // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
           setBulletPoints(`${bulletPoints}${"\u2022"}`);
         }
-        
       }
       else{
-          console.log("kdsfsdlf")
-        return e.preventDefault()
+          console.log("stop",e.target.value)
+          alert("enter key pressed two times together")
+          // setBulletPoints(e.target.value)
+          // e.selectionStart =e.selectionEnd =e.target.value.length
+          // bulletPoints.focus()
+          // return 
+        // return e.preventDefault()
       }
    
 }
-  console.log(bulletPoints.split("\n").includes("\u2022"))
-  console.log(bulletPoints.trim(),bulletPoints.trim().length)
-  console.log(bulletPoints.split("\u2022").slice(-1)[0]==="")
+  // console.log(bulletPoints.split("\n"))
+  // console.log(bulletPoints.split("\u2022"))
+  // console.log(bulletPoints)
+  // console.log(bulletPoints.trim(),bulletPoints.trim().length)
+  // console.log(bulletPoints.split("\u2022").slice(-1)[0]==="")
   ///got to mom inner page ----///
   const gotoInnerMom = (id) => {
     if(!draftsflag){
