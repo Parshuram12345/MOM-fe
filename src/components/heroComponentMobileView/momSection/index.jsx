@@ -659,8 +659,7 @@ function MomSection() {
                     </div>
                     <div
                       className="mom-points text-align-justify"
-                      onClick={() => naviagteInnerPage(_id)}
-                    >
+                      onClick={() => naviagteInnerPage(_id)}>
                       {points && removeBulletsPoints(points)}
                     </div>
                     <div className="d-flex justify-between align-center padding-3">
