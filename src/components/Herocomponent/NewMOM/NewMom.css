@@ -37,9 +37,6 @@
 .email-input:hover{
     border-color: #3B5998 !important;
 }
-input:focus{
-  border: 1px solid #3B5998;
-}
 .tags {
   display: flex;
   flex-wrap: wrap;

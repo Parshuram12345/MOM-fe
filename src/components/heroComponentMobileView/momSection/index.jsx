@@ -259,19 +259,16 @@ function MomSection() {
          ///read the mom auto after 24 hours ---- when users doesn't read the mom ----///
          let allunreadMOM = res.data.momData.filter((elem)=> elem.isRead===false)
          const today =new Date();
-         // console.log(allunreadMOM)
          if(allunreadMOM){
          for(let i=0;i<allunreadMOM.length;i++){
-           // console.log(allunreadMOM[i].createdAt,allunreadMOM[i]._id)
                const createdAtMOM = new Date(allunreadMOM[i].createdAt);
-               console.log(createdAtMOM)
                let newmomId = allunreadMOM[i]._id;
                if( today - createdAtMOM > 86399452){
-                 console.log("24 hour has gone")
+                //  console.log("24 hour has gone")
                    getReadMOM(newmomId)
                 }
                 else{
-                  console.log("24 hour has not gone")
+                  // console.log("24 hour has not gone")
               }
            }
          }

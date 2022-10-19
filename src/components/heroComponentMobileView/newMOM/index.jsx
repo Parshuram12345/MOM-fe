@@ -26,9 +26,8 @@ function NewMom() {
     roomName,
     pointsdata,
     setPointsdata,
-    // getApiData,
     getClientProject,
-    addEmail,removeEmail,handlePointsField,handlePointsTextArea,handleSubmitData,handleSaveDraftData
+    addEmail,removeEmail,handlePointsTextArea,handleSubmitData,handleSaveDraftData
   } = useContext(momContext);
   const {access_token,projectid,BaseUrl}=data;
    const navigate= useNavigate();
@@ -45,19 +44,21 @@ function NewMom() {
     },
   });
  }
+ let bullet = "\u2022"
   useEffect(() => {
     if(id){
       getApiData()
       .then((res) => {
         if(res.status===200){
-        let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
-      setCategory(respoonseWithId?.category)
+        let responseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+      setCategory(responseWithId?.category)
       setSelectdate(
-       `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date?.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
+       `${responseWithId?.date?.substring(0, 4)}-${responseWithId?.date?.substring(5, 7)}-${responseWithId?.date?.substring(8, 10)}`
        );
-       setLocation(respoonseWithId?.location);
-       setTitle(respoonseWithId?.title);
-       setPointsdata(respoonseWithId?.points.map((item)=> item.trim()).join("\n"));
+       setLocation(responseWithId?.location);
+       setTitle(responseWithId?.title);
+       setPointsdata(responseWithId?.points?.filter((elem)=> elem !==" \n")
+       .map((item)=> { return (`${bullet} ${item.trim()}`)}).join("\n"));
       }
   })
   .catch((error) => {
@@ -66,7 +67,6 @@ function NewMom() {
 }
   getClientProject();
 }, [id]);
- 
   
   return (
     <>
@@ -170,8 +170,7 @@ function NewMom() {
             rows="6"
             cols="50"
             value={pointsdata}
-            onChange={handlePointsField}
-            onKeyUp={(e) => {
+            onChange={(e) => {
               handlePointsTextArea(e);
             }}
             style={{resize:"none"}}

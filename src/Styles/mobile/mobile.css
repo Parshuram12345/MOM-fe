@@ -228,10 +228,12 @@ body ::-webkit-scrollbar {
   .cursor-pointer{
     cursor: pointer;
   }
-input:focus { 
-    border-color: #3B5998;
-  }
+  
 textarea:focus { 
+    outline: none !important;
+    border-color: #3B5998 !important;
+}
+input:focus { 
     outline: none !important;
     border-color: #3B5998 !important;
 }

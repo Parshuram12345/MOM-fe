@@ -56,24 +56,31 @@ function MobileApp() {
     }
   };
   ///------add the points with bullets point in field -----///
-  const bullet = "\u2022";
-  const handlePointsField = (event) => {
-    let value = event.target.value;
-    if (pointsdata?.length < 1) {
-      setPointsdata(`${bullet}`);
-    } else {
-      setPointsdata(value);
-    }
-  };
   ///----update the point state in array string with key enter'----///
+  let previouslength = 0;
   const handlePointsTextArea = (e) => {
-    if (!pointsdata?.split("\n").includes("\u2022")) {
-      if (e.key === "Enter") {
-        // setPointsdata(`${pointsdata}${"\n\u2022"}`);
-        setPointsdata(`${pointsdata}${"\u2022"}`);
-      }
+    const bullet = "\u2022";
+    const newlength = e.target.value.length;
+    const AsciiValue= e.target.value.substr(-1).charCodeAt(0);
+    
+    if(AsciiValue===8226 && bullet !==e.target.value){
+     e.target.value = e.target.value.slice(0,-1)
     }
-  };
+    else if(bullet ===e.target.value){
+           e.target.value=""
+           setPointsdata("")
+    }
+    if(newlength>previouslength){
+      if(AsciiValue===10){
+        e.target.value = `${e.target.value}${bullet} `;
+     }
+     else if( newlength===1){
+       e.target.value = `${bullet} ${e.target.value}`;
+     }
+     setPointsdata(e.target.value)
+   }
+   previouslength =newlength;
+  }
   ///------navigate to MOM inner page -----///
   const naviagteInnerPage = (id) => {
     navigate(`/mominnerpage/${id}`);
@@ -148,7 +155,6 @@ function MobileApp() {
         pointsdata &&
         pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
     });
-
     if (selectdate && category && pointsdata) {
       fetch(`${BaseUrl}/api/mom/addEditMOM`, {
         method: "post",
@@ -261,7 +267,6 @@ function MobileApp() {
           handleSharedMOMdata,
           addEmail,
           removeEmail,
-          handlePointsField,
           handlePointsTextArea,
           handleEditDraftdata,
           handleSubmitData,

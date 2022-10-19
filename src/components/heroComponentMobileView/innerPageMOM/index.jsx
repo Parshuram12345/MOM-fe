@@ -156,13 +156,13 @@ function InnerPageMom() {
           name="points"
           className="points-container border-none"
         >
-           {pointsdetails && pointsdetails?.points?.map((elem,index)=>{
+           {pointsdetails && pointsdetails?.points?.filter((elem)=> elem !==" \n").map((elem,index)=>{
               return (
                 <div
                   key={index}
                   className="d-flex font-weight-500 divider-margin"
                 >
-                 { elem !==bullet && <span className="points-counter">{bullet} </span>}
+                   <span className="points-counter">{bullet} </span>
                   <div className="points-field text-align-justify">{elem.substring(1,)}</div>
                 </div>
               );

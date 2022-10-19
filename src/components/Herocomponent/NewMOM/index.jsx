@@ -30,13 +30,11 @@ function NewMom() {
     addEmail,
     removeEmail,
     setBulletPoints,
-    handlePointsField,
     handlePointsTextArea,
     handleSubmitData,
     setDateerror,
     setCategoryerror,
     setPointserror,
-    handleEnterkey,
   } = useContext(MomContext);
    const {access_token,projectid,BaseUrl}=data;
   ///---get api data ----///
@@ -58,9 +56,9 @@ function NewMom() {
   if (bulletPoints && pointserror) {
     setPointserror(false);
   }
+  let bullet = "\u2022"
   useEffect(() => {
     if(id){
-
       getApiData()
       .then((res) => {
         let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
@@ -70,7 +68,7 @@ function NewMom() {
       );
        setLocation(respoonseWithId?.location);
        setTitle(respoonseWithId?.title)
-       setBulletPoints(respoonseWithId?.points?.map((item)=> item.trim()).join("\n"));}
+       setBulletPoints(respoonseWithId?.points?.filter((elem)=> elem !==" \n").map((item)=> { return (`${bullet} ${item.trim()}`)}).join("\n"));}
       )
       .catch((error) => {
         console.error(error); 
@@ -238,23 +236,8 @@ function NewMom() {
             style={{resize:"none"}}
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
-            // onKeyDown={handleEnterkey}
-            // onChange={
-            //   handlePointsField
-            // }
-            onChange={(e) => { 
-              // bulletPoints.split("\u2022").slice(-1)[0]!=="" &&
-              handlePointsTextArea(e)}
-              // if(bulletPoints.split("\u2022").slice(-1)[0]===""){
-              //   return (e.key !=="Enter")
-              // }
-              // else{
-              //   handlePointsTextArea(e);
-
-              // }
-            }
+            onChange={(e) => { handlePointsTextArea(e)}}
             placeholder="Type something here"
-            // style={{ resize: "none" }}
           />
         </div>
         {pointserror && (

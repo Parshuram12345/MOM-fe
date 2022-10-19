@@ -16,7 +16,8 @@ function InnerPageMom() {
   const { BaseUrl, projectid, access_token, monthList } = data;
   const { pointsdetails, setPointsdetails, draftsflag} =
     useContext(MomContext);
-  console.log(pointsdetails)
+    console.log(pointsdetails.points)
+    // const pointsdetails.points?.filter((elem)=> elem !=" \n"))
   ///-----highlight the match point text---///
   const highlightPoints = () => {
     let textToSearch = document.getElementById("search-bar").value;
@@ -194,17 +195,15 @@ function InnerPageMom() {
               className="points-container-field border-none width-84"
             >
               {pointsdetails &&
-                pointsdetails?.points?.map((elem, index) => {
+                pointsdetails.points?.filter((elem)=> elem !==" \n").map((elem, index) => {
                   return (
                     <div key={index} className="d-flex divider-margin-5">
-                      {elem !== bullet && (
                         <span className="points-counter">{bullet}</span>
-                      )}
                       <div
-                        name="points-text"
-                        className="points-area text-align-justify"
+                      name="points-text"
+                      className="points-area text-align-justify"
                       >
-                        {elem?.substring(1,)}
+                         {elem?.substring(1,)}
                       </div>
                     </div>
                   );
