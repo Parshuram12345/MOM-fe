@@ -11,15 +11,17 @@ import { MdOutlineReviews, MdLogout } from "react-icons/md";
 
 import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
 import { useSelector } from "react-redux";
+import { allImagesList } from './../utils/images/index';
 
 const WebHeader = () => {
   const profileData = useSelector((state) => state?.pmtPersist?.profileData);
+  const {logo_idesign}=allImagesList
 
   return (
     <React.Fragment>
       <div className={styles.headerContainer}>
         <div className={styles.logoContainer}>
-          <img src={"/images/logo-idesign.png"} alt="website_logo" />
+          <img src={logo_idesign} alt="website_logo" />
         </div>
         <div className={styles.navbarIcons}>
           <div className="d-flex align-items-center position-relative">

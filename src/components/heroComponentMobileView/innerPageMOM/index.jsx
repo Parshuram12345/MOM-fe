@@ -6,11 +6,13 @@ import { AiOutlineCloseCircle} from "react-icons/ai";
 import { FiChevronRight } from "react-icons/fi";
 import { momContext } from './../../../MobileApp.jsx';
 import {data} from "../../utils"
+import { allImagesList } from './../../utils/images/index';
 
 function InnerPageMom() {
   const {id}=useParams()
   const navigate = useNavigate()
-  const {BaseUrl,access_token,projectid,monthList}=data
+  const {BaseUrl,access_token,projectid,monthList}=data;
+  const {fullDots,doubleVector,searchIcon,createmom}=allImagesList
   const [searchbarToggle,setSearchToggle]=useState(false)
   const {pointsdetails,client,setPointsdetails,getClientProject}=useContext(momContext);
    ///----toggle searchbar -----////
@@ -112,7 +114,7 @@ function InnerPageMom() {
         </div>
         <div className="d-flex justify-between position-relative align-center divider-margin">
           <div className="doublevector-icon">
-            <img src={"/images/doublevector.svg"} alt="vector2" />
+            <img src={doubleVector} alt="vector2" />
           </div>
           <div className="divider-bar">|</div>
           <div className="mom-head font-weight-500 margin-right-10">Minutes of Meetings</div>
@@ -122,7 +124,7 @@ function InnerPageMom() {
             id="searchBar" 
             onChange={(e)=>highlightPoints(e)} placeholder="search" />
             <button className="search-btn">
-            { !searchbarToggle ?(<img onClick={()=>toggleSearchbarEffect(true)} src={"/images/searchicon.svg"} alt="vector" />)
+            { !searchbarToggle ?(<img onClick={()=>toggleSearchbarEffect(true)} src={searchIcon} alt="searchIcon" />)
               :(<div className="circum-close-icon" onClick={()=>toggleSearchbarEffect(false)}>
                <AiOutlineCloseCircle/>
                 {/* <CiCircleRemove/> */}
@@ -132,7 +134,7 @@ function InnerPageMom() {
           </div>
             <div className="edit-icon" 
             ><Link to="/newmom">
-               <img src={"/images/createmom.svg"} alt="create-mom" />
+               <img src={createmom} alt="create-mom" />
             </Link>
             </div>
         </div>
@@ -143,7 +145,7 @@ function InnerPageMom() {
           <div className="d-flex justify-between">
             <div className="color-text-888888 font-size-13">
             { pointsdetails?.date && `${pointsdetails?.date?.substring(8, 10)} ${monthList[pointsdetails?.date?.substring(5,7)]} ${pointsdetails?.date?.substring(0,4)}`}
-            <img  style={{ margin:"0 5px"}}src={"/images/fulldots.svg"} alt="fullpoints"/> 
+            <img  style={{ margin:"0 5px"}}src={fullDots} alt="fullpoints"/> 
             {pointsdetails?.location}
             </div>
             <div className="color-text-888888 font-size-13 text-align-center">

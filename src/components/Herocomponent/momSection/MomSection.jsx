@@ -8,6 +8,7 @@ import { data } from "../../utils";
 import "./MomSection.css";
 import { MomContext } from "../../../App.jsx";
 import { Dropdown } from "react-bootstrap";
+import { allImagesList } from './../../utils/images/index';
 
 function MomSection() {
   const {
@@ -34,6 +35,7 @@ function MomSection() {
   const [draftcheckboxAll, setDraftsCheckboxAll] = useState(false);
   const [sentcheckboxall, setSentcheckboxall] = useState(false);
   const { access_token, BaseUrl, projectid, monthList} = data;
+  const {threeDots}= allImagesList
   const navigate = useNavigate();
 
   ///----open single delete MOM modal -----///
@@ -583,7 +585,8 @@ function MomSection() {
                                   }}
                                 >
                                   <img
-                                    src={"/images/threedots.svg"}
+                                    // src={"/images/threedots.svg"}
+                                    src={threeDots}
                                     alt="threedots"
                                   />
                                 </Dropdown.Toggle>

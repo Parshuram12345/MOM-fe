@@ -9,6 +9,7 @@ import { data } from "../../utils";
 import "./momSection.css";
 import { momContext } from "./../../../MobileApp";
 import { Dropdown } from "react-bootstrap";
+import { allImagesList } from './../../utils/images/';
 
 function MomSection() {
   const {
@@ -34,6 +35,7 @@ function MomSection() {
   const [allselectcheckbox, setAllselectcheckbox] = useState(false);
   const [searchbarToggle, setSearchToggle] = useState(false);
   const { access_token, BaseUrl, projectid,monthList } = data;
+  const {createmom,threeDots,doubleVector,searchIcon}=allImagesList
   ///----toggle searchbar -----////
   const toggleSearchbarEffect = (value) => {
     setSearchToggle(value);
@@ -238,7 +240,8 @@ function MomSection() {
    .catch((err)=>{
      console.log(err)
    })
- }
+ } 
+
 
   useEffect(() => {
     getApiData()
@@ -371,7 +374,7 @@ function MomSection() {
         </div>
         <div className="d-flex justify-between align-center divider-margin position-relative">
           <div className="doublevector-icon">
-            <img src={"/images/doublevector.svg"} alt="vector" />
+            <img src={doubleVector} alt="vector" />
           </div>
           <div className="divider-bar">|</div>
           <div className="mom-head font-weight-500 margin-right-10">
@@ -394,8 +397,8 @@ function MomSection() {
               {!searchbarToggle ? (
                 <img
                   onClick={() => toggleSearchbarEffect(true)}
-                  src={"/images/searchicon.svg"}
-                  alt="vector"
+                  src={searchIcon}
+                  alt="searchIcon"
                 />
               ) : (
                 <div
@@ -409,7 +412,7 @@ function MomSection() {
             </button>
           </div>
           <div className="edit-icon" onClick={() => navigateNewMom()}>
-            <img src={"/images/createmom.svg"} alt="create-mom" />
+            <img src={createmom} alt="create-mom" />
           </div>
         </div>
         <div className="ui divider"></div>
@@ -510,11 +513,11 @@ function MomSection() {
                                 as="button"
                                 style={{
                                   border: "none",
-                                  backgroundColor: "#ECEFF5",
+                                  background: "none",
                                 }}
                               >
                                 <img
-                                  src={"/images/threedots.svg"}
+                                  src={threeDots}
                                   alt="threedots"
                                 />
                               </Dropdown.Toggle>
@@ -607,6 +610,7 @@ function MomSection() {
                         name="pointscheck"
                         onChange={() => handleCheckDeleteShare(_id)}
                       />
+                      <div className="d-flex align-center justify-between width-100 margin-left-5">
                       <div
                         className="title-font-size font-weight-500"
                         onClick={() => naviagteInnerPage(_id)}
@@ -618,6 +622,7 @@ function MomSection() {
                         onClick={() => naviagteInnerPage(_id)}
                       >
                         #{category}
+                      </div>
                       </div>
                       {/* {!draftsflag && (
                         <Dropdown>

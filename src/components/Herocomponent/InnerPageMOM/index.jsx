@@ -6,6 +6,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./InnerPageMom.css";
 import { data } from "../../utils/index";
+import { allImagesList } from "../../utils/images";
 import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
@@ -13,7 +14,8 @@ function InnerPageMom() {
   const { id } = useParams();
   console.log(id);
   const [clientName, setClientName] = useState("");
-  const { BaseUrl, projectid, access_token, monthList } = data;
+  const { BaseUrl, projectid, access_token, monthList } = data
+  const {fullDots}=allImagesList
   const { pointsdetails, setPointsdetails, draftsflag} =
     useContext(MomContext);
     console.log(pointsdetails.points)
@@ -175,7 +177,7 @@ function InnerPageMom() {
                 } ${pointsdetails?.date?.substring(0, 4)}`}
               <img
                 style={{ margin: "0 5px" }}
-                src={"/images/fulldots.svg"}
+                src={fullDots}
                 alt="fullpoints"
               />
               {pointsdetails?.location}
