@@ -408,7 +408,6 @@ function MomSection() {
               )}
             </button>
           </div>
-
           <div className="edit-icon" onClick={() => navigateNewMom()}>
             <img src={"/images/createmom.svg"} alt="create-mom" />
           </div>

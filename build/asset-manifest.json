@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dev-mom/static/css/main.64018599.css",
+    "main.js": "/dev-mom/static/js/main.8d21de49.js",
+    "index.html": "/dev-mom/index.html",
+    "main.64018599.css.map": "/dev-mom/static/css/main.64018599.css.map",
+    "main.8d21de49.js.map": "/dev-mom/static/js/main.8d21de49.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.64018599.css",
+    "static/js/main.8d21de49.js"
+  ]
+}
