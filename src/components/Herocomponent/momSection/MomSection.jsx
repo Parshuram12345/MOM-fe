@@ -74,7 +74,6 @@ function MomSection() {
   ///---filter data ----///
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
-    console.log(pointslist)
     let dots = "...";
     let limit = 30;
     let newArrWithEmptyString = pointslist.filter(

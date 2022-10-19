@@ -90,33 +90,60 @@ function App() {
   }
 
   ///----update the point state in array string with key enter'----///
+  let previouslength = 0;
   const handlePointsTextArea = (e) => {
-    if (!bulletPoints.split("\n").includes("\u2022")) {
-      // setReadonlyTextarea(false)
-      // if(bulletPoints.split("\u2022").lastIndexOf("\n\n") !===-1){
-        // setReadonlyTextarea(true)
-        // e.preventDefault()
-      // }
-      // else{
-        // setReadonlyTextarea(false)
-      // }
-      // if(!bulletPoints.split("\u2022").slice(-1)[0]===""){
-
-        if (e.key === "Enter") {
-          console.log("enter key")
-          // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
-          setBulletPoints(`${bulletPoints}${"\u2022"}`);
-        }
+     const bullet = "\u2022";
+     const newlength = e.target.value.length;
+     const AsciiValue= e.target.value.substr(-1).charCodeAt(0);
+     const bulletvalue = e.target.value.substr(-1)
+     console.log(e.target.value,bulletvalue,newlength,AsciiValue)
+     
+     if(AsciiValue===8226 && bullet !==e.target.value){
+      e.target.value = e.target.value.slice(0,-1)
+     }
+     else if(bullet ===e.target.value){
+            e.target.value=""
+            setBulletPoints("")
+     }
+     if(newlength>previouslength){
+       if(AsciiValue===10){
+         console.log("back1")
+        //  if(e.target.value.split("\u2022").slice(-1)[0]==""){
+        //   console.log("back3")
+          
+        // }
+         // setBulletPoints(`${e.target.value}${bullet} `);
+         e.target.value = `${e.target.value}${bullet} `;
       }
-      else{
-          console.log("stop",e.target.value)
-          alert("enter key pressed two times together")
-          // setBulletPoints(e.target.value)
-          // e.selectionStart =e.selectionEnd =e.target.value.length
-          // bulletPoints.focus()
-          // return 
-        // return e.preventDefault()
+      else if( newlength===1){
+        console.log("back2")
+        // if(AsciiValue===8226){
+        //   e.target.value = ""
+        //  }
+        // setBulletPoints(`${bullet} ${e.target.value}`);
+        e.target.value = `${bullet} ${e.target.value}`;
       }
+      setBulletPoints(e.target.value)
+    }
+    previouslength =newlength;
+    console.log(previouslength)
+    // if (!bulletPoints.split("\n").includes("\u2022")) {
+    //   // if(!bulletPoints.split("\u2022").slice(-1)[0]===""){
+    //     if (e.key === "Enter") {
+    //       console.log("enter key")
+    //       // setBulletPoints(`${bulletPoints}${"\n\u2022"}`);
+    //       setBulletPoints(`${bulletPoints}${"\u2022"}`);
+    //     }
+    //   }
+    //   else{
+    //       console.log("stop",e.target.value)
+    //       alert("enter key pressed two times together")
+    //       // setBulletPoints(e.target.value)
+    //       // e.selectionStart =e.selectionEnd =e.target.value.length
+    //       // bulletPoints.focus()
+    //       // return 
+    //     // return e.preventDefault()
+    //   }
    
 }
   // console.log(bulletPoints.split("\n"))
