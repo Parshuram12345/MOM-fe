@@ -11,7 +11,7 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { projectId,id } = useParams();
   console.log(id);
   const [clientName, setClientName] = useState("");
   const { BaseUrl, projectid, access_token, monthList } = data
@@ -44,7 +44,7 @@ function InnerPageMom() {
   };
   ///---get api data ----///
   async function getApiData() {
-    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
       headers: {
         Authorization: access_token,
       },
@@ -70,7 +70,7 @@ function InnerPageMom() {
   ///---get client project ---////
   async function getClientProject() {
     return await axios.get(
-      `${BaseUrl}/api/projects/getProjects?projectId=${projectid}`,
+      `${BaseUrl}/api/projects/getProjects?projectId=${projectId}`,
       {
         headers: {
           Authorization: access_token,

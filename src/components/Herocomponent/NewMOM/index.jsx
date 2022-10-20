@@ -7,7 +7,7 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
 import {data} from "../../utils"
 function NewMom() {
-  const {id}=useParams();
+  const {projectId,id}=useParams();
   const {
     momdate,
     setMomdate,
@@ -39,7 +39,7 @@ function NewMom() {
    const {access_token,projectid,BaseUrl}=data;
   ///---get api data ----///
  async function getApiData() {
-  return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+  return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
     headers: {
       Authorization: access_token,
     },
@@ -81,7 +81,7 @@ function NewMom() {
       <div className="newMOM-container justify-around margin-left-3 width-95">
         <div className="d-flex align-center justify-between width-fit-content margin-top-10">
           <div className="small-font-10 color-text-888888">
-            Ashok rathi residence
+            MOM
           </div>
           <span className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />

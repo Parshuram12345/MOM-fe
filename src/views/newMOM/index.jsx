@@ -1,17 +1,19 @@
 import React from 'react'
-import SideNavWeb from '../../components/SideNavWeb/SideNavWeb'
-import WebHeader from '../../components/WebHeader/WebHeader'
+import SidebarWebNew from '../../components/common/SideNavWeb/SidebarWebNew.jsx';
+import HeaderWeb from '../../components/common/WebHeaderWeb/HeaderWeb.jsx';
+// import SideNavWeb from '../../components/SideNavWeb/SideNavWeb'
+// import WebHeader from '../../components/WebHeader/WebHeader'
 import NewMom from './../../components/Herocomponent/NewMOM/index';
 
 function NewMomPage() {
   return (
     <>
         <div className="top-navbar">
-        <WebHeader/>
+        <HeaderWeb/>
       </div>
       <div className='d-flex'>
         <div className="side-navbar">
-          <SideNavWeb/>
+          <SidebarWebNew/>
         </div>
         <div className='rightside-navbar'>
         <NewMom/>

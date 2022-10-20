@@ -1,17 +1,20 @@
 import React from 'react'
-import SideNavWeb from '../../components/SideNavWeb/SideNavWeb';
-import WebHeader from '../../components/WebHeader/WebHeader';
+import SidebarWebNew from '../../components/common/SideNavWeb/SidebarWebNew.jsx';
+import HeaderWeb from '../../components/common/WebHeaderWeb/HeaderWeb.jsx';
 import MomSection from './../../components/Herocomponent/momSection/MomSection';
+
 
  function Home() {
   return (
     <>
       <div className="top-navbar">
-        <WebHeader/>
+        {/* <WebHeader/> */}
+        <HeaderWeb/>
       </div>
       <div className='d-flex'>
         <div className="side-navbar">
-          <SideNavWeb/>
+          {/* <SideNavWeb/> */}
+          <SidebarWebNew/>
         </div>
         <div className='rightside-navbar'>
         <MomSection/>

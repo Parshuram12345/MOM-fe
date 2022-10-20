@@ -4,6 +4,7 @@ import logo_idesign  from  "../../../Images/logo-idesign.png";
 import searchIcon from "../../../Images/searchicon.svg";
 import fullDots from "../../../Images/fulldots.svg";
 import doubleVector from "../../../Images/doublevector.svg";
+import addCartIcon from "../../../Images/addedToCart.svg";
 
 export const allImagesList = {
     createmom,
@@ -11,5 +12,6 @@ export const allImagesList = {
     logo_idesign,
     searchIcon,
     fullDots,
-    doubleVector
+    doubleVector,
+    addCartIcon
 }

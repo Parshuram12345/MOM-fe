@@ -1,6 +1,6 @@
 {
   "name": "mom_feature",
-  "homepage":"https://pro.idesign.market/dev-mom",
+  "homepage": "https://pro.idesign.market/dev-mom",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,7 @@
     "bootstrap": "^5.2.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
+    "react-confirm-alert": "^3.0.6",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.36.1",

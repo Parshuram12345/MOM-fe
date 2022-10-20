@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight, FiEdit2 } from "react-icons/fi";
@@ -26,6 +26,9 @@ function MomSection() {
     getClientProject,
     clientName
   } = useContext(MomContext);
+  
+  const {projectId} = useParams();
+  console.log(projectId)
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);

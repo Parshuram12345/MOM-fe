@@ -2,6 +2,7 @@ import React, { useState, createContext } from "react";
 import axios from "axios";
 import { Route, Routes, useNavigate} from "react-router-dom";
 import "./Styles/index.css";
+import "./App.css";
 import Home from "./views/Home";
 import MomZeroStatePage from "./views/momZeroState";
 import NewMomPage from "./views/newMOM";
@@ -34,12 +35,13 @@ function App() {
   const [ newSentUnread,setNewSentUnread]=useState(false)
   const { access_token, BaseUrl, projectid } = data;
   const navigate = useNavigate();
+
   
   ///-----share condition with open newmom----///
   const handleShareMOM = (value) => {
-    navigate("/newmom");
-    setShareMom(value);
-  };
+    navigate("/newmom")
+    setShareMom(value)
+  }
   ///------Edit the draft data and post it-----///
   const handleEditDraft = (id) => {
     setNewDraftUnread(true)
@@ -113,6 +115,7 @@ function App() {
       }
     );
   }
+
   //---save the data as Draft---///
   const handleSaveDraft = () => {
     if (shareMom) {
@@ -287,11 +290,11 @@ function App() {
         }}
       >
         <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/mominnerpage/:id" element={<InnerPage />} />
+          <Route exact path="/:projectId" element={<Home />} />
+          <Route path="/mominnerpage/:projectId/:id" element={<InnerPage />} />
           <Route path="/momzerostate" element={<MomZeroStatePage />} />
           <Route path="/newmom/" element={<NewMomPage />} />
-          <Route path="/newmom/:id" element={<NewMomPage />} />
+          <Route path="/newmom/:projectId/:id" element={<NewMomPage />} />
         </Routes>
       </MomContext.Provider>
     </>
