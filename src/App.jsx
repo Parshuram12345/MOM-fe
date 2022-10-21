@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 import axios from "axios";
-import { Route, Routes, useNavigate} from "react-router-dom";
+import { Route, Routes, useNavigate,useParams} from "react-router-dom";
 import "./Styles/index.css";
 import "./App.css";
 import Home from "./views/Home";
@@ -33,20 +33,25 @@ function App() {
   const [bulletPoints, setBulletPoints] = useState("");
   const [ newDraftUnread,setNewDraftUnread]=useState(false)
   const [ newSentUnread,setNewSentUnread]=useState(false)
-  const { access_token, BaseUrl, projectid } = data;
+  const { access_token, BaseUrl} = data;
+  const {projectId}=useParams;
   const navigate = useNavigate();
 
-  
+  ///---navigate to home page -----///
+  const navigateHome=()=>{
+    navigate(`/${projectId}`)
+   }
+
   ///-----share condition with open newmom----///
   const handleShareMOM = (value) => {
-    navigate("/newmom")
+    navigate(`/newmom/${projectId}`)
     setShareMom(value)
   }
   ///------Edit the draft data and post it-----///
   const handleEditDraft = (id) => {
     setNewDraftUnread(true)
     setUpdatedraftId(id)
-    navigate(`/newmom/${id}`);
+    navigate(`/newmom/${projectId}/${id}`);
   };
   ///-----remove the email----///
   const removeEmail = (indexToRemove) => {
@@ -101,13 +106,13 @@ function App() {
     else{
       setNewSentUnread(true)
     }
-    navigate(`/mominnerpage/${id}`)
+    navigate(`/mominnerpage/${projectId}/${id}`)
   }
 
   ///---get client project ---////
   async function getClientProject() {
     return await axios.get(
-      `${BaseUrl}/api/projects/getProjects?projectId=${projectid}`,
+      `${BaseUrl}/api/projects/getProjects?projectId=${projectId}`,
       {
         headers: {
           Authorization: access_token,
@@ -128,7 +133,7 @@ function App() {
       category: category,
       location: location,
       title: title,
-      projectId: projectid,
+      projectId: projectId,
       // sharedWith: emaillist,
       points: bulletPoints && bulletPoints.trim().split("\u2022").filter((emptystr)=>emptystr!==""),
     });
@@ -181,7 +186,7 @@ function App() {
         location: location,
         title: title,
         isDraft: false,
-        projectId: projectid,
+        projectId: projectId,
         // sharedWith: emaillist,
         points: bulletPoints && bulletPoints.trim().split("\u2022").filter((emptystr)=>emptystr!==""),
       });
@@ -287,13 +292,14 @@ function App() {
           handlePointsTextArea,
           handleSubmitData,
           bulletPoints,
+          navigateHome
         }}
       >
         <Routes>
           <Route exact path="/:projectId" element={<Home />} />
           <Route path="/mominnerpage/:projectId/:id" element={<InnerPage />} />
-          <Route path="/momzerostate" element={<MomZeroStatePage />} />
-          <Route path="/newmom/" element={<NewMomPage />} />
+          <Route path="/momzerostate/:projectId" element={<MomZeroStatePage />} />
+          <Route path="/newmom/:projectId" element={<NewMomPage />} />
           <Route path="/newmom/:projectId/:id" element={<NewMomPage />} />
         </Routes>
       </MomContext.Provider>

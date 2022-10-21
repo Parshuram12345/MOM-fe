@@ -27,8 +27,8 @@ import { Dropdown, Modal } from "react-bootstrap";
 // import CreateNewProjectButton from "./PMTconnectionData/CreateNewProjectButton";
 import { SidebarLinksArray } from "./SidebarLinksArray";
 // import CreateNewProjectButton from "./PMTconnectionData/CreateNewProjectButton";
-// import requestReceived from "./iconimages/requestReceived.svg"
-// import mssg from "./iconimages/mssg.svg"
+import requestReceived from "./iconimages/requestReceived.svg"
+import mssg from "./iconimages/mssg.svg"
 import sendcall from "./iconimages/sendcall.svg"
 import sendmess from "./iconimages/sendmess.svg"
 
@@ -98,7 +98,7 @@ const SidebarWebNew = () => {
       <Modal show={show} onHide={handleClose} centered size="md" >
         <Modal.Body style={{ height: "22rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div className="d-flex flex-column align-items-center justify-content-between p-4 w-100" style={{height: "100%"}}>
-            {/* <img src={mssg} alt="" /> */}
+            <img src={mssg} alt="message-icon" />
             <div style={{ fontSize: "20px", fontWeight: "500", color: "black" }}>Message Received</div>
             <div style={{ fontSize: "16px", fontWeight: "400", color: "black", textAlign: "center" }}>We have’ve received your message, you can <br /> expect a reply within 24 hours</div>
             <button className="" style={{ background: "#176091", color: "white", border: "none", height: "40px", textAlign: "center", width: " 85%", fontSize: "14px", borderRadius: "8px" }} onClick={handleClose}>Okay</button>
@@ -108,7 +108,7 @@ const SidebarWebNew = () => {
       <Modal show={show2} onHide={handleClose2} centered size="md">
         <Modal.Body style={{ height: "22rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div className="d-flex flex-column align-items-center justify-content-between p-4 w-100" style={{height: "100%"}}>
-            {/* <img src={requestReceived} alt="" /> */}
+            <img src={requestReceived} alt="" />
             <div style={{fontSize: "20px", fontWeight: "500", color: "black"}}>Request Received</div>
             <div style={{ fontSize: "16px", fontWeight: "400", color: "black", textAlign: "center" }}>We have’ve received your request, <br /> you can expect a call within 4 hours</div>
             <button className="" style={{ background: "#176091", color: "white", border: "none", height: "40px", textAlign: "center", width: " 85%", fontSize: "14px", borderRadius: "8px" }} onClick={handleClose2}>Okay</button>

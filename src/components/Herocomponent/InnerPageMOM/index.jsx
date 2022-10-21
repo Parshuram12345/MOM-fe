@@ -3,23 +3,20 @@ import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 // import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import "./InnerPageMom.css";
 import { data } from "../../utils/index";
 import { allImagesList } from "../../utils/images";
 import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
-  const navigate = useNavigate();
-  const { projectId,id } = useParams();
-  console.log(id);
+  const { projectId, id } = useParams();
+  // console.log(id);
   const [clientName, setClientName] = useState("");
-  const { BaseUrl, projectid, access_token, monthList } = data
-  const {fullDots}=allImagesList
-  const { pointsdetails, setPointsdetails, draftsflag} =
-    useContext(MomContext);
-    console.log(pointsdetails.points)
-    // const pointsdetails.points?.filter((elem)=> elem !=" \n"))
+  const { BaseUrl,access_token, monthList } = data;
+  const { fullDots } = allImagesList;
+  const { pointsdetails, setPointsdetails, draftsflag, navigateHome } 
+   = useContext(MomContext);
   ///-----highlight the match point text---///
   const highlightPoints = () => {
     let textToSearch = document.getElementById("search-bar").value;
@@ -62,7 +59,7 @@ function InnerPageMom() {
       data: {
         id: id,
         isRead: true,
-        projectId: projectid,
+        projectId: projectId,
       },
     });
   }
@@ -109,10 +106,6 @@ function InnerPageMom() {
   }, []);
   ///----bullet points -----////
   const bullet = "\u2022";
-  ///---navigate to home page ----///
-  const navigateHome = () => {
-    navigate("/");
-  };
   return (
     <>
       <div className="d-flex-col width-95 margin-left-3">
@@ -197,19 +190,21 @@ function InnerPageMom() {
               className="points-container-field border-none width-84"
             >
               {pointsdetails &&
-                pointsdetails.points?.filter((elem)=> elem !==" \n").map((elem, index) => {
-                  return (
-                    <div key={index} className="d-flex divider-margin-5">
+                pointsdetails.points
+                  ?.filter((elem) => elem !== " \n")
+                  .map((elem, index) => {
+                    return (
+                      <div key={index} className="d-flex divider-margin-5">
                         <span className="points-counter">{bullet}</span>
-                      <div
-                      name="points-text"
-                      className="points-area text-align-justify"
-                      >
-                         {elem?.substring(1,)}
+                        <div
+                          name="points-text"
+                          className="points-area text-align-justify"
+                        >
+                          {elem?.substring(1)}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
             </div>
             <div className="share-with-wrapper padding-left-10">
               <div style={{ width: "104px" }} className="ui divider"></div>

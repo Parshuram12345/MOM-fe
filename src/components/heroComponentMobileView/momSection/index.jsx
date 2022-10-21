@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AiOutlineDelete, AiOutlineCloseCircle } from "react-icons/ai";
 // import { CiCircleRemove } from "react-icons/ci";
 import { HiOutlineShare } from "react-icons/hi";
@@ -24,6 +24,7 @@ function MomSection() {
     clientname
   } = useContext(momContext);
   const navigate = useNavigate();
+  const projectId =useParams()
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentsflag, setSentflag] = useState(false);
   const [momdraftsclonedata, setmomdraftsclonedata] = useState([]);
@@ -34,8 +35,8 @@ function MomSection() {
   const [checkboxAllSelected, setCheckboxAllSelected] = useState([]);
   const [allselectcheckbox, setAllselectcheckbox] = useState(false);
   const [searchbarToggle, setSearchToggle] = useState(false);
-  const { access_token, BaseUrl, projectid,monthList } = data;
-  const {createmom,threeDots,doubleVector,searchIcon}=allImagesList
+  const { access_token, BaseUrl,monthList } = data;
+  const {createmom,threeDots,doubleVector,searchIcon,emptyIcon}=allImagesList
   ///----toggle searchbar -----////
   const toggleSearchbarEffect = (value) => {
     setSearchToggle(value);
@@ -99,7 +100,7 @@ function MomSection() {
   // console.log(checkboxAllSelected)
   ///---navigate to new mom page -----///
   const navigateNewMom = () => {
-    navigate("/newmom");
+    navigate(`/newmom/${projectId}`);
   };
 
   ///----open delete MOM modal -----///
@@ -135,10 +136,10 @@ function MomSection() {
 
   ///----delete the mom selected data----////
   const handleMultipleDeleteMOM = async () => {
-    navigate("/");
+    navigate(`/${projectId}`);
     setOpenMultipledeleteModal(false);
     await axios
-      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectId}`, {
         momIds: checkboxAllSelected,
       })
       .then((res) => {
@@ -155,10 +156,10 @@ function MomSection() {
   ///----delete the single select mom----///
   ///----delete the single selected MOM data----////
   const handleSingleDeleteMOM = async (id) => {
-    navigate("/");
+    navigate(`/${projectId}`);
     setOpendeleteModal(false);
     await axios
-      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectId}`, {
         momIds: singleDeleteMomid,
       })
       .then((res) => {
@@ -213,7 +214,7 @@ function MomSection() {
   }
   ////-----get api data -----///
   async function getApiData() {
-    return axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+    return axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
       headers: {
         Authorization: access_token,
       },
@@ -232,7 +233,7 @@ function MomSection() {
      data: {
        id: id,
        isRead: true,
-       projectId: projectid,
+       projectId: projectId,
      },
    })
    .then((res)=>{
@@ -464,7 +465,7 @@ function MomSection() {
                 <div className="add-mom-Bg">
                   <img
                     className="addMomImg"
-                    src={"/images/add_mom.svg"}
+                    src={emptyIcon}
                     alt="add-notes"
                   />
                 </div>
@@ -580,7 +581,7 @@ function MomSection() {
               <div className="add-mom-Bg">
                 <img
                   className="addMomImg"
-                  src={"/images/add_mom.svg"}
+                  src={emptyIcon}
                   alt="add-notes"
                 />
               </div>

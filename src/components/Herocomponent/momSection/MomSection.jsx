@@ -28,7 +28,7 @@ function MomSection() {
   } = useContext(MomContext);
   
   const {projectId} = useParams();
-  console.log(projectId)
+  // console.log(projectId)
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
@@ -37,8 +37,8 @@ function MomSection() {
   const [singleDeleteMomID, setSingleDeleteMomID] = useState([]);
   const [draftcheckboxAll, setDraftsCheckboxAll] = useState(false);
   const [sentcheckboxall, setSentcheckboxall] = useState(false);
-  const { access_token, BaseUrl, projectid, monthList} = data;
-  const {threeDots}= allImagesList
+  const { access_token, BaseUrl,monthList} = data;
+  const {threeDots,emptyIcon}= allImagesList
   const navigate = useNavigate();
 
   ///----open single delete MOM modal -----///
@@ -74,7 +74,7 @@ function MomSection() {
 
   ///---navigate to new mom page -----///
   const navigateNewMOM = () => {
-    navigate("/newmom");
+    navigate(`/newmom/${projectId}`);
   };
   ///---filter data ----///
   ///----add three dots after limit out ----///
@@ -152,10 +152,10 @@ function MomSection() {
   // console.log(checkboxSelected)
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
-    navigate("/");
+    navigate(`/${projectId}`);
     setOpendeleteModal(false);
     axios
-      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectId}`, {
         momIds: checkboxSelected,
       })
       .then((res) => {
@@ -171,7 +171,7 @@ function MomSection() {
     setOpendeleteModal(false);
     console.log(singleDeleteMomID);
     await axios
-      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectid}`, {
+      .put(`${BaseUrl}/api/mom/deleteMOMs?projectId=${projectId}`, {
         momIds: singleDeleteMomID,
       })
       .then((res) => {
@@ -204,7 +204,7 @@ function MomSection() {
   
   ///---get api data ----///
   async function getApiData() {
-    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectid}`, {
+    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
       headers: {
         Authorization: access_token,
       },
@@ -223,7 +223,7 @@ function MomSection() {
       data: {
         id: id,
         isRead: true,
-        projectId: projectid,
+        projectId: projectId,
       },
     })
     .then((res)=>{
@@ -409,7 +409,7 @@ function MomSection() {
               <div className="add-mom-bg-circle">
                 <img
                   className="add-mom-img"
-                  src={"/images/add_mom.svg"}
+                  src={emptyIcon}
                   alt="add-notes"
                 />
               </div>
@@ -430,7 +430,7 @@ function MomSection() {
               <div className="add-mom-bg-circle">
                 <img
                   className="add-mom-img"
-                  src={"/images/add_mom.svg"}
+                  src={emptyIcon}
                   alt="add-notes"
                 />
               </div>
@@ -507,7 +507,7 @@ function MomSection() {
                       <div className="add-mom-bg-circle">
                         <img
                           className="add-mom-img"
-                          src={"/images/add_mom.svg"}
+                          src={emptyIcon}
                           alt="add-notes"
                         />
                       </div>
@@ -629,7 +629,7 @@ function MomSection() {
                     <div className="add-mom-bg-circle">
                       <img
                         className="add-mom-img"
-                        src={"/images/add_mom.svg"}
+                        src={emptyIcon}
                         alt="add-notes"
                       />
                     </div>

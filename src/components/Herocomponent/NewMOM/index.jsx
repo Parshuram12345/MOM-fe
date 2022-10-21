@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import "./NewMom.css";
 import axios from "axios"
-import { useParams } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
@@ -35,8 +35,10 @@ function NewMom() {
     setDateerror,
     setCategoryerror,
     setPointserror,
+    navigateHome,
   } = useContext(MomContext);
-   const {access_token,projectid,BaseUrl}=data;
+   const {access_token,BaseUrl}=data;
+
   ///---get api data ----///
  async function getApiData() {
   return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
@@ -80,7 +82,7 @@ function NewMom() {
     <>
       <div className="newMOM-container justify-around margin-left-3 width-95">
         <div className="d-flex align-center justify-between width-fit-content margin-top-10">
-          <div className="small-font-10 color-text-888888">
+          <div className="small-font-10 color-text-888888" onClick={()=>navigateHome()}>
             MOM
           </div>
           <span className="d-flex align-center color-text-888888 small-font-12">

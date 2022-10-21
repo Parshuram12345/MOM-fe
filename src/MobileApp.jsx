@@ -5,7 +5,7 @@ import MomZeroStateMobilePage from "./mobileViews/momZeroState";
 import MomMainSectionMobilePage from "./mobileViews/MomMainSection";
 import InnerMomPage from "./mobileViews/InnerPageMom";
 import "./Styles/mobile/mobile.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { data } from "./components/utils";
 import { useEffect } from "react";
 export const momContext = createContext("context");
@@ -29,9 +29,9 @@ function MobileApp() {
   const [roomName, setRoomName] = useState([]);
   const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
   const [clientname, setclientname] = useState("");
-  const { access_token, BaseUrl, projectid } = data;
+  const { access_token, BaseUrl} = data;
   const navigate = useNavigate();
-
+  const {projectId}=useParams()
   ///-----share condition with open newmom----///
   const handleSharedMOMdata = (value) => {
     navigate("/newmom");
@@ -81,15 +81,20 @@ function MobileApp() {
    }
    previouslength =newlength;
   }
+  ///---- got to home page ----///
+  const navigateHome=()=>{
+    navigate(`/${projectId}`)
+  }
+
   ///------navigate to MOM inner page -----///
   const naviagteInnerPage = (id) => {
-    navigate(`/mominnerpage/${id}`);
+    navigate(`/mominnerpage/${projectId}/${id}`);
   };
   
   ///---edit the draft data -----////
   const handleEditDraftdata = (id) => {
     setUpdatedraftsusingId(id);
-    navigate(`/newmom/${id}`);
+    navigate(`/newmom/${projectId}/${id}`);
   };
 
   ///---save the draft data----////
@@ -100,7 +105,7 @@ function MobileApp() {
         date: selectdate,
         category: category,
         location: location,
-        projectId: projectid,
+        projectId: projectId,
         title: title,
         // sharedWith:emaillist,
         points:
@@ -147,7 +152,7 @@ function MobileApp() {
       date: selectdate,
       category: category,
       location: location,
-      projectId: projectid,
+      projectId: projectId,
       title: title,
       isDraft: false,
       // sharedWith:emaillist,
@@ -192,7 +197,7 @@ function MobileApp() {
   ///---get client project ---////
   async function getClientProject() {
     return await axios.get(
-      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectid}`,
+      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectId}`,
       {
         headers: {
           Authorization: access_token,
@@ -271,14 +276,15 @@ function MobileApp() {
           handleEditDraftdata,
           handleSubmitData,
           handleSaveDraftData,
+          navigateHome,
         }}
       >
         <Routes>
-          <Route exact path="/" element={<MomMainSectionMobilePage />} />
+          <Route exact path="/:projectId" element={<MomMainSectionMobilePage />} />
           <Route path="/momzerostate" element={<MomZeroStateMobilePage />} />
           <Route path="/newmom" element={<NewMomMobilePage />} />
-          <Route path="/newmom/:id" element={<NewMomMobilePage />} />
-          <Route path="/mominnerpage/:id" element={<InnerMomPage />} />
+          <Route path="/newmom/:projectId/:id" element={<NewMomMobilePage />} />
+          <Route path="/mominnerpage/:projectId/:id" element={<InnerMomPage />} />
         </Routes>
       </momContext.Provider>
     </>
