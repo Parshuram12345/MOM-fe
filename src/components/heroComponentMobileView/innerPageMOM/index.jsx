@@ -16,7 +16,8 @@ function InnerPageMom() {
   const [searchbarToggle, setSearchToggle] = useState(false);
   const {
     pointsdetails,
-    // client,
+    clientName,
+    setClientName,
     setPointsdetails,
     getClientProject,
     navigateHome,
@@ -85,7 +86,15 @@ function InnerPageMom() {
         });
     }
     ///----get client project id -----///
-    getClientProject();
+      //---get client name from client data----///
+      getClientProject(projectId)
+      .then((res) => {
+              setClientName(res.data.projects[0].clientId.name);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+ 
 
     ///----read mom ----///
     getReadMom()

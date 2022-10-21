@@ -14,4 +14,4 @@
     "Sep",
     "Oct",
     "Nov",
-    "Dec"]
+    "Dec"];

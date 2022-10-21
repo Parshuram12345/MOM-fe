@@ -28,7 +28,7 @@ function MobileApp() {
   const [emailValid, setEmailValid] = useState(false);
   const [roomName, setRoomName] = useState([]);
   const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
-  const [clientname, setclientname] = useState("");
+  const [clientName, setClientName] = useState("");
   const { access_token, BaseUrl} = data;
   const navigate = useNavigate();
   const {projectId}=useParams()
@@ -195,7 +195,7 @@ function MobileApp() {
     pointsdata ? setPointserror(false) : setPointserror(true);
   };
   ///---get client project ---////
-  async function getClientProject() {
+  async function getClientProject(projectId) {
     return await axios.get(
       `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectId}`,
       {
@@ -215,21 +215,6 @@ function MobileApp() {
   if (pointsdata && pointserror) {
     setPointserror(false);
   }
-  let emailconvertArr = [];
-  useEffect(() => {
-    ///---get client id project----///
-    getClientProject()
-      .then((res) => {
-        setRoomName(res.data.projects[0].rooms);
-        setclientname(res.data.projects[0].clientId.name);
-        emailconvertArr.push(res.data.projects[0].clientId.email);
-        setEmaillist(emailconvertArr);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-   
-  }, []);
   return (
     <>
       <momContext.Provider
@@ -265,8 +250,9 @@ function MobileApp() {
           setSharemom,
           emailValid,
           roomName,
-          clientname,
           setRoomName,
+          clientName,
+          setClientName,
           setEmailValid,
           getClientProject,
           handleSharedMOMdata,

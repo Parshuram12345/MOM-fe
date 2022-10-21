@@ -1,10 +1,10 @@
 import React from "react";
 import "./headerWeb.css";
-import search from "../SideNavWeb/iconimages/searchIcon.svg";
+// import search from "../SideNavWeb/iconimages/searchIcon.svg";
 import notification from "../SideNavWeb/iconimages/bellIcon.svg";
-import cart from "../SideNavWeb/iconimages/addCart.svg";
-// import cartImageSelected from "../../../Images/SelectedVector3.svg";
-// import defaultProfile from "../../../Images/defaultProfileIcon.svg";
+import cart from "../SideNavWeb/iconimages/cartIcon.svg";
+import cartImageSelected from "../SideNavWeb/iconimages/addCart.svg";
+import defaultProfile from "../SideNavWeb/iconimages/defaultProfileIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -182,18 +182,18 @@ const HeaderWeb = () => {
             role="button"
             onClick={goToCart}
           >
-            {/* <img style={{ height: "20px" }} src={path.pathname === "/mycart" ? cartImageSelected : cart} /> */}
+            <img style={{ height: "20px" }} src={path.pathname === "/mycart" ? cartImageSelected : cart} />
             {leadsInCart[0]?.data?.data?.leads?.length !== 0 && (
               <div className="leadsInCartCounter">
                 {leadsInCart[0]?.data?.data?.leads?.length}
               </div>
             )}
           </div>
-          {/* <div style={{marginLeft: "4px"}}>
+         {/* <div style={{marginLeft: "4px"}}>
             <div className="lmsweb-header-profile" role="button" onClick={goToProfile}>
               <img style={{ width: "100%", height: "100%" }} src={defaultProfile} alt="image" />
             </div>
-          </div> */}
+          </div>  */}
           <div>
             <Dropdown style={{ display: "flex", alignItems: "center" }}>
               <DropdownToggle

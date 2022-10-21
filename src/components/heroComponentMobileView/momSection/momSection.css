@@ -122,7 +122,7 @@ a,a:hover{
     right: 0;
     z-index: 1;
 }
-.modals-wrapper{
+.modals-wrapper-mobile{
     border-radius: 10px;
     border: 1px solid #DFDFDF;
     padding: 20px;

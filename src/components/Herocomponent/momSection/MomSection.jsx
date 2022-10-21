@@ -24,11 +24,12 @@ function MomSection() {
     handleShareMOM,
     handleEditDraft,
     getClientProject,
-    clientName
+    clientName,
+    setClientName
   } = useContext(MomContext);
   
   const {projectId} = useParams();
-  // console.log(projectId)
+  console.log(projectId)
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
@@ -149,7 +150,6 @@ function MomSection() {
       setCheckboxSelected((previousitem) => [...previousitem, id]);
     }
   };
-  // console.log(checkboxSelected)
   ///----delete the mom selected data----////
   const handleDeleteMOM = async () => {
     navigate(`/${projectId}`);
@@ -233,6 +233,10 @@ function MomSection() {
     })
   }
  
+  ////-----share the MOM -----////
+  const handleShareMom=()=>{
+    
+  }
   ///------
   useEffect(() => {
     getApiData()
@@ -263,10 +267,15 @@ function MomSection() {
       .catch((error) => {
         console.error(error);
       });
-    //---get client data----///
-    getClientProject();
+    //---get client name from client data----///
+    getClientProject(projectId)
+    .then((res) => {
+            setClientName(res.data.projects[0].clientId.name);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
     ///-----read the Sent mom after 24 hours------///
-  
   }, []);
 
   ////----condition for all select checkbox----///
@@ -291,11 +300,11 @@ function MomSection() {
         {/* ///------modal code for single delete MOM */}
         {opendeleteModal && (
           <div className="main-modal-wrapper">
-            <div className="modal-wrapper">
+            <div className="modal-wrapper-web">
               <div className="content">
                 <p className="notice-text"> Are you sure you want to delete this?</p>
               </div>
-              <div style={{marginTop:"20px"}} className="actions">
+              <div style={{marginTop:"20px"}} className="d-flex width-50">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleSingleDeleteMOM()}
@@ -315,11 +324,11 @@ function MomSection() {
         {/* ///------modal code for multiple delete MOM */}
         {openMultipledeleteModal && (
           <div className="main-modal-wrapper">
-            <div className="modal-wrapper">
+            <div className="modal-wrapper-web">
               <div className="content">
                 <p className="notice-text">Are you sure you want to delete this?</p>
               </div>
-              <div  style={{marginTop:"20px"}} className="actions">
+              <div  style={{marginTop:"20px"}} className="d-flex width-50">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleDeleteMOM()}
@@ -588,7 +597,6 @@ function MomSection() {
                                   }}
                                 >
                                   <img
-                                    // src={"/images/threedots.svg"}
                                     src={threeDots}
                                     alt="threedots"
                                   />
@@ -692,12 +700,12 @@ function MomSection() {
                             </div>
                             <div
                               style={{ color: "#000000", fontWeight: "400" }}
-                              className="points-pad width-32"
+                              className="points-pad width-31"
                               onClick={() => gotoInnerMom(_id)}
                             >
                               {points && add3Dots(points)}
                             </div>
-                            {/* {!draftsflag && (
+                        
                             <Dropdown className={ draftsflag ? "" :"margin-right-13"}>
                               <Dropdown.Toggle
                                 as="button" className="threedots-btn bg-color-fa"
@@ -706,29 +714,28 @@ function MomSection() {
                                 }}
                                 >
                                 <img
-                                  src={"/images/threedots.svg"}
+                                  src={threeDots}
                                   alt="threedots"
                                   />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                <Dropdown.Item className="d-flex align-center">
-                                  <HiOutlineShare className="share-icon" />
+                                <Dropdown.Item className="d-flex align-center" onClick={()=> handleShareMom()}>
+                                  <HiOutlineShare className="share-icon margin-right-5" />
                                   Share
                                 </Dropdown.Item >
-                                <Dropdown.Item className="d-flex align-center">
+                                {/* <Dropdown.Item className="d-flex align-center">
                                   <FiEdit2 className="share-icon" />
                                   Edit
-                                </Dropdown.Item >
-                                <Dropdown.Item 
+                                </Dropdown.Item > */}
+                                {/* <Dropdown.Item 
                                 className="d-flex align-center"
                                 onClick={()=>handleMomModal(true,_id)}
                                  >
                                   <AiOutlineDelete className="share-icon" />
                                   Delete
-                                </Dropdown.Item>
+                                </Dropdown.Item> */}
                               </Dropdown.Menu>
                             </Dropdown>
-                          )} */}
                           </div>
                         </>
                       );
@@ -739,6 +746,7 @@ function MomSection() {
             </div>
           </>
         )}
+       
       </div>
     </>
   );

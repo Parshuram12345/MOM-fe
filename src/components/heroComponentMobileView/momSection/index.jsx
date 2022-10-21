@@ -21,10 +21,11 @@ function MomSection() {
     handleSharedMOMdata,
     getClientProject,
     handleEditDraftdata,
-    clientname
+    clientName,
+    setClientName
   } = useContext(momContext);
   const navigate = useNavigate();
-  const projectId =useParams()
+  const {projectId} =useParams()
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentsflag, setSentflag] = useState(false);
   const [momdraftsclonedata, setmomdraftsclonedata] = useState([]);
@@ -243,7 +244,6 @@ function MomSection() {
    })
  } 
 
-
   useEffect(() => {
     getApiData()
       .then((res) => {
@@ -284,10 +284,18 @@ function MomSection() {
       });
 
     ///---get client id project----///
-    getClientProject();
-
+    //---get client name from client data----///
+    getClientProject(projectId)
+    .then((res) => {
+      console.log(res.data.projects[0].clientId.name)
+            setClientName(res.data.projects[0].clientId.name);
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+          console.log(clientName)
   }, []);
-
+  
   useEffect(() => {
     ///---condition for all select checkbox----///
     if (!draftsflag) {
@@ -318,11 +326,11 @@ function MomSection() {
         {/* ///------modal code for delete MOM */}
         {opendeleteModal && (
           <div className="main-modal-container">
-            <div className="modals-wrapper">
+            <div className="modals-wrapper-mobile">
               <div className="content">
                 <p className="notice-text"> Are you sure you want to delete this?</p>
               </div>
-              <div  style={{marginTop:"10%"}} className="actions">
+              <div  style={{marginTop:"10%"}} className="d-flex width-50">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleSingleDeleteMOM()}
@@ -342,11 +350,11 @@ function MomSection() {
         {/* ///------modal code for multiple delete MOM */}
         {openMultipledeleteModal && (
           <div className="main-modal-container">
-            <div className="modals-wrapper">
+            <div className="modals-wrapper-mobile">
               <div className="content">
                 <p className="notice-text">Are you sure you want to delete this?</p>
               </div>
-              <div  style={{marginTop:"10%"}} className="actions">
+              <div  style={{marginTop:"10%"}} className="d-flex width-50">
                 <div
                   className="ui button yes-btn"
                   onClick={() => handleMultipleDeleteMOM()}
@@ -567,7 +575,7 @@ function MomSection() {
                             className="as-on color-text border-radius-25"
                             onClick={() => naviagteInnerPage(_id)}
                           >
-                           { clientname && shortName(clientname)}
+                           { clientName && shortName(clientName)}
                           </div>
                         </div>
                       </div>
@@ -611,7 +619,7 @@ function MomSection() {
                         name="pointscheck"
                         onChange={() => handleCheckDeleteShare(_id)}
                       />
-                      <div className="d-flex align-center justify-between width-100 margin-left-5">
+                      <div style={{marginLeft:"15px"}} className="d-flex align-center justify-between width-100">
                       <div
                         className="title-font-size font-weight-500"
                         onClick={() => naviagteInnerPage(_id)}
@@ -675,7 +683,7 @@ function MomSection() {
                           className="as-on color-text border-radius-25"
                           onClick={() => naviagteInnerPage(_id)}
                         >
-                          { clientname && shortName(clientname)}
+                          { clientName && shortName(clientName)}
                         </div>
                     </div>
                   </div>

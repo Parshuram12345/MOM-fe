@@ -19,12 +19,14 @@ function NewMom() {
     title,
     setTitle,
     emaillist,
+    setEmaillist,
     dateerror,
     categoryerror,
     pointserror,
     emailValid,
     shareMom,
     roomName,
+    setRoomName,
     handleSaveDraft,
     getClientProject,
     addEmail,
@@ -76,8 +78,19 @@ function NewMom() {
         console.error(error); 
       });
     }
-    getClientProject();
-  }, [id]);
+    //---get client name from client data----///
+    let emailconvertArr = [];
+    getClientProject(projectId)
+    .then((res) => {
+            // console.log(res.data.projects)
+            setRoomName(res.data.projects[0].rooms);
+            emailconvertArr.push(res.data.projects[0].clientId.email);
+            setEmaillist(emailconvertArr);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+  }, []);
   return (
     <>
       <div className="newMOM-container justify-around margin-left-3 width-95">

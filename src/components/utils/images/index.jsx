@@ -6,6 +6,7 @@ import fullDots from "../../../Images/fulldots.svg";
 import doubleVector from "../../../Images/doublevector.svg";
 import addCartIcon from "../../../Images/addedToCart.svg";
 import emptyIcon from "../../../Images/emptyIcon.svg";
+import crossCloseIcon from "../../../Images/crosscloseicon.svg"
 
 export const allImagesList = {
     createmom,
@@ -15,5 +16,6 @@ export const allImagesList = {
     fullDots,
     doubleVector,
     addCartIcon,
-    emptyIcon
+    emptyIcon,
+    crossCloseIcon
 }

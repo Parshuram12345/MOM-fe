@@ -17,7 +17,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [emaillist, setEmaillist] = useState([]);
   const [emailvalue, setEmailvalue] = useState();
-  const [clientName, setclientName] = useState("");
+  const [clientName, setClientName] = useState("");
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
@@ -36,7 +36,9 @@ function App() {
   const { access_token, BaseUrl} = data;
   const {projectId}=useParams;
   const navigate = useNavigate();
+  console.log(projectId)
 
+ 
   ///---navigate to home page -----///
   const navigateHome=()=>{
     navigate(`/${projectId}`)
@@ -110,7 +112,7 @@ function App() {
   }
 
   ///---get client project ---////
-  async function getClientProject() {
+  async function getClientProject(projectId) {
     return await axios.get(
       `${BaseUrl}/api/projects/getProjects?projectId=${projectId}`,
       {
@@ -118,7 +120,7 @@ function App() {
           Authorization: access_token,
         },
       }
-    );
+    )
   }
 
   //---save the data as Draft---///
@@ -150,7 +152,7 @@ function App() {
             setDateerror(false);
             setCategoryerror(false);
             setPointserror(false);
-            navigate("/");
+            navigate(`/${projectId}`);
             setMomdate("");
             setCategory("");
             setLocation("");
@@ -201,7 +203,7 @@ function App() {
       })
         .then((response) => {
           if (response.ok) {
-            navigate("/");
+            navigate(`/${projectId}`);
             setMomdate("");
             setCategory("");
             setLocation(""); 
@@ -223,22 +225,6 @@ function App() {
     category ? setCategoryerror(false) : setCategoryerror(true);
     bulletPoints ? setPointserror(false) : setPointserror(true);
   };
-
-  ///get client project data ----///
-  let emailconvertArr = [];
-  useEffect(() => {
-    getClientProject()
-      .then((res) => {
-        setRoomName(res.data.projects[0].rooms);
-        setclientName(res.data.projects[0].clientId.name);
-        emailconvertArr.push(res.data.projects[0].clientId.email);
-        setEmaillist(emailconvertArr);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-     
-  }, []);
 
   return (
     <>
@@ -280,6 +266,7 @@ function App() {
           roomName,
           setRoomName,
           clientName,
+          setClientName,
           newDraftUnread,
           newSentUnread,
           handleShareMOM,

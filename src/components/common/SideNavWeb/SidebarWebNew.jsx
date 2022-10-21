@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-// import upgrade from "../../../Images/upgrade.png";
-// import chat from "../../../Images/chat.png";
-// import communtiy from "../../../Images/community.png";
-// import terms from "../../../Images/newabout.png";
-// import signout from "../../../Images/signout.png";
-// import comingSoon from "../../../Images/comingSoon.svg";
+import upgrade from "../SideNavWeb/iconimages/upgrade.svg";
+import "./sideWeb.css"
+// import chat from "../SideNavWeb/iconimages/Images/chat.png";
+// import communtiy from "../SideNavWeb/iconimages/community.png";
+import terms from "../SideNavWeb/iconimages/newabout.png";
+import signout from "../SideNavWeb/iconimages/signout.png";
+// import comingSoon from "../SideNavWeb/iconimages/comingSoon.svg";
 // import leadsImageOutlined from "../../../Images/OutlinedVector2.svg";
 // import leadsImageSelected from "../../../Images/SelectedVector2.svg";
 // import questionCircle from "../../../Images/questionCircleVector.svg";
@@ -14,7 +15,7 @@ import React, { useEffect, useState } from "react";
 // import block1 from "../../../3dComponents/3dImages/block1.svg";
 // import vendorsSubs from "../../../VendorComponentsMain/VendorImgs/vendorsSubs.svg";
 import { useNavigate } from "react-router-dom";
-import { confirmAlert } from "react-confirm-alert";
+// import { confirmAlert } from "react-confirm-alert";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { fetchProfileData } from "../../../Redux/Actions";
 // import sidebaricon from "../../../VendorComponentsMain/VendorImgs/sidebaricon.svg";
 import { Dropdown, Modal } from "react-bootstrap";
-// import { handleLogout } from "../../../Redux/Reducers/auth";
+import { handleLogout } from "../../../Redux/Actions/auth";
 // import CreateNewProjectButton from "./PMTconnectionData/CreateNewProjectButton";
 import { SidebarLinksArray } from "./SidebarLinksArray";
 // import CreateNewProjectButton from "./PMTconnectionData/CreateNewProjectButton";
@@ -31,13 +32,17 @@ import requestReceived from "./iconimages/requestReceived.svg"
 import mssg from "./iconimages/mssg.svg"
 import sendcall from "./iconimages/sendcall.svg"
 import sendmess from "./iconimages/sendmess.svg"
+import { BaseUrl } from "../../utils/StaticData/AccessToken";
+import { confirmAlert } from "react-confirm-alert";
+import createProjectBtn from "./iconimages/createProjectbtn.svg"
 
 const SidebarWebNew = () => {
   const authTok = localStorage.getItem("token") ? `Bearer ${localStorage.getItem("token")}` : "";
   const navigateTo = useNavigate();
+  const [logout,setLogout]=useState(false)
   const dispatch = useDispatch();
   const profileData = useSelector((state) => state.addToCartReducer.profileData);
-  console.log(profileData)
+  // console.log(profileData)
   // console.log(profileData[0]?.data?.data?.isVendorSubscribed)
   
   const path = useLocation();
@@ -55,7 +60,10 @@ const SidebarWebNew = () => {
       buttons: [
         {
           label: "Yes",
-          // onClick: () => dispatch(handleLogout()),
+          onClick: () =>{
+            localStorage.removeItem("token");
+            window.location.assign("https://pro.idesign.market")
+          }
         },
         {
           label: "No",
@@ -95,6 +103,30 @@ const SidebarWebNew = () => {
 
   return (
     <React.Fragment>
+      {/* { logout && <div className="main-modal-wrapper">
+            <div className="modal-wrapper-web">
+              <div className="content">
+                <p className="notice-text"> Are you sure you want to Logout?</p>
+              </div>
+              <div style={{marginTop:"20px"}} className="d-flex width-50">
+                <div
+                  className="ui button yes-logout-btn"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    window.location.assign("https://pro.idesign.market")
+                  }}
+                >
+                  Yes
+                </div>
+                <div
+                  className="ui button no-logout-btn"
+                  onClick={()=>setLogout(false)}
+                >
+                  No
+                </div>
+              </div>
+            </div>
+          </div>} */}
       <Modal show={show} onHide={handleClose} centered size="md" >
         <Modal.Body style={{ height: "22rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div className="d-flex flex-column align-items-center justify-content-between p-4 w-100" style={{height: "100%"}}>
@@ -130,10 +162,11 @@ const SidebarWebNew = () => {
       </Modal>
       <div className="sidenav" style={{ padding: "16px 16px 16px 10px", width: "18vw" }}>
         <div className="d-flex flex-column mt-2">
-          {/* <div className="w-100">
-          <CreateNewProjectButton />
+          <div className="d-flex justify-center align-center">
+          {/* <CreateNewProjectButton /> */}
+          <img style={{width:"15vw"}} src={createProjectBtn} alt="createProject"/>
+          </div>
             <hr />
-          </div> */}
           <div className="d-flex flex-column pt-2 " style={{ paddingBottom: "5rem" }}>
             { SidebarLinksArray && SidebarLinksArray.map((item, index) => (
               <div
@@ -164,8 +197,8 @@ const SidebarWebNew = () => {
           <hr />
           {profileData && profileData[0]?.data?.data?.planId?.name === "Free" ? (
             <>
-              <div role="button" className="unique d-flex justify-content-center align-items-center ms-3" style={{ borderRadius: "4px" }} onClick={() => goToNav("plans")}>
-                {/* <img className="sideNavImage" src={upgrade} />  */}
+              <div role="button" className="unique d-flex align-center justify-between" style={{ borderRadius: "4px",marginLeft:"3%" }} onClick={() => goToNav("plans")}>
+                <img className="sideNavImage" src={upgrade} /> 
                 <span>Upgrade to Premium</span>
               </div>
               <hr style={{ height: "0.5px" }} />
@@ -226,11 +259,12 @@ const SidebarWebNew = () => {
             </Dropdown>
           )}
         </div>
-        <div className="signout--- sidebarLinks ps-3" onClick={goLogOut}>
-          {/* <img className="sideNavImage" src={signout} /> */}
+        {/* <div className="signout--- sidebarLinks ps-3" onClick={()=>setLogout(true)}>
+          <img className="sideNavImage" src={signout} />
           <span>Sign Out</span>
-        </div>
+        </div> */}
       </div>
+
     </React.Fragment>
   );
 };
