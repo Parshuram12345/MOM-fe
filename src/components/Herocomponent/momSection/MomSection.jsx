@@ -25,7 +25,13 @@ function MomSection() {
     handleEditDraft,
     getClientProject,
     clientName,
-    setClientName
+    setClientName,
+    openShareModal,
+    setOpenShareModal,
+    shareEmail,
+    emailCheck,
+    shareEmailFormat,
+    sharedMOMWithEmail
   } = useContext(MomContext);
   
   const {projectId} = useParams();
@@ -39,7 +45,7 @@ function MomSection() {
   const [draftcheckboxAll, setDraftsCheckboxAll] = useState(false);
   const [sentcheckboxall, setSentcheckboxall] = useState(false);
   const { access_token, BaseUrl,monthList} = data;
-  const {threeDots,emptyIcon}= allImagesList
+  const {threeDots,emptyIcon,crossCloseIcon}= allImagesList
   const navigate = useNavigate();
 
   ///----open single delete MOM modal -----///
@@ -167,7 +173,7 @@ function MomSection() {
   };
   ///----delete the single selected MOM data----////
   const handleSingleDeleteMOM = async () => {
-    navigate("/");
+    navigate(`/${projectId}`);
     setOpendeleteModal(false);
     console.log(singleDeleteMomID);
     await axios
@@ -234,8 +240,9 @@ function MomSection() {
  
   ////-----share the MOM -----////
   const handleShareMom=()=>{
-    
+    setOpenShareModal(true)
   }
+
   ///------
   useEffect(() => {
     getApiData()
@@ -296,6 +303,35 @@ function MomSection() {
   return (
     <>
       <div className="d-flex-col width-95 margin-left-3">
+          {/* share mom modal */}
+          {openShareModal && (
+        <div className="main-modal-wrapper">
+          <div className="modal-wrapper position-relative">
+            <div className="content">
+              <p className="notice-text">Email</p>
+              <img
+                className="position-absolute close-icon"
+                onClick={() => setOpenShareModal(false)}
+                src={crossCloseIcon}
+                alt="cross-icon"
+              />
+              <input
+                type="text"
+                className="border-df bg-color-fa padding-5 border-radius-4 width-100"
+                placeholder="Email"
+                value={shareEmail}
+                onChange={(e) => shareEmailFormat(e)}
+              />
+            </div>
+            { emailCheck && <div style={{color:"red",fontSize:"10px",paddingLeft:"7px"}}>Email isn't valid</div>}
+            <div className="actions">
+              <div className="ui button submit-btn" onClick={()=> sharedMOMWithEmail()}>
+                Submit
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
         {/* ///------modal code for single delete MOM */}
         {opendeleteModal && (
           <div className="main-modal-wrapper">
@@ -748,6 +784,6 @@ function MomSection() {
        
       </div>
     </>
-  );
+  )
 }
 export default MomSection;

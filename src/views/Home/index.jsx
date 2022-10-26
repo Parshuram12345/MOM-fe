@@ -1,6 +1,6 @@
 import React from 'react'
-import SidebarWebNew from '../../components/common/SideNavWeb/SidebarWebNew.jsx';
-import HeaderWeb from '../../components/common/WebHeaderWeb/HeaderWeb.jsx';
+import HeaderWeb from '../../components/common/NewHeaderAndNavbar/HeaderWeb';
+import SidebarWebNew from '../../components/common/NewHeaderAndNavbar/SidebarWebNew';
 import MomSection from './../../components/Herocomponent/momSection/MomSection';
 
 
@@ -8,13 +8,14 @@ import MomSection from './../../components/Herocomponent/momSection/MomSection';
   return (
     <>
       <div className="top-navbar">
-        {/* <WebHeader/> */}
-        <HeaderWeb/>
+       <HeaderWeb/>
       </div>
       <div className='d-flex'>
         <div className="side-navbar">
           {/* <SideNavWeb/> */}
+          {/* <SidebarWebNew/> */}
           <SidebarWebNew/>
+
         </div>
         <div className='rightside-navbar'>
         <MomSection/>

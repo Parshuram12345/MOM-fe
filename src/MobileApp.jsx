@@ -268,7 +268,7 @@ function MobileApp() {
         <Routes>
           <Route exact path="/:projectId" element={<MomMainSectionMobilePage />} />
           <Route path="/momzerostate" element={<MomZeroStateMobilePage />} />
-          <Route path="/newmom" element={<NewMomMobilePage />} />
+          <Route path="/newmom/:projectId" element={<NewMomMobilePage />} />
           <Route path="/newmom/:projectId/:id" element={<NewMomMobilePage />} />
           <Route path="/mominnerpage/:projectId/:id" element={<InnerMomPage />} />
         </Routes>

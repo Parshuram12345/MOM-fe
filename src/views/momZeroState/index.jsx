@@ -1,6 +1,6 @@
 import React from 'react'
-import SidebarWebNew from '../../components/common/SideNavWeb/SidebarWebNew.jsx';
-import HeaderWeb from '../../components/common/WebHeaderWeb/HeaderWeb.jsx';
+import HeaderWeb from '../../components/common/NewHeaderAndNavbar/HeaderWeb';
+import SidebarWebNew from '../../components/common/NewHeaderAndNavbar/SidebarWebNew';
 import MomZeroState from '../../components/Herocomponent/momZeroState/index';
 
  function MomZeroStatePage() {

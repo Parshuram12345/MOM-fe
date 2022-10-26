@@ -3,7 +3,7 @@ import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
-import { Link,useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./InnerPageMom.css";
 import { data } from "../../utils/index";
 import { allImagesList } from "../../utils/images";
@@ -11,15 +11,24 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const { projectId, id } = useParams();
-  const [ shareEmail, setShareEmail]=useState("");
-  const [emailCheck,setEmailCheck]=useState(false)
-  const [openShareModal,setOpenShareModal]=useState(false)
+
   // console.log(id);
-  const { BaseUrl,access_token, monthList } = data;
-  const { fullDots,crossCloseIcon} = allImagesList;
-  const { pointsdetails, setPointsdetails, draftsflag, navigateHome,clientName,setClientName} 
-   = useContext(MomContext);
-   console.log(clientName)
+  const { BaseUrl, access_token, monthList } = data;
+  const { fullDots, crossCloseIcon } = allImagesList;
+  const {
+    pointsdetails,
+    setPointsdetails,
+    draftsflag,
+    navigateHome,
+    clientName,
+    setClientName,
+    shareEmail,
+    openShareModal,
+    setOpenShareModal,
+    emailCheck,
+    shareEmailFormat,
+    sharedMOMWithEmail
+  } = useContext(MomContext);
   ///-----highlight the match point text---///
   const highlightPoints = () => {
     let textToSearch = document.getElementById("search-bar").value;
@@ -43,23 +52,6 @@ function InnerPageMom() {
     }
   };
 
-  ///----open share modal code--////
-  const openshareMomModal=(value)=>{
-    setOpenShareModal(value)
-  }
-  ///---share email -----///
-  const shareEmailFormat =(event)=>{
-    setShareEmail(event.target.value);
-}
-  const sharedMOMWithEmail=()=>{
-        let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
-        if (shareEmail.match(mailformat)) {
-          setEmailCheck(false);
-              } 
-              else {
-                setEmailCheck(true);
-              }
-  }
   ///---get api data ----///
   async function getApiData() {
     return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
@@ -117,51 +109,59 @@ function InnerPageMom() {
       .catch((err) => {
         console.log(err);
       });
-    
-      //---get client name from client data----///
-     getClientProject(projectId)
-     .then((res) => {
-             setClientName(res.data.projects[0].clientId.name);
-           })
-           .catch((error) => {
-             console.error(error);
-           });
 
+    //---get client name from client data----///
+    getClientProject(projectId)
+      .then((res) => {
+        setClientName(res.data.projects[0].clientId.name);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
   ///----bullet points -----////
   const bullet = "\u2022";
   return (
     <>
       <div className="d-flex-col width-95 margin-left-3">
-         {/* share mom modal */}
-         {openShareModal && (
-        <div className="main-modal-wrapper">
-          <div className="modal-wrapper position-relative">
-            <div className="content">
-              <p className="notice-text">Email</p>
-              <img
-                className="position-absolute close-icon"
-                onClick={() => openshareMomModal(false)}
-                src={crossCloseIcon}
-                alt="cross-icon"
-              />
-              <input
-                type="text"
-                className="border-df bg-color-fa padding-5 border-radius-4 width-100"
-                placeholder="Email"
-                value={shareEmail}
-                onChange={(e) => shareEmailFormat(e)}
-              />
-            </div>
-            { emailCheck && <div style={{color:"red",fontSize:"10px",paddingLeft:"7px"}}>Email isn't valid</div>}
-            <div className="actions">
-              <div className="ui button submit-btn" onClick={()=> sharedMOMWithEmail()}>
-                submit
+        {/* share mom modal */}
+        {openShareModal && (
+          <div className="main-modal-wrapper">
+            <div className="modal-wrapper position-relative">
+              <div className="content">
+                <p className="notice-text">Email</p>
+                <img
+                  className="position-absolute close-icon"
+                  onClick={() => setOpenShareModal(false)}
+                  src={crossCloseIcon}
+                  alt="cross-icon"
+                />
+                <input
+                  type="text"
+                  className="border-df bg-color-fa padding-5 border-radius-4 width-100"
+                  placeholder="Email"
+                  value={shareEmail}
+                  onChange={(e) => shareEmailFormat(e)}
+                />
+              </div>
+              {emailCheck && (
+                <div
+                  style={{ color: "red", fontSize: "10px", paddingLeft: "7px" }}
+                >
+                  Email isn't valid
+                </div>
+              )}
+              <div className="actions">
+                <div
+                  className="ui button submit-btn"
+                  onClick={() => sharedMOMWithEmail()}
+                >
+                  Submit
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
         <div className="d-flex font-weight-500 small-font-10 width-fit-content justify-between align-center margin-top-10">
           <div id="ids" className="small-font-10 color-text-888888">
@@ -215,8 +215,11 @@ function InnerPageMom() {
             <div className="points-field font-size-18 font-weight-400">
               {pointsdetails?.title}
             </div>
-            <div>
-            <HiOutlineShare className="color-text-888888" onClick={()=>openshareMomModal(true)} />
+            <div style={{marginLeft:"5px"}}>
+              <HiOutlineShare
+                className="color-text-888888"
+                onClick={() => setOpenShareModal(true)}
+              />
             </div>
           </div>
           <div className="d-flex justify-between width-91">
@@ -271,7 +274,11 @@ function InnerPageMom() {
                     <div>{clientName}</div>
                   </>
                 )}
-                <div className="color-text d-flex align-center width-fit-content">
+                {shareEmail && <div>{shareEmail}</div>}
+                <div
+                  className="color-text d-flex align-center width-fit-content"
+                  onClick={() => setOpenShareModal(true)}
+                >
                   <AiFillPlusCircle /> Add Members
                 </div>
               </div>

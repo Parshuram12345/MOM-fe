@@ -12,8 +12,9 @@ body ::-webkit-scrollbar {
 }
 .mobile-top-navbar{
     height: 10vh;
+    width: 100vw;
     border: 1px solid #DFDFDF;
-    text-align: center;
+    /* text-align: center; */
 }
 .border-df{
     border: 1px solid #DFDFDF;

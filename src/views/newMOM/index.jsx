@@ -1,8 +1,6 @@
 import React from 'react'
-import SidebarWebNew from '../../components/common/SideNavWeb/SidebarWebNew.jsx';
-import HeaderWeb from '../../components/common/WebHeaderWeb/HeaderWeb.jsx';
-// import SideNavWeb from '../../components/SideNavWeb/SideNavWeb'
-// import WebHeader from '../../components/WebHeader/WebHeader'
+import HeaderWeb from '../../components/common/NewHeaderAndNavbar/HeaderWeb';
+import SidebarWebNew from '../../components/common/NewHeaderAndNavbar/SidebarWebNew';
 import NewMom from './../../components/Herocomponent/NewMOM/index';
 
 function NewMomPage() {

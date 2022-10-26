@@ -1645,7 +1645,7 @@ input:-webkit-autofill:active {
   font-weight: 600;
 }
 
-.react-confirm-alert-body {
+/* .react-confirm-alert-body {
   width: 100% !important;
 }
 
@@ -1659,7 +1659,7 @@ input:-webkit-autofill:active {
 .react-confirm-alert-button-group button {
   background: #176091 !important;
   width: 60px;
-}
+} */
 
 .premiumCard-text::marker {
   color: #888888;

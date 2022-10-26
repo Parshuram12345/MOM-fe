@@ -1,0 +1,45 @@
+.main-modal-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    position: fixed;
+    background: hsla(0,0%,100%,0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 100vh;
+}
+.modal-wrapper-web{
+    border-radius: 10px;
+    border: 1px solid #DFDFDF;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 20px 75px rgba(0 0 0 /13%);
+}
+.modal-wrapper-mobile{
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #DFDFDF;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 20px 75px rgba(0 0 0 /13%);
+}
+.ui.button.yes-logout-btn{
+    border: 1px solid #3B5998;
+    color: #888;
+    font-size: 12px;
+    background: #ffffff;
+    border-radius: 4px;
+}
+.ui.button.no-logout-btn{
+    margin-left: 3%;
+    font-weight: 300;
+    border: 1px solid #3B5998;
+    background: #3B5998;
+    color: #ffffff;
+    font-size: 12px;
+    border-radius: 4px;
+}

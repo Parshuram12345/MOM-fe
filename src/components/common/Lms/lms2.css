@@ -1,0 +1,385 @@
+.mmm {
+  /* background-color: yellow; */
+}
+.p20 {
+  font-size: 20px;
+  /* color: ; */
+}
+.p18 {
+  font-size: 18px;
+}
+.p16 {
+  font-size: 28px;
+}
+.p14 {
+  font-size: 14px;
+}
+.p12 {
+  font-size: 12px;
+}
+.shape {
+  height: 18rem;
+  width: 400px;
+  background-color: #3b5998;
+  overflow: hidden;
+  border-radius: 0% 0% 18% 18%;
+}
+.shape_div {
+  width: 100vw;
+  color: #ffffff;
+}
+.shape_div p {
+  color: #ffffff;
+}
+.back {
+  background-color: #ffffff;
+  width: 75%;
+  height: fit-content;
+  border-radius: 15px;
+  margin: 2% 0 2% 0;
+  color: #3b5998 !important;
+}
+.ulcls {
+  text-align: left;
+}
+.btn_promo {
+  border: 2px solid #3b5998;
+  border-radius: 5px;
+  line-height: 35px;
+  font-size: 16px;
+}
+.btn_promo:hover {
+  background-color: #3b5998;
+  color: #ffffff;
+}
+.btn_promo:active {
+  background-color: #3b5998;
+  color: #ffffff;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cong_sec {
+  width: 100vw;
+  height: 100vh;
+}
+.goto_btn {
+  height: auto;
+  width: 75%;
+  background-color: #176091;
+  padding: 5px;
+  color: #ffffff;
+  border-radius: 5px;
+  margin-left: 15%;
+}
+.colr_bor {
+  border: 2px solid #dddddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 1rem auto;
+}
+.search_feild {
+  border-color: #dfdfdf;
+  border-radius: 5px;
+  height: 40px;
+  width: 80vw;
+}
+.filer {
+  border-radius: 5px;
+  border: 2px solid #dfdfdf;
+  padding: 6px;
+  margin-left: 10px;
+}
+.circle_hb {
+  background-color: #d4603b;
+  height: fit-content;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: #ffffff;
+}
+.style_p p {
+  font-size: 14px;
+  margin: 0px;
+}
+.span_imd {
+  background-color: #dfdfdf;
+  border-radius: 5px;
+  padding: 3px;
+  font-size: 10px;
+  color: #3b5998;
+  margin-left: 15px;
+}
+.name_harsh {
+  font-size: 20px;
+}
+.style-box {
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
+  margin-top: 20px;
+}
+/* profile */
+.pro_style {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+.img_div {
+  height: 116px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.camera {
+  height: 32px;
+  width: 32px;
+  color: #3b5998;
+  background-color: #ffffff;
+  font-size: 25px;
+  padding: 12px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 20%; */
+  margin-bottom: 5px;
+  margin-right: 1rem;
+}
+.icon_pro {
+  margin-top: -3.2rem;
+  margin-left: 2rem;
+  width: 30%;
+}
+.icon_pro_img {
+  height: 96px;
+  width: 96px;
+  border-radius: 50%;
+  margin-bottom: 0.8rem;
+  border: 1px solid #888888;
+  object-fit: cover;
+}
+.icon_pro_cap {
+  height: 32px;
+  position: relative;
+  right: 22px;
+  top: 18px;
+}
+@media only screen and (max-width: 710px) {
+  .icon_pro_cap {
+    height: 32px;
+    position: relative;
+    right: -74px;
+    top: -46px;
+  }
+}
+.name_pro {
+  margin-left: 2rem;
+  position: relative;
+  bottom: 12px;
+}
+.span_free {
+  font-size: 8px;
+  font-weight: 400;
+  background-color: #e2e6f0;
+  color: #3b5998;
+  border-radius: 1.2rem;
+  padding: 2px 10px;
+  margin-left: 10px;
+}
+.span_incom {
+  height: fit-content;
+  width: fit-content;
+  background-color: #349bf3;
+  padding: 5px 10px;
+  border-radius: 1.2rem;
+  color: #ffffff;
+  font-size: 12px;
+}
+.anmes {
+  background-color: #f7f7f7;
+  padding-top: 1rem;
+  /* padding-bottom: 3rem; */
+}
+.div_name {
+  background-color: #ffffff;
+  font-size: 1rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+/* basic */
+.span_edit {
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  color: #0099ff;
+}
+.basic_div .form-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #a7a7a7 !important;
+}
+.basic_div .form-label span {
+  color: red;
+}
+.basic_div .form-control {
+  height: 40px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+/*design fee and services provided*/
+.design-services-services-card {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.designService-container {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(228, 228, 228);
+}
+.designfee-container {
+  background-color: #f7f7f7;
+  min-height: 100vh;
+  width: 50%;
+}
+@media screen and (max-width: 900px) {
+  .designfee-container {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .designfee-container {
+    width: 100%;
+  }
+}
+.designfee-header {
+  background-color: white;
+}
+.designfee-services {
+  background-color: white;
+}
+.designfee-styles {
+  background-color: white;
+}
+.designfee-fees {
+  background-color: white;
+}
+.price-box {
+  background-color: #f5f5f5;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+}
+.price-box span {
+  font-size: 12px;
+  color: #888888;
+  font-weight: 400;
+}
+.services-checkboxes {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.5rem 0.5rem;
+  padding: 2rem;
+  align-items: center;
+  border-radius: 0.5rem;
+}
+.inactive-services {
+  border: 1px solid grey;
+}
+.active-services {
+  border: 1px solid #3b5998;
+  background-color: #f2f6ff;
+}
+.services-save-button button {
+  border: none;
+  background-color: #3b5998;
+  color: white;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+}
+.services-save-button {
+  padding: 1rem;
+}
+
+/* design styles edit component */
+.design-style-checkboxes {
+  background-repeat: no-repeat;
+  width: 40%;
+  height: 8rem;
+  margin: 0.5rem;
+  background-size: cover;
+  border-radius: 1rem;
+}
+.design-styles-save-button {
+  border: none;
+  background-color: #3b5998;
+  color: white;
+  padding: 0.7rem;
+  border-radius: 0.7rem;
+}
+.design-styles-card {
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 46%;
+  height: 8rem;
+  margin: 0.5rem;
+  border-radius: 1rem;
+}
+
+/*project page related css here*/
+.projectCard {
+  box-shadow: 0 4px 10px #dfdfdfd0;
+  margin: 1rem;
+  border-radius: 0.7rem;
+}
+@media screen and (max-width: 900px) {
+  .projectCard {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .projectCard {
+    width: 80vw;
+  }
+}
+.projectCard-image img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/*edit prices page styling under here*/
+.editPrices-container {
+  margin: 1rem;
+  width: 45%;
+  background-color: #FFFFFF;
+}
+@media screen and (max-width: 900px) {
+  .editPrices-container {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .editPrices-container {
+    width: 100%;
+  }
+}

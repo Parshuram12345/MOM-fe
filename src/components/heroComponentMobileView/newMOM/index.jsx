@@ -258,7 +258,7 @@ function NewMom() {
             Save as Draft
           </button>
           <button
-            className="submitbtn bg-color border-radius-4"
+            className="submitbtn-mob bg-color border-radius-4"
             onClick={() => handleSubmitData()}
           >
             Submit
