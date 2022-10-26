@@ -8,7 +8,6 @@ import MomZeroStatePage from "./views/momZeroState";
 import NewMomPage from "./views/newMOM";
 import InnerPage from "./views/InnerPageMOM";
 import { data } from "./components/utils";
-import { useEffect } from "react";
 export const MomContext = createContext("context");
 function App() {
   const [momdate, setMomdate] = useState("");

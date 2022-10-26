@@ -164,7 +164,7 @@ const HeaderWeb = () => {
 
             <a
               href="https://pro.idesign.market/community/"
-              style={{ textDecoration: "none", color: "black" }}
+              style={{ textDecoration: "none", color: "black",marginTop:"10px"}}
             >
               <div className="headerLinks">Community</div>
             </a>

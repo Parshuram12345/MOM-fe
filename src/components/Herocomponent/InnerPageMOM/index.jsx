@@ -11,12 +11,13 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const { projectId, id } = useParams();
-  const [ shareEmail, setShareEmail]=useState("")
+  const [ shareEmail, setShareEmail]=useState("");
+  const [emailCheck,setEmailCheck]=useState(false)
   const [openShareModal,setOpenShareModal]=useState(false)
   // console.log(id);
   const { BaseUrl,access_token, monthList } = data;
   const { fullDots,crossCloseIcon} = allImagesList;
-  const { pointsdetails, setPointsdetails, draftsflag, navigateHome,clientName,setClientName,emailValid,setEmailValid } 
+  const { pointsdetails, setPointsdetails, draftsflag, navigateHome,clientName,setClientName} 
    = useContext(MomContext);
    console.log(clientName)
   ///-----highlight the match point text---///
@@ -48,19 +49,16 @@ function InnerPageMom() {
   }
   ///---share email -----///
   const shareEmailFormat =(event)=>{
-    let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
-    if (event.target.value !== "") {
-      if (event.target.value.match(mailformat)) {
-        setShareEmail(event.target.value);
-        // event.target.value = "";
-        setEmailValid(false);
-      } else {
-        setEmailValid(true);
-      }
-  }
+    setShareEmail(event.target.value);
 }
   const sharedMOMWithEmail=()=>{
-
+        let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
+        if (shareEmail.match(mailformat)) {
+          setEmailCheck(false);
+              } 
+              else {
+                setEmailCheck(true);
+              }
   }
   ///---get api data ----///
   async function getApiData() {
@@ -148,14 +146,14 @@ function InnerPageMom() {
                 alt="cross-icon"
               />
               <input
-                type="email"
+                type="text"
                 className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                 placeholder="Email"
                 value={shareEmail}
                 onChange={(e) => shareEmailFormat(e)}
               />
             </div>
-            { emailValid && <div style={{color:"red",fontSize:"10px",paddingLeft:"7px"}}>Email isn't valid</div>}
+            { emailCheck && <div style={{color:"red",fontSize:"10px",paddingLeft:"7px"}}>Email isn't valid</div>}
             <div className="actions">
               <div className="ui button submit-btn" onClick={()=> sharedMOMWithEmail()}>
                 submit

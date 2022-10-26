@@ -186,7 +186,6 @@ function MomSection() {
       });
   };
 
- 
   // /---search by title without API ----///
   function handleSearch(e) {
     if (!draftsflag) {
