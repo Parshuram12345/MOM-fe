@@ -11,7 +11,7 @@ function MomMainSectionMobilePage() {
               <MobHeader/>
         </div>
         <MomSection/>
-        <FootNavigation/>
+        {/* <FootNavigation/> */}
     </>
   )
 }
