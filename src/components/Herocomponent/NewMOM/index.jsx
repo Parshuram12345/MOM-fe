@@ -112,13 +112,13 @@ function NewMom() {
           <div className="d-flex align-center justify-between width-25">
             <button
               className="savedata-button small-font-12 font-weight-400 border-radius-4"
-              onClick={() => handleSaveDraft()}
+              onClick={() => handleSaveDraft(projectId,id)}
             >
               Save as Draft
             </button>
             <button
               className="submitdata-button small-font-12 bg-color border-none border-radius-4"
-              onClick={() => handleSubmitData()}
+              onClick={() => handleSubmitData(projectId)}
             >
               Submit
             </button>

@@ -29,12 +29,13 @@ function MobileApp() {
   const [roomName, setRoomName] = useState([]);
   const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
   const [clientName, setClientName] = useState("");
-  const { access_token, BaseUrl} = data;
+  const [companyName,setCompanyName]=useState("")
+  const { access_token, BaseUrl,monthList} = data;
   const navigate = useNavigate();
   const {projectId}=useParams()
   ///-----share condition with open newmom----///
   const handleSharedMOMdata = (value) => {
-    navigate("/newmom");
+    navigate(`/newmom/${projectId}`);
     setSharemom(value);
   };
   ///-----remove the email----///
@@ -98,16 +99,16 @@ function MobileApp() {
   };
 
   ///---save the draft data----////
-  const handleSaveDraftData = () => {
+  const handleSaveDraftData = (projectId,id) => {
     if (selectdate && category && pointsdata) {
       const bodyData = JSON.stringify({
-        id: updatedraftusingId && updatedraftusingId,
+        id: updatedraftusingId && updatedraftusingId || id && id,
         date: selectdate,
         category: category,
         location: location,
         projectId: projectId,
         title: title,
-        // sharedWith:emaillist,
+        sharedWith:emaillist,
         points:
           pointsdata &&
           pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
@@ -122,7 +123,7 @@ function MobileApp() {
       })
         .then((response) => {
           if (response.ok) {
-            navigate("/");
+            navigate(`/${projectId}`);
             setSelectdate("");
             setCategory("");
             setLocation("");
@@ -146,7 +147,7 @@ function MobileApp() {
     pointsdata ? setPointserror(false) : setPointserror(true);
   };
   ///---post the data----//
-  const handleSubmitData = () => {
+  const handleSubmitData = (projectId) => {
     const bodyData = JSON.stringify({
       id: updatedraftusingId && updatedraftusingId,
       date: selectdate,
@@ -155,12 +156,45 @@ function MobileApp() {
       projectId: projectId,
       title: title,
       isDraft: false,
-      // sharedWith:emaillist,
+      sharedWith:emaillist,
       points:
         pointsdata &&
         pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
     });
+
+    const shareBodyData = JSON.stringify({
+      date:`${selectdate.substring(8, 10)} ${monthList[selectdate.substring(5,7)]} ${selectdate.substring(0, 4)}`,
+      category: category,
+      location: location,
+      title: title,
+      email: emaillist,
+      companyName:companyName,
+      points:
+      pointsdata &&
+      pointsdata
+      .trim()
+      .split("\u2022")
+      .filter((emptystr) => emptystr !== ""),
+    });
+
     if (selectdate && category && pointsdata) {
+      ///----share the mom with email ------////
+      fetch("https://email-api.idesign.market/api/mom/send-mom-pdf", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: shareBodyData,
+      })
+      .then((res)=>{
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+
+      ///--save the mom data ----///
       fetch(`${BaseUrl}/api/mom/addEditMOM`, {
         method: "post",
         headers: {
@@ -171,7 +205,7 @@ function MobileApp() {
       })
         .then((response) => {
           if (response.ok) {
-            navigate("/");
+            navigate(`/${projectId}`);
             setSelectdate("");
             setCategory("");
             setLocation("");
@@ -215,6 +249,26 @@ function MobileApp() {
   if (pointsdata && pointserror) {
     setPointserror(false);
   }
+ 
+   ////-----get user id from get profile -----////
+   async function getUserId() {
+    return await axios.get(`https://pro-api.idesign.market/user/profile`, {
+      headers: {
+        Authorization:  `bearer ${access_token}`,
+      },
+    })
+  }
+
+  useEffect(()=>{
+    getUserId()
+    .then((response)=>{
+      setCompanyName(response.data.data.companyName)
+     })
+     .catch((err)=>{
+       console.log(err)
+     })
+   },[])
+
   return (
     <>
       <momContext.Provider

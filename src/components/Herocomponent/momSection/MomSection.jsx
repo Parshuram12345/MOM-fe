@@ -35,7 +35,6 @@ function MomSection() {
   } = useContext(MomContext);
   
   const {projectId} = useParams();
-  console.log(projectId)
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
@@ -44,7 +43,7 @@ function MomSection() {
   const [singleDeleteMomID, setSingleDeleteMomID] = useState([]);
   const [draftcheckboxAll, setDraftsCheckboxAll] = useState(false);
   const [sentcheckboxall, setSentcheckboxall] = useState(false);
-  const { access_token, BaseUrl,monthList} = data;
+  const { access_token, BaseUrl,monthList,userId} = data;
   const {threeDots,emptyIcon,crossCloseIcon}= allImagesList
   const navigate = useNavigate();
 
@@ -239,11 +238,14 @@ function MomSection() {
   }
  
   ////-----share the MOM -----////
-  const handleShareMom=()=>{
+  const handleShareMom=(id)=>{
     setOpenShareModal(true)
+    //  navigate(`/${id}`)
   }
 
-  ///------
+
+ 
+
   useEffect(() => {
     getApiData()
       .then((res) => {
@@ -276,12 +278,12 @@ function MomSection() {
     //---get client name from client data----///
     getClientProject(projectId)
     .then((res) => {
+      console.log(res.data.projects[0].clientId.name)
             setClientName(res.data.projects[0].clientId.name);
           })
           .catch((error) => {
             console.error(error);
           });
-    ///-----read the Sent mom after 24 hours------///
   }, []);
 
   ////----condition for all select checkbox----///
@@ -621,6 +623,7 @@ function MomSection() {
                             </div>
                             {!draftsflag && (
                               <Dropdown
+                              
                                 className={draftsflag ? "" : "margin-right-13"}
                               >
                                 <Dropdown.Toggle
@@ -632,6 +635,7 @@ function MomSection() {
                                   }}
                                 >
                                   <img
+                                 style={{width:"1vw",height:"3vh"}}
                                     src={threeDots}
                                     alt="threedots"
                                   />
@@ -741,20 +745,21 @@ function MomSection() {
                               {points && add3Dots(points)}
                             </div>
                         
-                            <Dropdown className={ draftsflag ? "" :"margin-right-13"}>
+                            <Dropdown  className={ draftsflag ? "" :"margin-right-13"}>
                               <Dropdown.Toggle
-                                as="button" className="threedots-btn bg-color-fa"
+                                as="button" className="threedots-btn"
                                 style={{
                                   border: "none",
+                                  background:"none"
                                 }}
                                 >
-                                <img
+                                <img style={{width:"1vw",height:"3vh"}}
                                   src={threeDots}
                                   alt="threedots"
                                   />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                <Dropdown.Item className="d-flex align-center" onClick={()=> handleShareMom()}>
+                                <Dropdown.Item className="d-flex align-center" onClick={()=> handleShareMom(_id)}>
                                   <HiOutlineShare className="share-icon margin-right-5" />
                                   Share
                                 </Dropdown.Item >
