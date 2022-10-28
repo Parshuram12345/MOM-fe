@@ -23,7 +23,7 @@
   /* ////---- */
   .email-container {
     display: flex;
-    min-height: 6vh;
+    min-height: 4vh;
     padding: 0 5px;
   }
   .email-input-mobile{

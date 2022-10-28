@@ -22,10 +22,16 @@ function MomSection() {
     getClientProject,
     handleEditDraftdata,
     clientName,
-    setClientName
+    setClientName,
+    openShareModal,
+    sharedMOMWithEmail,
+    emailValid,
+    shareEmail,
+    setShareEmail,
+    openSharePopUp
   } = useContext(momContext);
   const navigate = useNavigate();
-  const {projectId} =useParams()
+  const {projectId,id} =useParams()
   const [draftsflag, setDraftsflag] = useState(false);
   const [sentsflag, setSentflag] = useState(false);
   const [momdraftsclonedata, setmomdraftsclonedata] = useState([]);
@@ -36,8 +42,9 @@ function MomSection() {
   const [checkboxAllSelected, setCheckboxAllSelected] = useState([]);
   const [allselectcheckbox, setAllselectcheckbox] = useState(false);
   const [searchbarToggle, setSearchToggle] = useState(false);
+ 
   const { access_token, BaseUrl,monthList } = data;
-  const {createmom,threeDots,doubleVector,searchIcon,emptyIcon}=allImagesList
+  const {createmom,threeDots,doubleVector,searchIcon,emptyIcon,crossCloseIcon}=allImagesList
   ///----toggle searchbar -----////
   const toggleSearchbarEffect = (value) => {
     setSearchToggle(value);
@@ -54,7 +61,7 @@ function MomSection() {
     setDraftsflag(true);
     setSentflag(false);
   };
-
+   
   const check = document.getElementsByName("pointscheck");
   ///-----all checkbox ----///
   const SelectAll = (e) => {
@@ -100,10 +107,10 @@ function MomSection() {
   }
   // console.log(checkboxAllSelected)
   ///---navigate to new mom page -----///
-  const navigateNewMom = () => {
+  const navigateNewMom = (projectId) => {
     navigate(`/newmom/${projectId}`);
   };
-
+ 
   ///----open delete MOM modal -----///
   const handleMOMModal = (value, id) => {
     console.log(value, id);
@@ -276,8 +283,6 @@ function MomSection() {
               }
            }
          }
-
-
       })
       .catch((error) => {
         console.error(error);
@@ -371,6 +376,35 @@ function MomSection() {
             </div>
           </div>
         )}
+        {/* open share mom modal */}
+        {openShareModal && (
+        <div className="main-modal-container">
+          <div className="modals-wrapper-share-mom-mobile position-relative">
+            <div className="content">
+              <p className="notice-text">Email</p>
+              <img
+                className="position-absolute close-icon-share-mom"
+                onClick={() => openSharePopUp(false,projectId,id)}
+                src={crossCloseIcon}
+                alt="cross-icon"
+              />
+              <input
+                type="text"
+                className="border-df bg-color-fa padding-5 border-radius-4 width-100"
+                placeholder="Email"
+                value={shareEmail}
+                onChange={(e) => setShareEmail(e.target.value)}
+              />
+            </div>
+            { emailValid && <div style={{color:"red",fontSize:"10px",paddingLeft:"7px"}}>Email isn't valid</div>}
+            <div className="actions">
+              <div className="ui button submit-share-mom-btn" onClick={()=> sharedMOMWithEmail(projectId,id)}>
+                Submit
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
         {/* ///-------//// */}
         <div className="d-flex justify-around width-fit-content align-center">
           <div className=" color-text-888888 small-font-10">
@@ -420,7 +454,7 @@ function MomSection() {
               )}
             </button>
           </div>
-          <div className="edit-icon" onClick={() => navigateNewMom()}>
+          <div className="edit-icon" onClick={() => navigateNewMom(projectId,id)}>
             <img src={createmom} alt="create-mom" />
           </div>
         </div>
@@ -482,7 +516,7 @@ function MomSection() {
                 </div>
                 <div
                   className="color-text small-font-12"
-                  onClick={() => navigateNewMom()}
+                  onClick={() => navigateNewMom(projectId)}
                 >
                   Add now
                 </div>
@@ -506,13 +540,13 @@ function MomSection() {
                         <div className="d-flex align-center justify-between width-100 margin-left-5">
                           <div
                             className="title-font-size font-weight-500"
-                            onClick={() => naviagteInnerPage(_id)}
+                            onClick={() => naviagteInnerPage(projectId,_id)}
                           >
                             {add3dotsTitle(title)}
                           </div>
                           <div
                             className="mom-layout color-text border-radius-25"
-                            onClick={() => naviagteInnerPage(_id)}
+                            onClick={() => naviagteInnerPage(projectId,_id)}
                           >
                             #{category}
                           </div>
@@ -533,14 +567,14 @@ function MomSection() {
                               <Dropdown.Menu>
                                 <Dropdown.Item
                                   className="d-flex align-center"
-                                  onClick={() => handleSharedMOMdata(true)}
+                                  onClick={() => handleSharedMOMdata(projectId,true,id)}
                                 >
                                   <HiOutlineShare className="share-icon margin-right-5" />
                                   Share
                                 </Dropdown.Item>
                                 <Dropdown.Item
                                   className="d-flex align-center"
-                                  onClick={() => handleEditDraftdata(_id)}
+                                  onClick={() => handleEditDraftdata(projectId,_id)}
                                 >
                                   <FiEdit2 className="share-icon margin-right-5" />
                                   Edit
@@ -559,12 +593,12 @@ function MomSection() {
                       </div>
                       <div
                         className="mom-points text-align-justify"
-                        onClick={() => naviagteInnerPage(_id)}
+                        onClick={() => naviagteInnerPage(projectId,_id)}
                       >
                         {points && removeBulletsPoints(points)}
                       </div>
                       <div className="d-flex justify-between align-center padding-3">
-                        <div onClick={() => naviagteInnerPage(_id)}>
+                        <div onClick={() => naviagteInnerPage(projectId,_id)}>
                           {date &&
                             `${date?.substring(8, 10)} ${ monthList[date?.substring(
                               5,
@@ -573,7 +607,7 @@ function MomSection() {
                         </div>
                           <div
                             className="as-on color-text border-radius-25"
-                            onClick={() => naviagteInnerPage(_id)}
+                            onClick={() => naviagteInnerPage(projectId,_id)}
                           >
                            { clientName && shortName(clientName)}
                           </div>
@@ -598,7 +632,7 @@ function MomSection() {
               </div>
               <div
                 className="color-text small-font-12"
-                onClick={() => navigateNewMom()}
+                onClick={() => navigateNewMom(projectId)}
               >
                 Add now
               </div>
@@ -619,61 +653,51 @@ function MomSection() {
                         name="pointscheck"
                         onChange={() => handleCheckDeleteShare(_id)}
                       />
-                      <div style={{marginLeft:"15px"}} className="d-flex align-center justify-between width-100">
+                      <div className="d-flex align-center justify-between width-100 margin-left-5">
+
+                      {/* </div> */}
                       <div
                         className="title-font-size font-weight-500"
-                        onClick={() => naviagteInnerPage(_id)}
+                        onClick={() => naviagteInnerPage(projectId,_id)}
                       >
                         {add3dotsTitle(title)}
                       </div>
                       <div
                         className="mom-layout color-text border-radius-25"
-                        onClick={() => naviagteInnerPage(_id)}
+                        onClick={() => naviagteInnerPage(projectId,_id)}
                       >
                         #{category}
                       </div>
-                      </div>
-                      {/* {!draftsflag && (
                         <Dropdown>
                           <Dropdown.Toggle
                             as="button"
                             style={{
                               border: "none",
-                              backgroundColor: "#ECEFF5",
+                              background: "none",
                             }}
                           >
                             <img
-                              src={"/images/threedots.svg"}
+                              src={threeDots}
                               alt="threedots"
                             />
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item>
-                              <HiOutlineShare className="share-icon" />
+                            <Dropdown.Item className="d-flex align-center" onClick={()=>openSharePopUp(true,projectId,_id)}>
+                              <HiOutlineShare className="share-icon margin-right-5" />
                               Share
-                            </Dropdown.Item>
-                            <Dropdown.Item>
-                              <FiEdit2 className="share-icon" />
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => handleSingleDeleteMOM(_id)}
-                            >
-                              <AiOutlineDelete className="share-icon" />
-                              Delete
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
-                      )} */}
+                        </div>
                     </div>
                     <div
                       className="mom-points text-align-justify"
-                      onClick={() => naviagteInnerPage(_id)}>
+                      onClick={() => naviagteInnerPage(projectId,_id)}>
                       {points && removeBulletsPoints(points)}
                     </div>
                     <div className="d-flex justify-between align-center padding-3">
                       <div
-                        onClick={() => naviagteInnerPage(_id)}
+                        onClick={() => naviagteInnerPage(projectId,_id)}
                       >{date &&
                         `${date?.substring(8, 10)} ${ monthList[date?.substring(
                           5,
@@ -681,7 +705,7 @@ function MomSection() {
                         )]} ${date?.substring(0, 4)}`}</div>
                         <div
                           className="as-on color-text border-radius-25"
-                          onClick={() => naviagteInnerPage(_id)}
+                          onClick={() => naviagteInnerPage(projectId,_id)}
                         >
                           { clientName && shortName(clientName)}
                         </div>

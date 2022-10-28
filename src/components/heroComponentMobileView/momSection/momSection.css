@@ -115,12 +115,40 @@ a,a:hover{
     justify-content: center;
     align-items: center;
     position: fixed;
-    background: hsla(0,0%,100%,.9);
+    background: #00000050;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1;
+}
+.modals-wrapper-share-mom-mobile{
+    width: 88%;
+    border-radius: 10px;
+    border: 1px solid #DFDFDF;
+    padding: 15px;
+    background-color: white;
+    box-shadow: 0 20px 75px rgba(0 0 0 /13%);
+}
+.ui.button.submit-share-mom-btn{
+width: 30%;
+    font-weight: 300;
+    background: #3B5998;
+    color: #ffffff;
+    padding: 9px 23px;
+    font-size: 14px;
+    border-radius: 4px;
+    display: block;
+    color: white;
+    float: right;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 10px;
+}
+.close-icon-share-mom{
+    top: 10px;
+    right: 16px;
+    width: 4vw;
 }
 .modals-wrapper-mobile{
     border-radius: 10px;

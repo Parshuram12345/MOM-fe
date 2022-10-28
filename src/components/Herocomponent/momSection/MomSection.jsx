@@ -21,7 +21,7 @@ function MomSection() {
     setDraftsflag,
     setSentflag,
     emaillist,
-    handleShareMOM,
+    setShareMom,
     handleEditDraft,
     getClientProject,
     clientName,
@@ -32,7 +32,9 @@ function MomSection() {
     shareEmail,
     emailCheck,
     shareEmailFormat,
-    sharedMOMWithEmail
+    sharedMOMWithEmail,
+    makeMonthFormat
+    // navigateNewMOM
   } = useContext(MomContext);
   
   const {projectId,id} = useParams();
@@ -79,10 +81,7 @@ function MomSection() {
     setSentflag(false);
   };
 
-  ///---navigate to new mom page -----///
-  const navigateNewMOM = () => {
-    navigate(`/newmom/${projectId}`);
-  };
+ 
   ///---filter data ----///
   ///----add three dots after limit out ----///
   function add3Dots(pointslist) {
@@ -239,16 +238,20 @@ function MomSection() {
   }
  
   ////-----share the MOM -----////
-  const handleShareMom=(id)=>{
-    setOpenShareModal(true);
-    getApiData()
-     navigate(`/${projectId}/${id}`)
+  const handleShareMOM=(value,projectId,id)=>{
+    setShareMom(value)
+     navigate(`/newmom/${projectId}/${id}`)
   }
+
+   ///---navigate to new mom page -----///
+   const navigateNewMOM = (projectId) => {
+    console.log("new mom")
+    navigate(`/newmom/${projectId}`);
+  };
 
   useEffect(() => {
     getApiData()
       .then((res) => {
-        console.log(res.data.momData)
         setMomSentdata(res.data.momData.filter(({ isDraft }) => isDraft === false));
         setMomSentClonedata(res.data.momData.filter(({ isDraft }) => isDraft === false));
         setMomDraftsdata(res.data.momData.filter(({ isDraft }) => isDraft === true));
@@ -278,7 +281,6 @@ function MomSection() {
     //---get client name from client data----///
     getClientProject(projectId)
     .then((res) => {
-      console.log(res.data.projects[0].clientId.name)
             setClientName(res.data.projects[0].clientId.name);
           })
           .catch((error) => {
@@ -313,7 +315,7 @@ function MomSection() {
               <p className="notice-text">Email</p>
               <img
                 className="position-absolute close-icon"
-                onClick={() => openshareMomModal(false)}
+                onClick={() => openshareMomModal(false,projectId,id)}
                 src={crossCloseIcon}
                 alt="cross-icon"
               />
@@ -424,7 +426,7 @@ function MomSection() {
           </div>
           <button
             className="mom-button border-radius-4"
-            onClick={() => navigateNewMOM()}
+            onClick={() => navigateNewMOM(projectId)}
           >
             Create a MOM
           </button>
@@ -464,7 +466,7 @@ function MomSection() {
               </div>
               <div
                 className="color-text small-font-12"
-                onClick={() => navigateNewMOM()}
+                onClick={() => navigateNewMOM(projectId)}
               >
                 Add now
               </div>
@@ -485,7 +487,7 @@ function MomSection() {
               </div>
               <div
                 className="color-text small-font-12"
-                onClick={() => navigateNewMOM()}
+                onClick={() => navigateNewMOM(projectId)}
               >
                 Add now
               </div>
@@ -590,34 +592,34 @@ function MomSection() {
                             />
                             <div
                               className="color-text-000000 font-weight-400 width-16"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom( projectId,_id)}
                             >
-                              {`${date.substring(8, 10)} ${monthList[date.substring(
+                              {`${date.substring(8, 10)} ${makeMonthFormat(date.substring(
                                 5,
                                 7
-                              )]} ${date.substring(0, 4)}`}
+                              ))} ${date.substring(0, 4)}`}
                             </div>
                             <div
                               className="color-text-000000 font-weight-400 width-19"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {title && add3dotsTitle(title)}
                             </div>
                             <div
                               className="width-14 color-text-000000 font-weight-400"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {category}
                             </div>
                             <div
                               className="width-14 font-size-14 color-text-000000 font-weight-400"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {clientName}
                             </div>
                             <div
                               className="points-pad color-text-000000 font-weight-400 width-31"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {points && add3Dots(points)}
                             </div>
@@ -643,14 +645,14 @@ function MomSection() {
                                 <Dropdown.Menu>
                                   <Dropdown.Item
                                     className="d-flex align-center"
-                                    onClick={() => handleShareMOM(true)}
+                                    onClick={() => handleShareMOM(true,projectId,id)}
                                   >
                                     <HiOutlineShare className="share-icon margin-right-5" />
                                     Share
                                   </Dropdown.Item>
                                   <Dropdown.Item
                                     className="d-flex align-center"
-                                    onClick={() => handleEditDraft(_id)}
+                                    onClick={() => handleEditDraft(projectId,_id)}
                                   >
                                     <FiEdit2 className="share-icon margin-right-5" />
                                     Edit
@@ -712,7 +714,7 @@ function MomSection() {
                             />
                             <div
                               className="color-text-000000 font-weight-400 width-16"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                              {`${date.substring(8, 10)} ${monthList[date.substring(
                                 5,
@@ -721,26 +723,26 @@ function MomSection() {
                             </div>
                             <div
                               className="color-text-000000 font-weight-400 width-19"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {title && add3dotsTitle(title)}
                             </div>
                             <div
                               className="width-14 color-text-000000 font-weight-400"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {category}
                             </div>
                             <div
                               className="width-14 color-text-000000 font-weight-400"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {clientName}
                             </div>
                             <div
                               style={{ color: "#000000", fontWeight: "400" }}
                               className="points-pad width-31"
-                              onClick={() => gotoInnerMom(_id)}
+                              onClick={() => gotoInnerMom(projectId,_id)}
                             >
                               {points && add3Dots(points)}
                             </div>
@@ -759,21 +761,10 @@ function MomSection() {
                                   />
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                <Dropdown.Item className="d-flex align-center" onClick={()=> handleShareMom(_id)}>
+                                <Dropdown.Item className="d-flex align-center" onClick={()=> openshareMomModal(true,projectId,_id)}>
                                   <HiOutlineShare className="share-icon margin-right-5" />
                                   Share
                                 </Dropdown.Item>
-                                {/* <Dropdown.Item className="d-flex align-center">
-                                  <FiEdit2 className="share-icon" />
-                                  Edit
-                                </Dropdown.Item > */}
-                                {/* <Dropdown.Item 
-                                className="d-flex align-center"
-                                onClick={()=>handleMomModal(true,_id)}
-                                 >
-                                  <AiOutlineDelete className="share-icon" />
-                                  Delete
-                                </Dropdown.Item> */}
                               </Dropdown.Menu>
                             </Dropdown>
                           </div>

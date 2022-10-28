@@ -1,11 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import axios from "axios";
 import "./newMOM.css";
 import { FiChevronRight } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
-import { data } from "../../utils";
 
 function NewMom() {
   const {
@@ -35,27 +33,17 @@ function NewMom() {
     handleSubmitData,
     handleSaveDraftData,
     navigateHome,
+    getSingleMomApiData
   } = useContext(momContext);
-  const { access_token, BaseUrl } = data;
   const { projectId, id } = useParams();
 
-  ///---get api data ----///
-  async function getApiData() {
-    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
-      headers: {
-        Authorization: access_token,
-      },
-    });
-  }
   let bullet = "\u2022";
   useEffect(() => {
     if (id) {
-      getApiData()
+      getSingleMomApiData(id)
         .then((res) => {
           if (res.status === 200) {
-            let responseWithId = res?.data?.momData?.filter(
-              ({ _id }) => _id === id
-            )[0];
+            let responseWithId = res?.data?.momData[0];
             setCategory(responseWithId?.category);
             setSelectdate(
               `${responseWithId?.date?.substring(
@@ -102,7 +90,7 @@ function NewMom() {
         <div className="d-flex justify-around width-fit-content align-center">
           <div
             className="color-text-888888 small-font-12 cursor-pointer"
-            onClick={() => navigateHome()}
+            onClick={() => navigateHome(projectId)}
           >
             MOM
           </div>
@@ -187,7 +175,7 @@ function NewMom() {
               {emaillist?.map((email, index) => (
                 <li
                   key={index}
-                  className="email-wrapper border-df width-fit-content padding-5"
+                  className="email-wrapper border-df width-fit-content"
                 >
                   <span>{email}</span>
                   <span
@@ -253,13 +241,13 @@ function NewMom() {
         >
           <button
             className="save-draft-btn border-radius-4"
-            onClick={() => handleSaveDraftData()}
+            onClick={() => handleSaveDraftData(projectId,id)}
           >
             Save as Draft
           </button>
           <button
             className="submitbtn-mob bg-color border-radius-4"
-            onClick={() => handleSubmitData()}
+            onClick={() => handleSubmitData(projectId,id)}
           >
             Submit
           </button>

@@ -1,19 +1,40 @@
 {
   "files": {
-    "main.css": "/dev-mom/static/css/main.64018599.css",
-    "main.js": "/dev-mom/static/js/main.6271dfd4.js",
+    "main.css": "/dev-mom/static/css/main.d4e1a21b.css",
+    "main.js": "/dev-mom/static/js/main.3055da8b.js",
+    "static/media/backgroundImage.png": "/dev-mom/static/media/backgroundImage.93b4d2282723233ac679.png",
     "static/media/logo-idesign.png": "/dev-mom/static/media/logo-idesign.21e0019c9ccb8a479f62.png",
+    "static/media/requestReceived.svg": "/dev-mom/static/media/requestReceived.25d2830ad19ad36e67d86d6e62e51344.svg",
+    "static/media/mssg.svg": "/dev-mom/static/media/mssg.28a0ea1ebbbcd51976c63e9a417c2418.svg",
+    "static/media/myproj.svg": "/dev-mom/static/media/myproj.d2d96a58615c4a68d68c0b7068276880.svg",
+    "static/media/project-active.svg": "/dev-mom/static/media/project-active.26252d5e6834169500de10d02bbd63b2.svg",
     "static/media/threedots.svg": "/dev-mom/static/media/threedots.f984b602563116e65ec160b64e49352d.svg",
     "static/media/searchicon.svg": "/dev-mom/static/media/searchicon.6b2c47fdb0f1e17173e06c090c9e3af6.svg",
+    "static/media/addedToCart.svg": "/dev-mom/static/media/addedToCart.938780187393941dcfb2c8804aa2793b.svg",
+    "static/media/sendcall.svg": "/dev-mom/static/media/sendcall.793abaf3fdcccbbd49a341136631c733.svg",
     "index.html": "/dev-mom/index.html",
+    "static/media/das-active.svg": "/dev-mom/static/media/das-active.c728740aeb2719859ed58bf7ec5cdebf.svg",
+    "static/media/newcross.svg": "/dev-mom/static/media/newcross.20c1ce0ee3d9bbd7dc4f574f9bd04937.svg",
     "static/media/createmom.svg": "/dev-mom/static/media/createmom.d4dcaca35147ee01e2c6521f80234d87.svg",
+    "static/media/call.svg": "/dev-mom/static/media/call.f13eb8aa3c0874aba26eeeaa15e28690.svg",
+    "static/media/cartIcon.svg": "/dev-mom/static/media/cartIcon.4ef2a5c40cf7314207f70f206e76c57e.svg",
+    "static/media/OutlinedVector3.svg": "/dev-mom/static/media/OutlinedVector3.83c1f87b34eb6ee5b48a208555ceb781.svg",
+    "static/media/SelectedVector3.svg": "/dev-mom/static/media/SelectedVector3.0fb30df90603402f1dad1fe3010fefef.svg",
+    "static/media/notificationWebIcon.svg": "/dev-mom/static/media/notificationWebIcon.04f220977ffd31f7d4d891e0817d2a0b.svg",
+    "static/media/sendmess.svg": "/dev-mom/static/media/sendmess.9ac196d0365becc7e0cbcc93b10281bc.svg",
     "static/media/doublevector.svg": "/dev-mom/static/media/doublevector.c28d78b94cd3f8158083ff06d53b79a7.svg",
+    "static/media/signOutIcon2.svg": "/dev-mom/static/media/signOutIcon2.b723f316b6f85ea38a5dd5e2123e2f50.svg",
+    "static/media/emptyIcon.svg": "/dev-mom/static/media/emptyIcon.cfa757ccac4e525ea5dcc2c04dbf1f13.svg",
+    "static/media/chat-active.svg": "/dev-mom/static/media/chat-active.ec6cec732510e8a692dc89d75f850c0f.svg",
+    "static/media/chat.svg": "/dev-mom/static/media/chat.d80ce93498fa13a26da817a5933383a1.svg",
+    "static/media/dashboard.svg": "/dev-mom/static/media/dashboard.c9d1e94efe4ac03019c064f2a0be075c.svg",
+    "static/media/crosscloseicon.svg": "/dev-mom/static/media/crosscloseicon.1858fdbb4d2adffbad66776d16140cc9.svg",
     "static/media/fulldots.svg": "/dev-mom/static/media/fulldots.8ea1ea3ca5bec28b1f97f6bb76079d8d.svg",
-    "main.64018599.css.map": "/dev-mom/static/css/main.64018599.css.map",
-    "main.6271dfd4.js.map": "/dev-mom/static/js/main.6271dfd4.js.map"
+    "main.d4e1a21b.css.map": "/dev-mom/static/css/main.d4e1a21b.css.map",
+    "main.3055da8b.js.map": "/dev-mom/static/js/main.3055da8b.js.map"
   },
   "entrypoints": [
-    "static/css/main.64018599.css",
-    "static/js/main.6271dfd4.js"
+    "static/css/main.d4e1a21b.css",
+    "static/js/main.3055da8b.js"
   ]
 }

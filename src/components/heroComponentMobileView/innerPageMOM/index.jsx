@@ -21,6 +21,7 @@ function InnerPageMom() {
     setPointsdetails,
     getClientProject,
     navigateHome,
+    getSingleMomApiData
   } = useContext(momContext);
   ///----toggle searchbar -----////
   const toggleSearchbarEffect = (value) => {
@@ -50,15 +51,6 @@ function InnerPageMom() {
     }
   };
 
-  ////-----get api data -----///
-  async function getApiData() {
-    return axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
-      headers: {
-        Authorization: access_token,
-      },
-    });
-  }
-
   ///---read the mom and edit it---///
   async function getReadMom() {
     return await axios({
@@ -77,9 +69,9 @@ function InnerPageMom() {
   }
   useEffect(() => {
     if (id) {
-      getApiData()
+      getSingleMomApiData(id)
         .then((res) => {
-          setPointsdetails(res.data.momData.filter(({ _id }) => _id === id)[0]);
+          setPointsdetails(res?.data?.momData[0]);
         })
         .catch((error) => {
           console.error(error);

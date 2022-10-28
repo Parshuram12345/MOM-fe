@@ -3,7 +3,7 @@ import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
-import { Link, useParams } from "react-router-dom";
+import { Link,useParams,useNavigate } from "react-router-dom";
 import "./InnerPageMom.css";
 import { data } from "../../utils/index";
 import { allImagesList } from "../../utils/images";
@@ -11,7 +11,7 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const { projectId, id } = useParams();
-
+  const navigate = useNavigate()
   // console.log(id);
   const { BaseUrl, access_token, monthList } = data;
   const { fullDots, crossCloseIcon } = allImagesList;
@@ -27,7 +27,9 @@ function InnerPageMom() {
     setOpenShareModal,
     emailCheck,
     shareEmailFormat,
-    sharedMOMWithEmail
+    sharedMOMWithEmail,
+    getSingleMOMApiData,
+    // navigateNewMOM
   } = useContext(MomContext);
   ///-----highlight the match point text---///
   const highlightPoints = () => {
@@ -52,14 +54,11 @@ function InnerPageMom() {
     }
   };
 
-  ///---get api data ----///
-  async function getApiData() {
-    return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
-      headers: {
-        Authorization: access_token,
-      },
-    });
-  }
+  // ///---navigate to new mom page -----///
+  // const navigateNewMOM = (projectId) => {
+  //   navigate(`/newmom/${projectId}`);
+  // };
+
   ///---read the mom and edit it---///
   async function getReadMOM() {
     return await axios({
@@ -89,18 +88,18 @@ function InnerPageMom() {
     );
   }
   useEffect(() => {
-    getApiData()
+    if(id){
+    getSingleMOMApiData(id)
       .then((res) => {
         setPointsdetails(
-          res?.data?.momData?.filter(({ _id }) => _id === id)[0]
+          res?.data?.momData[0]
         );
       })
       .catch((error) => {
         console.error(error);
       });
-
-    ///----read mom ----///
-    getReadMOM()
+      ///----read mom ----///
+      getReadMOM()
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
@@ -109,15 +108,16 @@ function InnerPageMom() {
       .catch((err) => {
         console.log(err);
       });
-
+    }
+      
     //---get client name from client data----///
     getClientProject(projectId)
-      .then((res) => {
-        setClientName(res.data.projects[0].clientId.name);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((res) => {
+      setClientName(res.data.projects[0].clientId.name);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, []);
   ///----bullet points -----////
   const bullet = "\u2022";
@@ -154,7 +154,7 @@ function InnerPageMom() {
               <div className="actions">
                 <div
                   className="ui button submit-btn"
-                  onClick={() => sharedMOMWithEmail()}
+                  onClick={() => sharedMOMWithEmail(projectId,id)}
                 >
                   Submit
                 </div>
@@ -172,7 +172,7 @@ function InnerPageMom() {
           </span>
           <div
             className="small-font-9 font-weight-500 color-text-888888 cursor-pointer"
-            onClick={() => navigateHome()}
+            onClick={() => navigateHome(projectId)}
           >
             MOM
           </div>
@@ -206,9 +206,11 @@ function InnerPageMom() {
               <div className="results"></div>
             </div>
           </div>
-          <Link to="/newmom">
-            <button className="mom-btn">Create a MOM</button>
-          </Link>
+          <Link to={`/newmom/${projectId}`}>
+            <button className="mom-btn" 
+            // onClick={navigateNewMOM(projectId)}
+            >Create a MOM</button>
+            </Link>
         </div>
         <div className="d-flex-col">
           <div className="d-flex align-center">
@@ -216,10 +218,10 @@ function InnerPageMom() {
               {pointsdetails?.title}
             </div>
             <div style={{marginLeft:"5px"}}>
-              <HiOutlineShare
+             { draftsflag &&  <HiOutlineShare
                 className="color-text-888888"
                 onClick={() => setOpenShareModal(true)}
-              />
+              />}
             </div>
           </div>
           <div className="d-flex justify-between width-91">
@@ -250,7 +252,7 @@ function InnerPageMom() {
               className="points-container-field border-none width-84"
             >
               {pointsdetails &&
-                pointsdetails.points
+                pointsdetails?.points
                   ?.filter((elem) => elem !== " \n")
                   .map((elem, index) => {
                     return (

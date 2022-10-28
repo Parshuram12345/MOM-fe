@@ -29,14 +29,17 @@ function MobileApp() {
   const [roomName, setRoomName] = useState([]);
   const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
   const [clientName, setClientName] = useState("");
-  const [companyName,setCompanyName]=useState("")
-  const { access_token, BaseUrl,monthList} = data;
+  const [companyName,setCompanyName]=useState("");
+  const [designerEmail,setDesignEmail]=useState("")
+  const [openShareModal,setOpenShareModal]=useState(false);
+  const [shareEmail, setShareEmail] = useState("");
+  const {access_token, BaseUrl,monthList} = data;
   const navigate = useNavigate();
   const {projectId}=useParams()
   ///-----share condition with open newmom----///
-  const handleSharedMOMdata = (value) => {
-    navigate(`/newmom/${projectId}`);
+  const handleSharedMOMdata = (projectId,value,id) => {
     setSharemom(value);
+    navigate(`/newmom/${projectId}/${id}`);
   };
   ///-----remove the email----///
   const removeEmail = (indexToRemove) => {
@@ -83,19 +86,85 @@ function MobileApp() {
    previouslength =newlength;
   }
   ///---- got to home page ----///
-  const navigateHome=()=>{
+  const navigateHome=(projectId)=>{
     navigate(`/${projectId}`)
   }
 
   ///------navigate to MOM inner page -----///
-  const naviagteInnerPage = (id) => {
+  const naviagteInnerPage = (projectId,id) => {
     navigate(`/mominnerpage/${projectId}/${id}`);
   };
   
   ///---edit the draft data -----////
-  const handleEditDraftdata = (id) => {
+  const handleEditDraftdata = (projectId,id) => {
     setUpdatedraftsusingId(id);
     navigate(`/newmom/${projectId}/${id}`);
+  };
+
+   ///----open share modal code--////
+   const openSharePopUp = (value,projectId,id) => {
+    if(value){
+      setOpenShareModal(value);
+      navigate(`/${projectId}/${id}`)
+    }
+    else{
+      setOpenShareModal(value);
+      navigate(`/${projectId}`)
+    }
+  };
+
+  async function shareMOMApi(shareBodyData){
+    fetch("https://email-api.idesign.market/api/mom/send-mom-pdf", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: access_token,
+      },
+      body: shareBodyData,
+    })
+    .then((res)=>{
+      if(res.status===200){
+        navigate(`/${projectId}`)
+      }
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+  
+  ///---share MOM with email----///
+  const sharedMOMWithEmail = (projectId,id) => {
+    let mailformat =/^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
+    if (shareEmail.match(mailformat)) {
+      setEmailValid(false);
+      setOpenShareModal(false)
+      // setShareEmail("");
+      getSingleMomApiData(id)
+      .then((res)=>{
+        if(res.status===200){
+          let responseWithId = res?.data?.momData[0];
+          console.log(responseWithId)
+          const shareBodyData = JSON.stringify({
+            id:id,
+            replyToEmail: designerEmail,
+            date:`${responseWithId?.date?.substring(8, 10)} ${monthList[responseWithId?.date?.substring(5,7)]} ${responseWithId?.date?.substring(0, 4)}`,
+            category: responseWithId?.category,
+            location: responseWithId?.location,
+            title: responseWithId?.title,
+            email: [shareEmail],
+            companyName:companyName,
+            points:responseWithId?.points,
+          });
+          shareMOMApi(shareBodyData)
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    } else {
+      setEmailValid(true);
+    }
   };
 
   ///---save the draft data----////
@@ -147,7 +216,7 @@ function MobileApp() {
     pointsdata ? setPointserror(false) : setPointserror(true);
   };
   ///---post the data----//
-  const handleSubmitData = (projectId) => {
+  const handleSubmitData = (projectId,id) => {
     const bodyData = JSON.stringify({
       id: updatedraftusingId && updatedraftusingId,
       date: selectdate,
@@ -164,6 +233,8 @@ function MobileApp() {
 
     const shareBodyData = JSON.stringify({
       date:`${selectdate.substring(8, 10)} ${monthList[selectdate.substring(5,7)]} ${selectdate.substring(0, 4)}`,
+      id:id,
+      replyToEmail: designerEmail,
       category: category,
       location: location,
       title: title,
@@ -179,21 +250,7 @@ function MobileApp() {
 
     if (selectdate && category && pointsdata) {
       ///----share the mom with email ------////
-      fetch("https://email-api.idesign.market/api/mom/send-mom-pdf", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: access_token,
-        },
-        body: shareBodyData,
-      })
-      .then((res)=>{
-        console.log(res)
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
-
+      shareMOMApi(shareBodyData)
       ///--save the mom data ----///
       fetch(`${BaseUrl}/api/mom/addEditMOM`, {
         method: "post",
@@ -258,10 +315,21 @@ function MobileApp() {
       },
     })
   }
+ 
+  ////-----get api data -----///
+  async function getSingleMomApiData(id) {
+    return axios.get(`${BaseUrl}/api/mom/getMOM?id=${id}`, {
+      headers: {
+        Authorization: access_token,
+      },
+    });
+  }
+
 
   useEffect(()=>{
     getUserId()
     .then((response)=>{
+      setDesignEmail(response.data.data.email)
       setCompanyName(response.data.data.companyName)
      })
      .catch((err)=>{
@@ -303,6 +371,7 @@ function MobileApp() {
           sharemom,
           setSharemom,
           emailValid,
+          setEmailValid,
           roomName,
           setRoomName,
           clientName,
@@ -317,10 +386,18 @@ function MobileApp() {
           handleSubmitData,
           handleSaveDraftData,
           navigateHome,
+          getSingleMomApiData,
+          setOpenShareModal,
+          shareEmail,
+          setShareEmail,
+          openShareModal,
+          sharedMOMWithEmail,
+          openSharePopUp
         }}
       >
         <Routes>
           <Route exact path="/:projectId" element={<MomMainSectionMobilePage />} />
+          <Route exact path="/:projectId/:id" element={<MomMainSectionMobilePage />} />
           <Route path="/momzerostate" element={<MomZeroStateMobilePage />} />
           <Route path="/newmom/:projectId" element={<NewMomMobilePage />} />
           <Route path="/newmom/:projectId/:id" element={<NewMomMobilePage />} />

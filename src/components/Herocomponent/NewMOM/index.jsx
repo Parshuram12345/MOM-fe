@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import "./NewMom.css";
-import axios from "axios"
 import { useParams} from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -37,18 +36,19 @@ function NewMom() {
     setDateerror,
     setCategoryerror,
     setPointserror,
+    getSingleMOMApiData,
     navigateHome,
   } = useContext(MomContext);
-   const {access_token,BaseUrl}=data;
+  //  const {access_token,BaseUrl}=data;
 
-  ///---get api data ----///
- async function getApiData() {
-  return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
-    headers: {
-      Authorization: access_token,
-    },
-  });
-}
+//   ///---get api data ----///
+//  async function getApiData() {
+//   return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
+//     headers: {
+//       Authorization: access_token,
+//     },
+//   });
+// }
 
   ///---play with error ----///
   if (momdate && dateerror) {
@@ -63,9 +63,9 @@ function NewMom() {
   let bullet = "\u2022"
   useEffect(() => {
     if(id){
-      getApiData()
+      getSingleMOMApiData(id)
       .then((res) => {
-        let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+        let respoonseWithId = res?.data?.momData[0];
         setCategory(respoonseWithId.category)
         setMomdate(
       `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
@@ -95,7 +95,7 @@ function NewMom() {
     <>
       <div className="newMOM-container justify-around margin-left-3 width-95">
         <div className="d-flex align-center justify-between width-fit-content margin-top-10">
-          <div className="small-font-10 color-text-888888" onClick={()=>navigateHome()}>
+          <div className="small-font-10 color-text-888888" onClick={()=>navigateHome(projectId)}>
             MOM
           </div>
           <span className="d-flex align-center color-text-888888 small-font-12">
