@@ -28,7 +28,7 @@ const SidebarWebNew = () => {
   const profileData = useSelector(
     (state) => state.addToCartReducer.profileData
   );
-  console.log(profileData[0]);
+  // console.log(profileData[0]);
 
   const path = useLocation();
   const goToNav = (location) => {

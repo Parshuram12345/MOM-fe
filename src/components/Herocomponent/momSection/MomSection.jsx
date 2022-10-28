@@ -28,13 +28,14 @@ function MomSection() {
     setClientName,
     openShareModal,
     setOpenShareModal,
+    openshareMomModal,
     shareEmail,
     emailCheck,
     shareEmailFormat,
     sharedMOMWithEmail
   } = useContext(MomContext);
   
-  const {projectId} = useParams();
+  const {projectId,id} = useParams();
   const [momDraftsClonedata, setMomDraftsClonedata] = useState([]);
   const [momSentClonedata, setMomSentClonedata] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
@@ -239,22 +240,21 @@ function MomSection() {
  
   ////-----share the MOM -----////
   const handleShareMom=(id)=>{
-    setOpenShareModal(true)
-    //  navigate(`/${id}`)
+    setOpenShareModal(true);
+    getApiData()
+     navigate(`/${projectId}/${id}`)
   }
-
-
- 
 
   useEffect(() => {
     getApiData()
       .then((res) => {
+        console.log(res.data.momData)
         setMomSentdata(res.data.momData.filter(({ isDraft }) => isDraft === false));
         setMomSentClonedata(res.data.momData.filter(({ isDraft }) => isDraft === false));
         setMomDraftsdata(res.data.momData.filter(({ isDraft }) => isDraft === true));
         setMomDraftsClonedata(res.data.momData.filter(({ isDraft }) => isDraft === true));
        
-        ///read the mom auto after 24 hours ---- when users doesn't read the mom ----///
+        ///--read the mom auto after 24 hours ---- when users doesn't read the mom ----///
         let allunreadMOM = res.data.momData.filter((elem)=> elem.isDraft===true)
         const today =new Date();
         // const draftsUnreadMOM = document.getElementsByName("draftsUnreadMOM")
@@ -313,7 +313,7 @@ function MomSection() {
               <p className="notice-text">Email</p>
               <img
                 className="position-absolute close-icon"
-                onClick={() => setOpenShareModal(false)}
+                onClick={() => openshareMomModal(false)}
                 src={crossCloseIcon}
                 alt="cross-icon"
               />
@@ -327,7 +327,7 @@ function MomSection() {
             </div>
             { emailCheck && <div style={{color:"red",fontSize:"10px",paddingLeft:"7px"}}>Email isn't valid</div>}
             <div className="actions">
-              <div className="ui button submit-btn" onClick={()=> sharedMOMWithEmail()}>
+              <div className="ui button submit-btn" onClick={()=> sharedMOMWithEmail(projectId,id)}>
                 Submit
               </div>
             </div>
@@ -762,7 +762,7 @@ function MomSection() {
                                 <Dropdown.Item className="d-flex align-center" onClick={()=> handleShareMom(_id)}>
                                   <HiOutlineShare className="share-icon margin-right-5" />
                                   Share
-                                </Dropdown.Item >
+                                </Dropdown.Item>
                                 {/* <Dropdown.Item className="d-flex align-center">
                                   <FiEdit2 className="share-icon" />
                                   Edit

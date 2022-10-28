@@ -38,9 +38,8 @@ function App() {
   const [openShareModal, setOpenShareModal] = useState(false);
   const [companyName,setCompanyName]=useState("")
   const { access_token, BaseUrl,userId,monthList } = data;
-  const { projectId } = useParams;
+  const { projectId,id } = useParams;
   const navigate = useNavigate();
-
   ///---navigate to home page -----///
   const navigateHome = () => {
     navigate(`/${projectId}`);
@@ -79,24 +78,45 @@ function App() {
   ///----open share modal code--////
   const openshareMomModal = (value) => {
     setOpenShareModal(value);
+    navigate(`/${projectId}`)
   };
   ///---set state of email -----///
   const shareEmailFormat = (event) => {
     setShareEmail(event.target.value);
   };
   ///---share with email----///
-  const sharedMOMWithEmail = () => {
+  const sharedMOMWithEmail = (projectId,id) => {
     let mailformat =/^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
     if (shareEmail.match(mailformat)) {
       setEmaillist((prev)=> [...prev,shareEmail])
       setEmailCheck(false);
       setOpenShareModal(false)
       setShareEmail("");
-      shareMOMPdf()
+      getApiData(projectId,id)
+      .then((res)=>{
+        if(res.status===200){
+          let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+          console.log(respoonseWithId)
+          setCategory(respoonseWithId.category)
+          setMomdate(
+        `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
+        );
+         setLocation(respoonseWithId?.location);
+         setTitle(respoonseWithId?.title)
+         setBulletPoints(respoonseWithId?.points?.filter((elem)=> elem !==" \n").map((item)=> { return (`${bullet} ${item.trim()}`)}).join("\n"))
+         shareMOMPdf()
+          // navigate(`/${projectId}`)
+        }
+        // console.log(res?.data?.momData)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     } else {
       setEmailCheck(true);
     }
   };
+  console.log(emaillist,bulletPoints)
   ///------add the points with bullets point in field -----///
   ///----update the point state in array string with key enter'----///
   let previouslength = 0;
@@ -199,9 +219,10 @@ function App() {
     bulletPoints ? setPointserror(false) : setPointserror(true);
   };
 
-  const shareMOMPdf= async ()=>{
+  async function shareMOMPdf(){
+    console.log(momdate)
     const shareBodyData = JSON.stringify({
-      date:`${momdate.substring(8, 10)} ${monthList[momdate.substring(5,7)]} ${momdate.substring(0, 4)}`,
+    date:`${momdate.substring(8, 10)} ${monthList[momdate.substring(5,7)]} ${momdate.substring(0, 4)}`,
     category: category,
     location: location,
     title: title,
@@ -302,7 +323,7 @@ function App() {
   }
 
    ///---get api data ----///
-   async function getApiData() {
+   async function getApiData(projectId) {
     return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
       headers: {
         Authorization: access_token,
@@ -314,7 +335,6 @@ let bullet= ".\u2022";
  useEffect(()=>{
    getUserId()
    .then((response)=>{
-    //  console.log(response.data.data.companyName)
      setCompanyName(response.data.data.companyName)
     })
     .catch((err)=>{
@@ -325,6 +345,7 @@ let bullet= ".\u2022";
       getApiData()
       .then((res) => {
         let respoonseWithId = res?.data?.momData?.filter(({_id})=> _id===id)[0];
+        console.log(respoonseWithId)
         setCategory(respoonseWithId.category)
         setMomdate(
       `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
@@ -381,6 +402,7 @@ let bullet= ".\u2022";
           setClientName,
           openShareModal,
           setOpenShareModal,
+          openshareMomModal,
           newDraftUnread,
           newSentUnread,
           shareEmail,
@@ -404,6 +426,7 @@ let bullet= ".\u2022";
       >
         <Routes>
           <Route exact path="/:projectId" element={<Home />} />
+          <Route path="/:projectId/:id" element={<Home />} />
           <Route path="/mominnerpage/:projectId/:id" element={<InnerPage />} />
           <Route
             path="/momzerostate/:projectId"
