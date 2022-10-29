@@ -3,6 +3,7 @@ import axios from "axios";
 import "./innerPage.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
 import { momContext } from "./../../../MobileApp.jsx";
 import { data } from "../../utils";
@@ -11,9 +12,11 @@ import { allImagesList } from "./../../utils/images/index";
 function InnerPageMom() {
   const { projectId, id } = useParams();
   const navigate = useNavigate();
-  const { BaseUrl, access_token, monthList } = data;
-  const { fullDots, doubleVector, searchIcon, createmom } = allImagesList;
+  const { BaseUrl, access_token } = data;
+  const { fullDots, doubleVector, searchIcon, createmom, crossCloseIcon } =
+    allImagesList;
   const [searchbarToggle, setSearchToggle] = useState(false);
+  const [shareIconsent, setShareIconsent] = useState(true);
   const {
     pointsdetails,
     clientName,
@@ -21,7 +24,14 @@ function InnerPageMom() {
     setPointsdetails,
     getClientProject,
     navigateHome,
-    getSingleMomApiData
+    getSingleMomApiData,
+    setShareEmail,
+    shareEmail,
+    sharedMOMWithEmail,
+    openSharePopUp,
+    openShareModal,
+    emailValid,
+    makeMonthFormat,
   } = useContext(momContext);
   ///----toggle searchbar -----////
   const toggleSearchbarEffect = (value) => {
@@ -72,21 +82,21 @@ function InnerPageMom() {
       getSingleMomApiData(id)
         .then((res) => {
           setPointsdetails(res?.data?.momData[0]);
+          setShareIconsent(res?.data?.momData[0].isDraft);
         })
         .catch((error) => {
           console.error(error);
         });
     }
     ///----get client project id -----///
-      //---get client name from client data----///
-      getClientProject(projectId)
+    //---get client name from client data----///
+    getClientProject(projectId)
       .then((res) => {
-              setClientName(res.data.projects[0].clientId.name);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
- 
+        setClientName(res.data.projects[0].clientId.name);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     ///----read mom ----///
     getReadMom()
@@ -105,6 +115,44 @@ function InnerPageMom() {
   return (
     <>
       <div className="padding-5">
+        {/* open share mom modal */}
+        {openShareModal && (
+          <div className="main-modal-container">
+            <div className="modals-wrapper-share-mom-mobile position-relative">
+              <div className="content">
+                <p className="notice-text">Email</p>
+                <img
+                  className="position-absolute close-icon-share-mom"
+                  onClick={() => openSharePopUp(false, projectId, id)}
+                  src={crossCloseIcon}
+                  alt="cross-icon"
+                />
+                <input
+                  type="text"
+                  className="border-df bg-color-fa padding-5 border-radius-4 width-100"
+                  placeholder="Email"
+                  value={shareEmail}
+                  onChange={(e) => setShareEmail(e.target.value)}
+                />
+              </div>
+              {emailValid && (
+                <div
+                  style={{ color: "red", fontSize: "10px", paddingLeft: "7px" }}
+                >
+                  Email isn't valid
+                </div>
+              )}
+              <div className="actions">
+                <div
+                  className="ui button submit-share-mom-btn"
+                  onClick={() => sharedMOMWithEmail(projectId, id)}
+                >
+                  Submit
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="d-flex justify-around font-weight-500 width-fit-content align-center margin-top-4">
           <div className="color-text-888888 small-font-10 cursor-pointer">
             Pr's saini
@@ -114,7 +162,7 @@ function InnerPageMom() {
           </div>
           <div
             className="small-font-10 color-text-888888 cursor-pointer"
-            onClick={() => navigateHome()}
+            onClick={() => navigateHome(projectId, id)}
           >
             MOM
           </div>
@@ -158,27 +206,36 @@ function InnerPageMom() {
                   onClick={() => toggleSearchbarEffect(false)}
                 >
                   <AiOutlineCloseCircle />
-                  {/* <CiCircleRemove/> */}
                 </div>
               )}
             </button>
           </div>
           <div className="edit-icon">
-            <Link to="/newmom">
+            <Link to={`/newmom/${projectId}`}>
               <img src={createmom} alt="create-mom" />
             </Link>
           </div>
         </div>
         <div className="d-flex-col">
-          <div className="font-size-14 font-weight-600 divider-margin">
-            {pointsdetails?.title}
+          <div className="d-flex align-center">
+            <div style={{wordBreak: "break-word"}} className="font-size-14 font-weight-600 divider-margin width-fit-content">
+              {pointsdetails?.title}
+                </div>
+              <div style={{ marginLeft: "5px" }}>
+                {!shareIconsent && (
+                  <HiOutlineShare
+                    className="color-text-888888"
+                    onClick={() => openSharePopUp(true, projectId, id)}
+                  />
+                )}
+              </div>
           </div>
           <div className="d-flex justify-between">
             <div className="color-text-888888 font-size-13">
               {pointsdetails?.date &&
-                `${pointsdetails?.date?.substring(8, 10)} ${
-                  monthList[pointsdetails?.date?.substring(5, 7)]
-                } ${pointsdetails?.date?.substring(0, 4)}`}
+                `${pointsdetails?.date?.substring(8, 10)} ${makeMonthFormat(
+                  pointsdetails?.date?.substring(5, 7)
+                )} ${pointsdetails?.date?.substring(0, 4)}`}
               <img
                 style={{ margin: "0 5px" }}
                 src={fullDots}

@@ -29,15 +29,15 @@ function MobileApp() {
   const [roomName, setRoomName] = useState([]);
   const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
   const [clientName, setClientName] = useState("");
-  const [companyName,setCompanyName]=useState("");
-  const [designerEmail,setDesignEmail]=useState("")
-  const [openShareModal,setOpenShareModal]=useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [designerEmail, setDesignEmail] = useState("");
+  const [openShareModal, setOpenShareModal] = useState(false);
   const [shareEmail, setShareEmail] = useState("");
-  const {access_token, BaseUrl,monthList} = data;
+  const { access_token, BaseUrl, monthList } = data;
   const navigate = useNavigate();
-  const {projectId}=useParams()
+  const { projectId } = useParams();
   ///-----share condition with open newmom----///
-  const handleSharedMOMdata = (projectId,value,id) => {
+  const handleSharedMOMdata = (projectId, value, id) => {
     setSharemom(value);
     navigate(`/newmom/${projectId}/${id}`);
   };
@@ -59,61 +59,67 @@ function MobileApp() {
       }
     }
   };
+  ///---remove the zero the when month number is less than 10-----///
+  const makeMonthFormat=(str)=>{
+    if(str.charAt(0)==0){
+        return monthList[str.charAt(1)]
+       }
+       else{
+       return monthList[str]
+    }
+}
   ///------add the points with bullets point in field -----///
   ///----update the point state in array string with key enter'----///
   let previouslength = 0;
   const handlePointsTextArea = (e) => {
     const bullet = "\u2022";
     const newlength = e.target.value.length;
-    const AsciiValue= e.target.value.substr(-1).charCodeAt(0);
-    
-    if(AsciiValue===8226 && bullet !==e.target.value){
-     e.target.value = e.target.value.slice(0,-1)
+    const AsciiValue = e.target.value.substr(-1).charCodeAt(0);
+
+    if (AsciiValue === 8226 && bullet !== e.target.value) {
+      e.target.value = e.target.value.slice(0, -1);
+    } else if (bullet === e.target.value) {
+      e.target.value = "";
+      setPointsdata("");
     }
-    else if(bullet ===e.target.value){
-           e.target.value=""
-           setPointsdata("")
-    }
-    if(newlength>previouslength){
-      if(AsciiValue===10){
+    if (newlength > previouslength) {
+      if (AsciiValue === 10) {
         e.target.value = `${e.target.value}${bullet} `;
-     }
-     else if( newlength===1){
-       e.target.value = `${bullet} ${e.target.value}`;
-     }
-     setPointsdata(e.target.value)
-   }
-   previouslength =newlength;
-  }
+      } else if (newlength === 1) {
+        e.target.value = `${bullet} ${e.target.value}`;
+      }
+      setPointsdata(e.target.value);
+    }
+    previouslength = newlength;
+  };
   ///---- got to home page ----///
-  const navigateHome=(projectId)=>{
-    navigate(`/${projectId}`)
-  }
+  const navigateHome = (projectId) => {
+    navigate(`/${projectId}`);
+  };
 
   ///------navigate to MOM inner page -----///
-  const naviagteInnerPage = (projectId,id) => {
+  const naviagteInnerPage = (projectId, id) => {
     navigate(`/mominnerpage/${projectId}/${id}`);
   };
-  
+
   ///---edit the draft data -----////
-  const handleEditDraftdata = (projectId,id) => {
+  const handleEditDraftdata = (projectId, id) => {
     setUpdatedraftsusingId(id);
     navigate(`/newmom/${projectId}/${id}`);
   };
 
-   ///----open share modal code--////
-   const openSharePopUp = (value,projectId,id) => {
-    if(value){
+  ///----open share modal code--////
+  const openSharePopUp = (value, projectId, id) => {
+    if (value) {
       setOpenShareModal(value);
-      navigate(`/${projectId}/${id}`)
-    }
-    else{
+    } else {
+      setShareEmail("")
+      setEmailValid(false)
       setOpenShareModal(value);
-      navigate(`/${projectId}`)
     }
   };
 
-  async function shareMOMApi(shareBodyData){
+  async function shareMOMApi(projectId,shareBodyData) {
     fetch("https://email-api.idesign.market/api/mom/send-mom-pdf", {
       method: "post",
       headers: {
@@ -122,65 +128,72 @@ function MobileApp() {
       },
       body: shareBodyData,
     })
-    .then((res)=>{
-      if(res.status===200){
-        navigate(`/${projectId}`)
-      }
-      console.log(res)
+    .then((response) => {
+      return response.json()
     })
-    .catch((err)=>{
-      console.log(err)
-    })
+      .then((res) => {
+        if (res.status === 200) {
+          navigate(`/${projectId}`);
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-  
+
   ///---share MOM with email----///
-  const sharedMOMWithEmail = (projectId,id) => {
-    let mailformat =/^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
+  const sharedMOMWithEmail = (projectId, id) => {
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
     if (shareEmail.match(mailformat)) {
       setEmailValid(false);
-      setOpenShareModal(false)
-      // setShareEmail("");
+      setOpenShareModal(false);
       getSingleMomApiData(id)
-      .then((res)=>{
-        if(res.status===200){
-          let responseWithId = res?.data?.momData[0];
-          console.log(responseWithId)
-          const shareBodyData = JSON.stringify({
-            id:id,
-            replyToEmail: designerEmail,
-            date:`${responseWithId?.date?.substring(8, 10)} ${monthList[responseWithId?.date?.substring(5,7)]} ${responseWithId?.date?.substring(0, 4)}`,
-            category: responseWithId?.category,
-            location: responseWithId?.location,
-            title: responseWithId?.title,
-            email: [shareEmail],
-            companyName:companyName,
-            points:responseWithId?.points,
-          });
-          shareMOMApi(shareBodyData)
-        }
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
+        .then((res) => {
+          if (res.status === 200) {
+            let responseWithId = res?.data?.momData[0];
+            console.log(responseWithId);
+            const shareBodyData = JSON.stringify({
+              id: id,
+              replyToEmail: designerEmail,
+              date: `${responseWithId?.date?.substring(8, 10)} ${
+                monthList[responseWithId?.date?.substring(5, 7)]
+              } ${responseWithId?.date?.substring(0, 4)}`,
+              category: responseWithId?.category,
+              location: responseWithId?.location,
+              title: responseWithId?.title,
+              email: [shareEmail],
+              companyName: companyName,
+              points: responseWithId?.points,
+            });
+            shareMOMApi(projectId,shareBodyData);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       setEmailValid(true);
     }
   };
 
   ///---save the draft data----////
-  const handleSaveDraftData = (projectId,id) => {
+  const handleSaveDraftData = (projectId, id) => {
     if (selectdate && category && pointsdata) {
       const bodyData = JSON.stringify({
-        id: updatedraftusingId && updatedraftusingId || id && id,
+        id: (updatedraftusingId && updatedraftusingId) || (id && id),
         date: selectdate,
         category: category,
         location: location,
         projectId: projectId,
         title: title,
-        sharedWith:emaillist,
+        sharedWith: emaillist,
         points:
           pointsdata &&
-          pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
+          pointsdata
+            .trim()
+            .split("\u2022")
+            .filter((emptystr) => emptystr !== ""),
       });
       fetch(`${BaseUrl}/api/mom/addEditMOM`, {
         method: "post",
@@ -216,7 +229,7 @@ function MobileApp() {
     pointsdata ? setPointserror(false) : setPointserror(true);
   };
   ///---post the data----//
-  const handleSubmitData = (projectId,id) => {
+  const handleSubmitData = (projectId, id) => {
     const bodyData = JSON.stringify({
       id: updatedraftusingId && updatedraftusingId,
       date: selectdate,
@@ -225,54 +238,59 @@ function MobileApp() {
       projectId: projectId,
       title: title,
       isDraft: false,
-      sharedWith:emaillist,
+      sharedWith: emaillist,
       points:
         pointsdata &&
-        pointsdata.trim().split("\u2022").filter((emptystr) => emptystr !== ""),
-    });
-
-    const shareBodyData = JSON.stringify({
-      date:`${selectdate.substring(8, 10)} ${monthList[selectdate.substring(5,7)]} ${selectdate.substring(0, 4)}`,
-      id:id,
-      replyToEmail: designerEmail,
-      category: category,
-      location: location,
-      title: title,
-      email: emaillist,
-      companyName:companyName,
-      points:
-      pointsdata &&
-      pointsdata
-      .trim()
-      .split("\u2022")
-      .filter((emptystr) => emptystr !== ""),
+        pointsdata
+          .trim()
+          .split("\u2022")
+          .filter((emptystr) => emptystr !== ""),
     });
 
     if (selectdate && category && pointsdata) {
-      ///----share the mom with email ------////
-      shareMOMApi(shareBodyData)
       ///--save the mom data ----///
       fetch(`${BaseUrl}/api/mom/addEditMOM`, {
         method: "post",
         headers: {
+          "Access-Control-Allow-Methods":"*",
           "Content-Type": "application/json",
           Authorization: access_token,
         },
         body: bodyData,
       })
         .then((response) => {
-          if (response.ok) {
-            navigate(`/${projectId}`);
-            setSelectdate("");
-            setCategory("");
-            setLocation("");
-            setTitle("");
-            setPointsdata("");
-          }
           return response.json();
         })
         .then((data) => {
-          // console.log(data);
+          console.log(data,typeof data)
+          if (data) {
+            const shareBodyData = JSON.stringify({
+              date: `${selectdate.substring(8, 10)} ${
+                makeMonthFormat(selectdate.substring(5, 7))
+              } ${selectdate.substring(0, 4)}`,
+              id: data._id,
+              replyToEmail: designerEmail,
+              category: category,
+              location: location,
+              title: title,
+              email: emaillist,
+              companyName: companyName,
+              points:
+                pointsdata &&
+                pointsdata
+                  .trim()
+                  .split("\u2022")
+                  .filter((emptystr) => emptystr !== ""),
+            });
+            ///----share the mom with email ------////
+            shareMOMApi(projectId,shareBodyData);
+            navigate(`/${projectId}`);
+            // setSelectdate("");
+            // setCategory("");
+            // setLocation("");
+            // setTitle("");
+            // setPointsdata("");
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -296,8 +314,8 @@ function MobileApp() {
       }
     );
   }
-   ///---play with error ----///
-   if (selectdate && dateerror) {
+  ///---play with error ----///
+  if (selectdate && dateerror) {
     setDateerror(false);
   }
   if (category && categoryerror) {
@@ -306,16 +324,16 @@ function MobileApp() {
   if (pointsdata && pointserror) {
     setPointserror(false);
   }
- 
-   ////-----get user id from get profile -----////
-   async function getUserId() {
+
+  ////-----get user id from get profile -----////
+  async function getUserId() {
     return await axios.get(`https://pro-api.idesign.market/user/profile`, {
       headers: {
-        Authorization:  `bearer ${access_token}`,
+        Authorization: `bearer ${access_token}`,
       },
-    })
+    });
   }
- 
+
   ////-----get api data -----///
   async function getSingleMomApiData(id) {
     return axios.get(`${BaseUrl}/api/mom/getMOM?id=${id}`, {
@@ -325,17 +343,16 @@ function MobileApp() {
     });
   }
 
-
-  useEffect(()=>{
+  useEffect(() => {
     getUserId()
-    .then((response)=>{
-      setDesignEmail(response.data.data.email)
-      setCompanyName(response.data.data.companyName)
-     })
-     .catch((err)=>{
-       console.log(err)
-     })
-   },[])
+      .then((response) => {
+        setDesignEmail(response.data.data.email);
+        setCompanyName(response.data.data.companyName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -392,16 +409,27 @@ function MobileApp() {
           setShareEmail,
           openShareModal,
           sharedMOMWithEmail,
-          openSharePopUp
+          openSharePopUp,
+          makeMonthFormat
         }}
       >
         <Routes>
-          <Route exact path="/:projectId" element={<MomMainSectionMobilePage />} />
-          <Route exact path="/:projectId/:id" element={<MomMainSectionMobilePage />} />
+          <Route
+            exact
+            path="/:projectId"
+            element={<MomMainSectionMobilePage />}
+          />
+          <Route
+            path="/:projectId/:id"
+            element={<MomMainSectionMobilePage />}
+          />
           <Route path="/momzerostate" element={<MomZeroStateMobilePage />} />
           <Route path="/newmom/:projectId" element={<NewMomMobilePage />} />
           <Route path="/newmom/:projectId/:id" element={<NewMomMobilePage />} />
-          <Route path="/mominnerpage/:projectId/:id" element={<InnerMomPage />} />
+          <Route
+            path="/mominnerpage/:projectId/:id"
+            element={<InnerMomPage />}
+          />
         </Routes>
       </momContext.Provider>
     </>

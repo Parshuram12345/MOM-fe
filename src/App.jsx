@@ -43,14 +43,15 @@ function App() {
   const navigate = useNavigate();
   ///---navigate to home page -----///
   const navigateHome = (projectId) => {
+    setShareMom(false)
     navigate(`/${projectId}`);
   };
  
   
-  ///-----share condition with open newmom----///
-  const handleShareMOM = (value, projectId) => {
-    navigate(`/newmom/${projectId}`);
+  ///-----share condition in draft threedots open mom with same id----///
+  const handleShareMOM = (value, projectId,id) => {
     setShareMom(value);
+    navigate(`/newmom/${projectId}/${id}`);
   };
   ///------Edit the draft data and post it-----///
   const handleEditDraft = (projectId,id) => {
@@ -82,10 +83,8 @@ function App() {
     if (value) {
       console.log("true open modal")
       setOpenShareModal(value);
-      navigate(`/${projectId}/${id}`);
     } else {
       setOpenShareModal(value);
-      navigate(`/${projectId}`);
     }
   };
   ///---set state of email -----///
@@ -93,6 +92,7 @@ function App() {
     setShareEmail(event.target.value);
   };
  
+  ///---remove the zero the when month number is less than 10-----///
   const makeMonthFormat=(str)=>{
        if(str.charAt(0)==0){
            return monthList[str.charAt(1)]
@@ -146,7 +146,7 @@ function App() {
               id: id,
               replyToEmail: designerEmail,
               date: `${responseWithId?.date?.substring(8, 10)} ${
-                monthList[responseWithId?.date?.substring(5, 7)]
+                makeMonthFormat(responseWithId?.date?.substring(5, 7))
               } ${responseWithId?.date?.substring(0, 4)}`,
               category: responseWithId?.category,
               location: responseWithId?.location,
@@ -255,9 +255,10 @@ function App() {
             setTitle("");
             setBulletPoints("");
           }
+          return response.json()
         })
         .then((data) => {
-          console.log(data);
+          // console.log(data);
         })
         .catch((error) => {
           console.log(error);
@@ -305,8 +306,7 @@ function App() {
             return response.json()
         })
         .then((data) => {
-          if(data.status=200){
-              console.log(data)
+          if(data){
               const shareBodyData = JSON.stringify({
                 date: `${momdate.substring(8, 10)} ${
                   monthList[momdate.substring(5, 7)]
@@ -333,7 +333,6 @@ function App() {
               setTitle("");
               setBulletPoints("");
           }
-          console.log(data._id);
         })
         .catch((error) => {
           console.log(error);

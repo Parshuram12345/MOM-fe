@@ -573,7 +573,7 @@ function MomSection() {
                 ) : (
                   !draftsflag &&
                   momDraftsdata?.map(
-                    ({ date, title, category, points, _id, isRead,name }, index) => {
+                    ({ date, title, category, points, _id, isRead}, index) => {
                       return (
                         <>
                           <div
@@ -645,7 +645,7 @@ function MomSection() {
                                 <Dropdown.Menu>
                                   <Dropdown.Item
                                     className="d-flex align-center"
-                                    onClick={() => handleShareMOM(true,projectId,id)}
+                                    onClick={() => handleShareMOM(true,projectId,_id)}
                                   >
                                     <HiOutlineShare className="share-icon margin-right-5" />
                                     Share
@@ -695,7 +695,7 @@ function MomSection() {
                 ) : (
                   draftsflag &&
                   momSentdata.map(
-                    ({ date, title, category, points, _id, isRead,name }, index) => {
+                    ({ date, title, category, points, _id, isRead}, index) => {
                       return (
                         <>
                           <div
@@ -716,10 +716,10 @@ function MomSection() {
                               className="color-text-000000 font-weight-400 width-16"
                               onClick={() => gotoInnerMom(projectId,_id)}
                             >
-                             {`${date.substring(8, 10)} ${monthList[date.substring(
+                             {`${date.substring(8, 10)} ${makeMonthFormat(date.substring(
                                 5,
                                 7
-                              )]} ${date.substring(0, 4)}`}
+                              ))} ${date.substring(0, 4)}`}
                             </div>
                             <div
                               className="color-text-000000 font-weight-400 width-19"

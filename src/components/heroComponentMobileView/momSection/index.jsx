@@ -28,7 +28,8 @@ function MomSection() {
     emailValid,
     shareEmail,
     setShareEmail,
-    openSharePopUp
+    openSharePopUp,
+    makeMonthFormat
   } = useContext(momContext);
   const navigate = useNavigate();
   const {projectId,id} =useParams()
@@ -59,7 +60,7 @@ function MomSection() {
   const handleSentDocs = () => {
     setCheckboxAllSelected([]);
     setDraftsflag(true);
-    setSentflag(false);
+    setSentflag(false)
   };
    
   const check = document.getElementsByName("pointscheck");
@@ -600,10 +601,10 @@ function MomSection() {
                       <div className="d-flex justify-between align-center padding-3">
                         <div onClick={() => naviagteInnerPage(projectId,_id)}>
                           {date &&
-                            `${date?.substring(8, 10)} ${ monthList[date?.substring(
+                            `${date?.substring(8, 10)} ${ makeMonthFormat(date?.substring(
                               5,
                               7
-                            )]} ${date?.substring(0, 4)}`}
+                            ))} ${date?.substring(0, 4)}`}
                         </div>
                           <div
                             className="as-on color-text border-radius-25"
@@ -654,8 +655,6 @@ function MomSection() {
                         onChange={() => handleCheckDeleteShare(_id)}
                       />
                       <div className="d-flex align-center justify-between width-100 margin-left-5">
-
-                      {/* </div> */}
                       <div
                         className="title-font-size font-weight-500"
                         onClick={() => naviagteInnerPage(projectId,_id)}
@@ -699,10 +698,10 @@ function MomSection() {
                       <div
                         onClick={() => naviagteInnerPage(projectId,_id)}
                       >{date &&
-                        `${date?.substring(8, 10)} ${ monthList[date?.substring(
+                        `${date?.substring(8, 10)} ${ makeMonthFormat(date?.substring(
                           5,
                           7
-                        )]} ${date?.substring(0, 4)}`}</div>
+                        ))} ${date?.substring(0, 4)}`}</div>
                         <div
                           className="as-on color-text border-radius-25"
                           onClick={() => naviagteInnerPage(projectId,_id)}

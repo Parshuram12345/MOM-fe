@@ -39,16 +39,6 @@ function NewMom() {
     getSingleMOMApiData,
     navigateHome,
   } = useContext(MomContext);
-  //  const {access_token,BaseUrl}=data;
-
-//   ///---get api data ----///
-//  async function getApiData() {
-//   return await axios.get(`${BaseUrl}/api/mom/getMOM?projectId=${projectId}`, {
-//     headers: {
-//       Authorization: access_token,
-//     },
-//   });
-// }
 
   ///---play with error ----///
   if (momdate && dateerror) {

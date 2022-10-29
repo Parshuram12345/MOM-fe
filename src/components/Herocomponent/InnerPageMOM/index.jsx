@@ -11,14 +11,14 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const { projectId, id } = useParams();
+  const [shareIconsent,setShareIconsent]=useState(true)
   const navigate = useNavigate()
   // console.log(id);
-  const { BaseUrl, access_token, monthList } = data;
+  const { BaseUrl, access_token} = data;
   const { fullDots, crossCloseIcon } = allImagesList;
   const {
     pointsdetails,
     setPointsdetails,
-    draftsflag,
     navigateHome,
     clientName,
     setClientName,
@@ -29,6 +29,7 @@ function InnerPageMom() {
     shareEmailFormat,
     sharedMOMWithEmail,
     getSingleMOMApiData,
+    makeMonthFormat
     // navigateNewMOM
   } = useContext(MomContext);
   ///-----highlight the match point text---///
@@ -53,11 +54,6 @@ function InnerPageMom() {
       }
     }
   };
-
-  // ///---navigate to new mom page -----///
-  // const navigateNewMOM = (projectId) => {
-  //   navigate(`/newmom/${projectId}`);
-  // };
 
   ///---read the mom and edit it---///
   async function getReadMOM() {
@@ -94,6 +90,7 @@ function InnerPageMom() {
         setPointsdetails(
           res?.data?.momData[0]
         );
+        setShareIconsent(res.data.momData[0].isDraft)
       })
       .catch((error) => {
         console.error(error);
@@ -132,7 +129,7 @@ function InnerPageMom() {
                 <p className="notice-text">Email</p>
                 <img
                   className="position-absolute close-icon"
-                  onClick={() => setOpenShareModal(false)}
+                  onClick={() => setOpenShareModal(false,projectId,id)}
                   src={crossCloseIcon}
                   alt="cross-icon"
                 />
@@ -218,9 +215,9 @@ function InnerPageMom() {
               {pointsdetails?.title}
             </div>
             <div style={{marginLeft:"5px"}}>
-             { draftsflag &&  <HiOutlineShare
+             { !shareIconsent &&  <HiOutlineShare
                 className="color-text-888888"
-                onClick={() => setOpenShareModal(true)}
+                onClick={() => setOpenShareModal(true,projectId,id)}
               />}
             </div>
           </div>
@@ -228,7 +225,7 @@ function InnerPageMom() {
             <div style={{ margin: "5px 0" }} className="color-text-888888">
               {pointsdetails?.date &&
                 `${pointsdetails?.date?.substring(8, 10)} ${
-                  monthList[pointsdetails?.date?.substring(5, 7)]
+                  makeMonthFormat(pointsdetails?.date?.substring(5, 7))
                 } ${pointsdetails?.date?.substring(0, 4)}`}
               <img
                 style={{ margin: "0 5px" }}
@@ -243,7 +240,7 @@ function InnerPageMom() {
             </div>
           </div>
           <div
-            style={{ width: "80%", marginTop: "0" }}
+            style={{ width: "80.1%", marginTop: "0" }}
             className="ui divider"
           ></div>
           <div className="d-flex justify-between width-95">
@@ -270,8 +267,8 @@ function InnerPageMom() {
             </div>
             <div className="share-with-wrapper padding-left-10">
               <div style={{ width: "104px" }} className="ui divider"></div>
-              <div className="d-flex-col align-left justify-between">
-                {draftsflag && (
+              <div style={{workBreak:"break-word"}} className="d-flex-col align-left justify-between">
+                {!shareIconsent && (
                   <>
                     <div>{clientName}</div>
                   </>
@@ -279,7 +276,7 @@ function InnerPageMom() {
                 {shareEmail && <div>{shareEmail}</div>}
                 <div
                   className="color-text d-flex align-center width-fit-content"
-                  onClick={() => setOpenShareModal(true)}
+                  onClick={() => setOpenShareModal(true,projectId,id)}
                 >
                   <AiFillPlusCircle /> Add Members
                 </div>
