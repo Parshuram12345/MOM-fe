@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/dev-mom/static/css/main.705cda9e.css",
-    "main.js": "/dev-mom/static/js/main.7b39b30e.js",
+    "main.css": "/dev-mom/static/css/main.057fe9cc.css",
+    "main.js": "/dev-mom/static/js/main.51cb71d2.js",
     "static/media/backgroundImage.png": "/dev-mom/static/media/backgroundImage.93b4d2282723233ac679.png",
     "static/media/logo-idesign.png": "/dev-mom/static/media/logo-idesign.21e0019c9ccb8a479f62.png",
     "static/media/requestReceived.svg": "/dev-mom/static/media/requestReceived.fba9f878b47d18741b88d314c44ca35a.svg",
@@ -30,11 +30,11 @@
     "static/media/dashboard.svg": "/dev-mom/static/media/dashboard.f3c057fca5329eb7ed2d27bd56bf94f9.svg",
     "static/media/crosscloseicon.svg": "/dev-mom/static/media/crosscloseicon.1858fdbb4d2adffbad66776d16140cc9.svg",
     "static/media/fulldots.svg": "/dev-mom/static/media/fulldots.8ea1ea3ca5bec28b1f97f6bb76079d8d.svg",
-    "main.705cda9e.css.map": "/dev-mom/static/css/main.705cda9e.css.map",
-    "main.7b39b30e.js.map": "/dev-mom/static/js/main.7b39b30e.js.map"
+    "main.057fe9cc.css.map": "/dev-mom/static/css/main.057fe9cc.css.map",
+    "main.51cb71d2.js.map": "/dev-mom/static/js/main.51cb71d2.js.map"
   },
   "entrypoints": [
-    "static/css/main.705cda9e.css",
-    "static/js/main.7b39b30e.js"
+    "static/css/main.057fe9cc.css",
+    "static/js/main.51cb71d2.js"
   ]
 }
