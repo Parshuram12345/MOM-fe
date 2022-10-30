@@ -200,7 +200,7 @@ function MomSection() {
    ///---add three dots for title after limit out----///
    function add3dotsTitle(title) {
     let dots = "...";
-    let limit = 26;
+    let limit = 20;
     if (title.length > limit) {
       return title.substring(0, limit) + dots;
     } else {

@@ -153,7 +153,7 @@ function InnerPageMom() {
             </div>
           </div>
         )}
-        <div className="d-flex justify-around font-weight-500 width-fit-content align-center margin-top-4">
+        <div style={{flexWrap:"wrap",justifyContent:"start"}} className="d-flex font-weight-500 width-fit-content align-center margin-top-4 word-break">
           <div className="color-text-888888 small-font-10 cursor-pointer">
             Pr's saini
           </div>
@@ -241,7 +241,7 @@ function InnerPageMom() {
                 src={fullDots}
                 alt="fullpoints"
               />
-              {pointsdetails?.location}
+              <span className="word-break">{pointsdetails?.location}</span>
             </div>
             <div className="color-text-888888 font-size-13 text-align-center">
               {pointsdetails?.category}

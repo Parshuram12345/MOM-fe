@@ -12,6 +12,7 @@ import { MomContext } from "../../../App.jsx";
 function InnerPageMom() {
   const { projectId, id } = useParams();
   const [shareIconsent,setShareIconsent]=useState(true)
+  const [sharedMomEmail,setSharedMomEmail]=useState([])
   const navigate = useNavigate()
   // console.log(id);
   const { BaseUrl, access_token} = data;
@@ -91,6 +92,8 @@ function InnerPageMom() {
           res?.data?.momData[0]
         );
         setShareIconsent(res.data.momData[0].isDraft)
+        console.log(res.data.momData[0].sharedWith)
+        setSharedMomEmail(res.data.momData[0].sharedWith)
       })
       .catch((error) => {
         console.error(error);
@@ -99,7 +102,6 @@ function InnerPageMom() {
       getReadMOM()
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
         }
       })
       .catch((err) => {
@@ -267,12 +269,13 @@ function InnerPageMom() {
             </div>
             <div className="share-with-wrapper padding-left-10">
               <div style={{ width: "104px" }} className="ui divider"></div>
-              <div style={{workBreak:"break-word"}} className="d-flex-col align-left justify-between">
-                {!shareIconsent && (
-                  <>
-                    <div>{clientName}</div>
-                  </>
-                )}
+              <div className="d-flex-col align-left justify-between word-break">
+                {!shareIconsent && <div>{clientName}</div>}
+                {!shareIconsent && sharedMomEmail.map((email,i)=>{
+                  return(
+                    <div style={{width:"144%"}} key={i}>{email}</div>
+                  )
+                })}
                 {shareEmail && <div>{shareEmail}</div>}
                 <div
                   className="color-text d-flex align-center width-fit-content"
