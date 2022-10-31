@@ -84,7 +84,7 @@ function InnerPageMom() {
         .then((res) => {
           setPointsdetails(res?.data?.momData[0]);
           setShareIconsent(res?.data?.momData[0].isDraft);
-          setSharedMomEmail([...new Set(res.data.momData[0].sharedWith)])
+          setSharedMomEmail(res.data.momData[0].sharedWith)
         })
         .catch((error) => {
           console.error(error);
@@ -252,7 +252,7 @@ function InnerPageMom() {
         </div>
         <div className="ui divider"></div>
         <div>
-        {!shareIconsent && <div style={{margin:"5px 0"}} className="font-weight-500 color-text-000000">ShareWith</div>}
+        <div style={{margin:"5px 0"}} className="font-weight-500 color-text-000000">ShareWith</div>
         {shareIconsent && <div>{clientEmail}</div>}
                 {!shareIconsent && sharedMomEmail?.map((email,i)=>{
                   return(
