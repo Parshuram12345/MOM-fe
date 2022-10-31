@@ -27,7 +27,8 @@ function MomZeroState() {
     handlePointsTextArea,
     handleSubmitData,
     handleSaveDraft,
-    getClientProject
+    getClientProject,
+    maxDateCurrent
   } = useContext(MomContext);
   useEffect(()=>{
     getClientProject()
@@ -48,7 +49,7 @@ function MomZeroState() {
         <div className="font-size-18 font-w-500 divider-margin">
           Create a MOM
         </div>
-        <div className="d-flex align-center justify-between width-27">
+        <div className="d-flex align-center justify-between width-22">
             <button
               className="savedata-button font-size-12 font-weight-400 border-radius-4"
               onClick={() => handleSaveDraft()}
@@ -70,6 +71,7 @@ function MomZeroState() {
                 <input type="text"
                   className="border-df bg-color-fa padding-5 border-radius-4 width-80"
                   placeholder="Select date"
+                  max={maxDateCurrent()}
                   value={momdate}
                    onChange={(e)=>setMomdate(e.target.value)}
                    onFocus={(e)=>e.target.type="date"}

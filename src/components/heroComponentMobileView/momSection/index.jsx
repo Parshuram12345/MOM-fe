@@ -29,7 +29,7 @@ function MomSection() {
     shareEmail,
     setShareEmail,
     openSharePopUp,
-    makeMonthFormat
+    makeMonthFormat,
   } = useContext(momContext);
   const navigate = useNavigate();
   const {projectId,id} =useParams()
@@ -568,7 +568,7 @@ function MomSection() {
                               <Dropdown.Menu>
                                 <Dropdown.Item
                                   className="d-flex align-center"
-                                  onClick={() => handleSharedMOMdata(projectId,true,id)}
+                                  onClick={() => handleSharedMOMdata(projectId,true,_id)}
                                 >
                                   <HiOutlineShare className="share-icon margin-right-5" />
                                   Share
@@ -649,11 +649,11 @@ function MomSection() {
                     className="mom-field border-df border-radius-5 divider-margin"
                   >
                     <div className="d-flex justify-around align-center padding-3">
-                      <input
+                      {/* <input
                         type="checkbox"
                         name="pointscheck"
                         onChange={() => handleCheckDeleteShare(_id)}
-                      />
+                      /> */}
                       <div className="d-flex align-center justify-between width-100 margin-left-5">
                       <div
                         className="title-font-size font-weight-500"
@@ -681,7 +681,7 @@ function MomSection() {
                             />
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item className="d-flex align-center" onClick={()=>openSharePopUp(true,projectId,_id)}>
+                            <Dropdown.Item className="d-flex align-center" onClick={()=> openSharePopUp(true,projectId,_id)}>
                               <HiOutlineShare className="share-icon margin-right-5" />
                               Share
                             </Dropdown.Item>

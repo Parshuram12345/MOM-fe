@@ -17,7 +17,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [emaillist, setEmaillist] = useState([]);
   const [emailvalue, setEmailvalue] = useState();
-  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
@@ -47,6 +47,15 @@ function App() {
     navigate(`/${projectId}`);
   };
  
+   ///----date not select greater than current date-----////
+   function maxDateCurrent(){
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let yyyy = today.getFullYear();
+    const todayupdate = yyyy + '-' + mm + '-' + dd;
+    return todayupdate
+  }
   
   ///-----share condition in draft threedots open mom with same id----///
   const handleShareMOM = (value, projectId,id) => {
@@ -66,9 +75,10 @@ function App() {
   ///----add the email with validation---///
   const addEmail = (event) => {
     console.log(event.target.value);
+    let regex = "^(.+)@(.+)$";
     let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
     if (event.target.value !== "") {
-      if (event.target.value.match(mailformat)) {
+      if (event.target.value.match(mailformat) || event.target.value.match(regex)) {
         setEmaillist([...emaillist, event.target.value]);
         event.target.value = "";
         setEmailValid(false);
@@ -81,12 +91,13 @@ function App() {
   ///----open share modal code--////
   const openshareMomModal = (value,projectId,id) => {
     if (value) {
-      console.log("true open modal")
+      navigate(`/${projectId}/${id}`)
       setOpenShareModal(value);
     } else {
+      setShareEmail("")
       setOpenShareModal(value);
     }
-  };
+  }
   ///---set state of email -----///
   const shareEmailFormat = (event) => {
     setShareEmail(event.target.value);
@@ -132,16 +143,49 @@ function App() {
       },
     });
   }
+  
+  ///--- added the new share mom email in already shared email----///
+async function saveSharedEmailApi(alreadySharedEmail,sharedemail,projectId,id){
+  let allemailarray  = [...alreadySharedEmail,sharedemail]
+  const bodydata = JSON.stringify({
+    id:id,
+    projectId:projectId,
+    sharedWith:[...new Set(allemailarray)]
+  })
+  await fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: access_token,
+    },
+    body: bodydata
+  })
+  .then((response)=>{
+    window.location.reload(false)
+    return response.json()
+  })
+  .then((data)=>{
+     console.log(data)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
   ///---share MOM with email----///
   const sharedMOMWithEmail = (projectId,id) => {
+    let regex = "^(.+)@(.+)$";
     let mailformat = /^\w+([\.-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
-    if (shareEmail.match(mailformat)) {
+    if (shareEmail.match(mailformat) || shareEmail.match(regex)) {
       setEmailCheck(false);
       setOpenShareModal(false);
+      setShareEmail("")
       getSingleMOMApiData(id)
         .then((res) => {
           if (res.status === 200) {
             let responseWithId = res?.data?.momData[0];
+            console.log(responseWithId)
+            saveSharedEmailApi(responseWithId.sharedWith,shareEmail,projectId,id)
             const shareBodyData = JSON.stringify({
               id: id,
               replyToEmail: designerEmail,
@@ -160,7 +204,7 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
-        });
+        })
     } else {
       setEmailCheck(true);
     }
@@ -208,7 +252,7 @@ function App() {
       {
         headers: {
           Authorization: access_token,
-        },
+        }
       }
     );
   }
@@ -227,13 +271,13 @@ function App() {
         location: location,
         title: title,
         projectId: projectId,
-        sharedWith: emaillist,
+        sharedWith: [...new Set(emaillist)],
         points:
           bulletPoints &&
           bulletPoints
             .trim()
             .split("\u2022")
-            .filter((emptystr) => emptystr !== ""),
+            .filter((emptystr) => emptystr !== "" && emptystr !== " \n"),
       });
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
         method: "post",
@@ -273,7 +317,7 @@ function App() {
   ////-----post the with submit btn data ------///
   const handleSubmitData = (projectId, id) => {
     if (shareMom) {
-      setShareMom(false);
+      setShareMom(false)
     }
     if (momdate && category && bulletPoints) {
       const bodyData = JSON.stringify({
@@ -284,13 +328,13 @@ function App() {
         title: title,
         isDraft: false,
         projectId: projectId,
-        sharedWith: emaillist,
+        sharedWith: [...new Set(emaillist)],
         points:
           bulletPoints &&
           bulletPoints
             .trim()
             .split("\u2022")
-            .filter((emptystr) => emptystr !== ""),
+            .filter((emptystr) => emptystr !== "" && emptystr !== " \n"),
       });
 
       fetch(`${BaseUrl}/api/mom/addEditMOM/`, {
@@ -316,16 +360,16 @@ function App() {
                 category: category,
                 location: location,
                 title: title,
-                email: emaillist,
+                email: [...new Set(emaillist)],
                 companyName: companyName,
                 points:
                   bulletPoints &&
                   bulletPoints
                     .trim()
                     .split("\u2022")
-                    .filter((emptystr) => emptystr !== ""),
+                    .filter((emptystr) => emptystr !== "" && emptystr !== " \n" ),
               });
-              shareMOMApi(projectId,shareBodyData);
+              shareMOMApi(projectId,shareBodyData)
               navigate(`/${projectId}`);
               setMomdate("");
               setCategory("");
@@ -404,8 +448,8 @@ function App() {
           emailValid,
           roomName,
           setRoomName,
-          clientName,
-          setClientName,
+          clientEmail,
+          setClientEmail,
           openShareModal,
           setOpenShareModal,
           openshareMomModal,
@@ -427,10 +471,11 @@ function App() {
           handleSubmitData,
           bulletPoints,
           navigateHome,
-          // shareMOMPdf,
           getSingleMOMApiData,
           // navigateNewMOM
-          makeMonthFormat
+          makeMonthFormat,
+          maxDateCurrent,
+          saveSharedEmailApi
         }}
       >
         <Routes>

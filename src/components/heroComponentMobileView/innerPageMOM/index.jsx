@@ -17,10 +17,11 @@ function InnerPageMom() {
     allImagesList;
   const [searchbarToggle, setSearchToggle] = useState(false);
   const [shareIconsent, setShareIconsent] = useState(true);
+  const [sharedMomEmail,setSharedMomEmail]=useState([])
   const {
     pointsdetails,
-    clientName,
-    setClientName,
+    clientEmail,
+    setClientEmail,
     setPointsdetails,
     getClientProject,
     navigateHome,
@@ -28,7 +29,7 @@ function InnerPageMom() {
     setShareEmail,
     shareEmail,
     sharedMOMWithEmail,
-    openSharePopUp,
+    setOpenShareModal,
     openShareModal,
     emailValid,
     makeMonthFormat,
@@ -83,6 +84,7 @@ function InnerPageMom() {
         .then((res) => {
           setPointsdetails(res?.data?.momData[0]);
           setShareIconsent(res?.data?.momData[0].isDraft);
+          setSharedMomEmail([...new Set(res.data.momData[0].sharedWith)])
         })
         .catch((error) => {
           console.error(error);
@@ -92,7 +94,7 @@ function InnerPageMom() {
     //---get client name from client data----///
     getClientProject(projectId)
       .then((res) => {
-        setClientName(res.data.projects[0].clientId.name);
+        setClientEmail(res.data.projects[0].clientId.email);
       })
       .catch((error) => {
         console.error(error);
@@ -123,7 +125,7 @@ function InnerPageMom() {
                 <p className="notice-text">Email</p>
                 <img
                   className="position-absolute close-icon-share-mom"
-                  onClick={() => openSharePopUp(false, projectId, id)}
+                  onClick={() => setOpenShareModal(false)}
                   src={crossCloseIcon}
                   alt="cross-icon"
                 />
@@ -225,7 +227,7 @@ function InnerPageMom() {
                 {!shareIconsent && (
                   <HiOutlineShare
                     className="color-text-888888"
-                    onClick={() => openSharePopUp(true, projectId, id)}
+                    onClick={() => setOpenShareModal(true)}
                   />
                 )}
               </div>
@@ -249,6 +251,15 @@ function InnerPageMom() {
           </div>
         </div>
         <div className="ui divider"></div>
+        <div>
+        {!shareIconsent && <div style={{margin:"5px 0"}} className="font-weight-500 color-text-000000">ShareWith</div>}
+        {shareIconsent && <div>{clientEmail}</div>}
+                {!shareIconsent && sharedMomEmail?.map((email,i)=>{
+                  return(
+                    <div key={i}>{email}</div>
+                  )
+                })}
+        </div>
         <div name="points" className="points-container border-none">
           {pointsdetails &&
             pointsdetails?.points

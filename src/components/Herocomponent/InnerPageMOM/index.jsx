@@ -21,8 +21,8 @@ function InnerPageMom() {
     pointsdetails,
     setPointsdetails,
     navigateHome,
-    clientName,
-    setClientName,
+    clientEmail,
+    setClientEmail,
     shareEmail,
     openShareModal,
     setOpenShareModal,
@@ -30,6 +30,7 @@ function InnerPageMom() {
     shareEmailFormat,
     sharedMOMWithEmail,
     getSingleMOMApiData,
+    getClientProject,
     makeMonthFormat
     // navigateNewMOM
   } = useContext(MomContext);
@@ -73,17 +74,7 @@ function InnerPageMom() {
     });
   }
 
-  ///---get client project ---////
-  async function getClientProject() {
-    return await axios.get(
-      `${BaseUrl}/api/projects/getProjects?projectId=${projectId}`,
-      {
-        headers: {
-          Authorization: access_token,
-        },
-      }
-    );
-  }
+ 
   useEffect(() => {
     if(id){
     getSingleMOMApiData(id)
@@ -92,7 +83,6 @@ function InnerPageMom() {
           res?.data?.momData[0]
         );
         setShareIconsent(res.data.momData[0].isDraft)
-        console.log(res.data.momData[0].sharedWith)
         setSharedMomEmail(res.data.momData[0].sharedWith)
       })
       .catch((error) => {
@@ -112,7 +102,7 @@ function InnerPageMom() {
     //---get client name from client data----///
     getClientProject(projectId)
     .then((res) => {
-      setClientName(res.data.projects[0].clientId.name);
+      setClientEmail(res.data.projects[0].clientId.email);
     })
     .catch((error) => {
       console.error(error);
@@ -131,7 +121,7 @@ function InnerPageMom() {
                 <p className="notice-text">Email</p>
                 <img
                   className="position-absolute close-icon"
-                  onClick={() => setOpenShareModal(false,projectId,id)}
+                  onClick={() => setOpenShareModal(false)}
                   src={crossCloseIcon}
                   alt="cross-icon"
                 />
@@ -219,7 +209,7 @@ function InnerPageMom() {
             <div style={{marginLeft:"5px"}}>
              { !shareIconsent &&  <HiOutlineShare
                 className="color-text-888888"
-                onClick={() => setOpenShareModal(true,projectId,id)}
+                onClick={() => setOpenShareModal(true)}
               />}
             </div>
           </div>
@@ -270,19 +260,19 @@ function InnerPageMom() {
             <div className="share-with-wrapper padding-left-10">
               <div style={{ width: "104px" }} className="ui divider"></div>
               <div className="d-flex-col align-left justify-between word-break">
-                {!shareIconsent && <div>{clientName}</div>}
-                {!shareIconsent && sharedMomEmail.map((email,i)=>{
+                {shareIconsent && <div style={{width:"160%"}}>{clientEmail}</div>}
+                {!shareIconsent && sharedMomEmail?.map((email,i)=>{
                   return(
-                    <div style={{width:"144%"}} key={i}>{email}</div>
+                    <div style={{width:"160%"}} key={i}>{email}</div>
                   )
                 })}
-                {shareEmail && <div>{shareEmail}</div>}
-                <div
+                {/* {shareEmail && <div>{shareEmail}</div>} */}
+                { !shareIconsent && <div
                   className="color-text d-flex align-center width-fit-content"
-                  onClick={() => setOpenShareModal(true,projectId,id)}
+                  onClick={() => setOpenShareModal(true)}
                 >
-                  <AiFillPlusCircle /> Add Members
-                </div>
+                   <AiFillPlusCircle /> Add Members
+                </div>}
               </div>
             </div>
           </div>

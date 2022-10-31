@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import "./NewMom.css";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
-import {data} from "../../utils"
+import { data } from "../../utils"
 function NewMom() {
-  const {projectId,id}=useParams();
+  const { projectId, id } = useParams();
   const {
     momdate,
     setMomdate,
@@ -38,7 +38,9 @@ function NewMom() {
     setPointserror,
     getSingleMOMApiData,
     navigateHome,
+    maxDateCurrent
   } = useContext(MomContext);
+ 
 
   ///---play with error ----///
   if (momdate && dateerror) {
@@ -52,40 +54,41 @@ function NewMom() {
   }
   let bullet = "\u2022"
   useEffect(() => {
-    if(id){
+    if (id) {
       getSingleMOMApiData(id)
-      .then((res) => {
-        let respoonseWithId = res?.data?.momData[0];
-        setCategory(respoonseWithId.category)
-        setMomdate(
-      `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
-      );
-       setLocation(respoonseWithId?.location);
-       setTitle(respoonseWithId?.title)
-       setBulletPoints(respoonseWithId?.points?.filter((elem)=> elem !==" \n").map((item)=> { return (`${bullet} ${item.trim()}`)}).join("\n"));}
-      )
-      .catch((error) => {
-        console.error(error); 
-      });
+        .then((res) => {
+          let respoonseWithId = res?.data?.momData[0];
+          setCategory(respoonseWithId.category)
+          setMomdate(
+            `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
+          );
+          setLocation(respoonseWithId?.location);
+          setTitle(respoonseWithId?.title)
+          setBulletPoints(respoonseWithId?.points?.filter((elem) => elem !== " \n").map((item) => { return (`${bullet} ${item.trim()}`) }).join("\n"));
+        }
+        )
+        .catch((error) => {
+          console.error(error);
+        });
     }
     //---get client name from client data----///
     let emailconvertArr = [];
     getClientProject(projectId)
-    .then((res) => {
-            // console.log(res.data.projects)
-            setRoomName(res.data.projects[0].rooms);
-            emailconvertArr.push(res.data.projects[0].clientId.email);
-            setEmaillist(emailconvertArr);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      .then((res) => {
+        // console.log(res.data.projects)
+        setRoomName(res.data.projects[0].rooms);
+        emailconvertArr.push(res.data.projects[0].clientId.email);
+        setEmaillist(emailconvertArr);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
   return (
     <>
       <div className="newMOM-container justify-around margin-left-3 width-95">
         <div className="d-flex align-center justify-between width-fit-content margin-top-10">
-          <div className="small-font-10 color-text-888888" onClick={()=>navigateHome(projectId)}>
+          <div className="small-font-10 color-text-888888" onClick={() => navigateHome(projectId)}>
             MOM
           </div>
           <span className="d-flex align-center color-text-888888 small-font-12">
@@ -99,10 +102,10 @@ function NewMom() {
           <div className="font-size-18 font-w-500 color-text divider-margin">
             Create a MOM
           </div>
-          <div className="d-flex align-center justify-between width-25">
+          <div className="d-flex align-center justify-between width-22">
             <button
               className="savedata-button small-font-12 font-weight-400 border-radius-4"
-              onClick={() => handleSaveDraft(projectId,id)}
+              onClick={() => handleSaveDraft(projectId, id)}
             >
               Save as Draft
             </button>
@@ -121,9 +124,10 @@ function NewMom() {
               <label className="label-text margin-top-5">Date:</label>
               <input
                 type="text"
+                max={maxDateCurrent()}
                 className="border-df bg-color-fa padding-5 border-radius-4 width-80"
                 value={momdate}
-                onChange={(newdate) => 
+                onChange={(newdate) =>
                   setMomdate(newdate.target.value)
                 }
                 placeholder="Select date"
@@ -134,15 +138,14 @@ function NewMom() {
               <label className="label-text margin-top-5">Category:</label>
               <div className="d-flex align-center position-relative width-75">
                 <select
-                  className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${
-                    category === "" && "color-text-888888"
-                  }`}
+                  className={`border-df bg-color-fa padding-5 border-radius-4 width-100 ${category === "" && "color-text-888888"
+                    }`}
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="">Select your category</option>
                   {roomName &&
-                    roomName?.map((room,index) => {
+                    roomName?.map((room, index) => {
                       return (
                         <>
                           <option key={index} value={room}>{room}</option>
@@ -171,7 +174,7 @@ function NewMom() {
             {dateerror && (
               <small
                 className="position-absolute"
-                style={{ color: "red",marginLeft:"4.5%" }}
+                style={{ color: "red", marginLeft: "4.5%" }}
               >
                 date is required
               </small>
@@ -179,7 +182,7 @@ function NewMom() {
             {categoryerror && (
               <small
                 className="position-absolute"
-                style={{ color: "red",marginLeft:"40%" }}
+                style={{ color: "red", marginLeft: "40%" }}
               >
                 category is required
               </small>
@@ -187,7 +190,7 @@ function NewMom() {
           </div>
         </div>
         <div style={{ marginTop: "22px" }} className="d-flex-col">
-          <label style={{marginBottom:"1px"}} className="label-text">
+          <label style={{ marginBottom: "1px" }} className="label-text">
             Share with (add more email ID as required):
           </label>
           <div className="email-container d-flex align-center width-100 border-df bg-color-fa border-radius-4">
@@ -208,7 +211,7 @@ function NewMom() {
               type="email"
               className="email-input bg-color-fa"
               onKeyUp={(event) => event.key === "Enter" && addEmail(event)}
-              placeholder={emaillist.length===0 ? "Enter the Email ID": null }
+              placeholder={emaillist.length === 0 ? "Enter the Email ID" : null}
               autoFocus={shareMom}
             />
           </div>
@@ -219,7 +222,7 @@ function NewMom() {
           </small>
         )}
         <div className="d-flex-col divider-margin-15">
-          <label className="label-text" style={{marginBottom:"0"}} htmlFor="title">
+          <label className="label-text" style={{ marginBottom: "0" }} htmlFor="title">
             Title
           </label>
           <input
@@ -227,21 +230,21 @@ function NewMom() {
             className="border-df bg-color-fa padding-6 border-radius-5 border-radius-4"
             name="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value.replace(/\s+/gi," "))}
+            onChange={(e) => setTitle(e.target.value.replace(/\s+/gi, " "))}
             placeholder="Write your title here"
           />
         </div>
         <div className="d-flex-col margin-top-5">
-          <label className="label-text" style={{marginBottom:"0"}} htmlFor="points">
+          <label className="label-text" style={{ marginBottom: "0" }} htmlFor="points">
             Points
           </label>
           <textarea
             rows="6"
             cols="50"
-            style={{resize:"none"}}
+            style={{ resize: "none" }}
             value={bulletPoints}
             className="textarea-points-field border-df bg-color-fa padding-6 border-radius-4 text-align-justify"
-            onChange={(e) => { handlePointsTextArea(e)}}
+            onChange={(e) => { handlePointsTextArea(e) }}
             placeholder="Type something here"
           />
         </div>

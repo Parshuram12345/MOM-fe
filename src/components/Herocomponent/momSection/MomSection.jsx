@@ -33,7 +33,7 @@ function MomSection() {
     emailCheck,
     shareEmailFormat,
     sharedMOMWithEmail,
-    makeMonthFormat
+    makeMonthFormat,
     // navigateNewMOM
   } = useContext(MomContext);
   
@@ -498,7 +498,7 @@ function MomSection() {
         ) : (
           <>
             <div className="content-table">
-              {checkboxSelected.length > 0 ? (
+              {checkboxSelected.length > 0 && !draftsflag ? (
                 <div className="d-flex align-center justify-between divider-margin">
                   <div className="d-flex justify-around width-14">
                     {!draftsflag ? (
@@ -705,13 +705,14 @@ function MomSection() {
                             className="d-flex align-center justify-flex-start table-row  height-7 
                           border-radius-4 font-weight-400 color-text-000000 margin-bottom-4 cursor-pointer"
                           >
-                            <input
+                            {/* <input
                               className="checkbox-field"
                               type="checkbox"
                               name="datacheck"
                               value={`name${index}`}
                               onChange={(e) => handleCheckDeleteShare(_id, e)}
-                            />
+                            /> */}
+                            <div  className="checkbox-field"></div>
                             <div
                               className="color-text-000000 font-weight-400 width-16"
                               onClick={() => gotoInnerMom(projectId,_id)}

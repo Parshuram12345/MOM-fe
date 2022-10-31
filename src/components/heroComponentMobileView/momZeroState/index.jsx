@@ -27,7 +27,8 @@ function MomZeroState() {
     handlePointsTextArea,
     handleSaveDraftData,
     handleSubmitData,
-    navigateHome
+    navigateHome,
+    maxDateCurrent
   } = useContext(momContext);
   return (
     <>
@@ -51,6 +52,7 @@ function MomZeroState() {
             <div className="d-flex align-center position-relative width-60">
               <input
                 type="text"
+                max={maxDateCurrent()}
                 className="border-df bg-color-fa padding-5 border-radius-4 width-100"
                 value={selectdate}
                 placeholder="Select date"
@@ -181,14 +183,14 @@ function MomZeroState() {
           className="d-flex align-center justify-between"
         >
           <button
-            className="save-draft-btn border-radius-4"
+            className="save-draft-btn border-radius-4 width-48"
             onClick={() => handleSaveDraftData()}
           >
             Save as Draft
           </button>
           <button
             type="submit"
-            className="submitbtn bg-color border-radius-4"
+            className="submitbtn bg-color border-radius-4 width-48"
             onClick={() => handleSubmitData()}
           >
             Submit

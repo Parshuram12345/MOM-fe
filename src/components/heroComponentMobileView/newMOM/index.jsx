@@ -33,7 +33,8 @@ function NewMom() {
     handleSubmitData,
     handleSaveDraftData,
     navigateHome,
-    getSingleMomApiData
+    getSingleMomApiData,
+    maxDateCurrent
   } = useContext(momContext);
   const { projectId, id } = useParams();
 
@@ -50,10 +51,11 @@ function NewMom() {
                 0,
                 4
               )}-${responseWithId?.date?.substring(
-                5,
+                5,  
                 7
               )}-${responseWithId?.date?.substring(8, 10)}`
             );
+            setEmaillist([...responseWithId?.sharedWith])
             setLocation(responseWithId?.location);
             setTitle(responseWithId?.title);
             setPointsdata(
@@ -108,6 +110,7 @@ function NewMom() {
             <label className="label-text">Date:</label>
             <input
               type="text"
+              max={maxDateCurrent()}
               className="border-df bg-color-fa padding-5 border-radius-4 width-60"
               value={selectdate}
               placeholder="Select date"
@@ -231,22 +234,23 @@ function NewMom() {
           ></textarea>
         </div>
         {pointserror && (
-          <small className="error-msg" style={{ color: "red" }}>
+          <small className="error-msg" style={{color: "red"}}>
             Write something here
           </small>
         )}
         <div
-          style={{ marginTop: "15%" }}
+          style={{ marginTop: "15%"}}
           className="d-flex align-center justify-between"
         >
           <button
-            className="save-draft-btn border-radius-4"
+
+            className="save-draft-btn border-radius-4 width-48"
             onClick={() => handleSaveDraftData(projectId,id)}
           >
             Save as Draft
           </button>
           <button
-            className="submitbtn-mob bg-color border-radius-4"
+            className="submitbtn-mob bg-color border-radius-4 width-48"
             onClick={() => handleSubmitData(projectId,id)}
           >
             Submit
