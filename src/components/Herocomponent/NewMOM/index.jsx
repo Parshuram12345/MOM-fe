@@ -163,7 +163,7 @@ function NewMom() {
               <label className="label-text margin-top-5">Location:</label>
               <input
                 type="text"
-                placeholder="Where did you the meet?"
+                placeholder="Where did you do the meet?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="width-75 border-df bg-color-fa padding-5 border-radius-4"

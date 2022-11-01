@@ -73,7 +73,7 @@ function MobileApp() {
   };
   ///---remove the zero the when month number is less than 10-----///
   const makeMonthFormat = (str) => {
-    if (str.charAt(0) == 0) {
+    if (str.charAt(0) === "0") {
       return monthList[str.charAt(1)]
     }
     else {

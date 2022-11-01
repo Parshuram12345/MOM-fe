@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import axios from "axios";
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { Route, Routes, useNavigate} from "react-router-dom";
 import "./Styles/index.css";
 import "./App.css";
 import Home from "./views/Home";
@@ -39,8 +39,8 @@ function App() {
   const [openShareModal, setOpenShareModal] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [designerEmail, setDesignEmail] = useState("");
-  const { access_token, BaseUrl, userId, monthList } = data;
-  const { projectId, id } = useParams;
+  const { access_token, BaseUrl, monthList } = data;
+  // const { projectId, id } = useParams;
   const navigate = useNavigate();
   ///---navigate to home page -----///
   const navigateHome = (projectId) => {
@@ -57,7 +57,7 @@ function App() {
     const todayupdate = yyyy + '-' + mm + '-' + dd;
     return todayupdate
   }
-  
+  console.log(bulletPoints)
   ///-----share condition in draft threedots open mom with same id----///
   const handleShareMOM = (value, projectId,id) => {
     setShareMom(value);
@@ -106,7 +106,7 @@ function App() {
  
   ///---remove the zero the when month number is less than 10-----///
   const makeMonthFormat=(str)=>{
-       if(str.charAt(0)==0){
+       if(str.charAt(0)==="0"){
            return monthList[str.charAt(1)]
           }
           else{

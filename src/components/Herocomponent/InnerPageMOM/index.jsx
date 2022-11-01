@@ -268,7 +268,7 @@ function InnerPageMom() {
                 })}
                 {/* {shareEmail && <div>{shareEmail}</div>} */}
                 { !shareIconsent && <div
-                  className="color-text d-flex align-center width-fit-content"
+                  className="color-text d-flex align-center width-fit-content cursor-pointer"
                   onClick={() => setOpenShareModal(true)}
                 >
                    <AiFillPlusCircle /> Add Members
