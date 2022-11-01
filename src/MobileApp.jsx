@@ -29,6 +29,7 @@ function MobileApp() {
   const [roomName, setRoomName] = useState([]);
   const [updatedraftusingId, setUpdatedraftsusingId] = useState("");
   const [clientEmail,setClientEmail] = useState("");
+  const [ clientName,setClientName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [designerEmail, setDesignEmail] = useState("");
   const [openShareModal, setOpenShareModal] = useState(false);
@@ -431,6 +432,8 @@ function MobileApp() {
           setRoomName,
           clientEmail,
           setClientEmail,
+          clientName,
+          setClientName,
           setEmailValid,
           getClientProject,
           handleSharedMOMdata,

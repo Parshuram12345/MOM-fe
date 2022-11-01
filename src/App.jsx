@@ -18,6 +18,7 @@ function App() {
   const [emaillist, setEmaillist] = useState([]);
   const [emailvalue, setEmailvalue] = useState();
   const [clientEmail, setClientEmail] = useState("");
+  const [ clientName,setClientName] = useState("");
   const [dateerror, setDateerror] = useState(false);
   const [categoryerror, setCategoryerror] = useState(false);
   const [pointserror, setPointserror] = useState(false);
@@ -450,6 +451,8 @@ async function saveSharedEmailApi(alreadySharedEmail,sharedemail,projectId,id){
           setRoomName,
           clientEmail,
           setClientEmail,
+          clientName,
+          setClientName,
           openShareModal,
           setOpenShareModal,
           openshareMomModal,
