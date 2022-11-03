@@ -34,6 +34,9 @@ function MobileApp() {
   const [designerEmail, setDesignEmail] = useState("");
   const [openShareModal, setOpenShareModal] = useState(false);
   const [shareEmail, setShareEmail] = useState("");
+  const [designerName,setDesignerName]=useState("")
+  const [designerLocation,setDesignerLocation]=useState("")
+  const [designerStatus,setDesignerStatus]=useState("")
   const { access_token, BaseUrl, monthList } = data;
   const navigate = useNavigate();
   const { projectId } = useParams();
@@ -345,7 +348,7 @@ function MobileApp() {
   ///---get client project ---////
   async function getClientProject(projectId) {
     return await axios.get(
-      `https://pmt.idesign.market/api/projects/getProjects?projectId=${projectId}`,
+      `${BaseUrl}/api/projects/getProjects?projectId=${projectId}`,
       {
         headers: {
           Authorization: access_token,
@@ -434,6 +437,12 @@ function MobileApp() {
           setClientEmail,
           clientName,
           setClientName,
+          designerName,
+          setDesignerName,
+          designerLocation,
+          setDesignerLocation,
+          designerStatus,
+          setDesignerStatus,
           setEmailValid,
           getClientProject,
           handleSharedMOMdata,
@@ -465,7 +474,7 @@ function MobileApp() {
             path="/:projectId/:id"
             element={<MomMainSectionMobilePage />}
           />
-          <Route path="/momzerostate" element={<MomZeroStateMobilePage />} />
+          <Route path="/momzerostate/:projectId" element={<MomZeroStateMobilePage />} />
           <Route path="/newmom/:projectId" element={<NewMomMobilePage />} />
           <Route path="/newmom/:projectId/:id" element={<NewMomMobilePage />} />
           <Route

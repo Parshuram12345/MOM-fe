@@ -3,8 +3,10 @@ import "./momZeroState.css";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
 import { MomContext } from "../../../App.jsx";
+import { useParams } from "react-router-dom";
 
 function MomZeroState() {
+  const { projectId, id } = useParams();
   const {
     momdate,
     setMomdate,
@@ -28,17 +30,23 @@ function MomZeroState() {
     handleSubmitData,
     handleSaveDraft,
     getClientProject,
-    maxDateCurrent
+    maxDateCurrent,
+    designerName,
+    setDesignerName
   } = useContext(MomContext);
   useEffect(()=>{
-    getClientProject()
+    getClientProject(projectId)
+    .then((res)=>{
+      console.log(res.data.projects[0].name)
+      setDesignerName(res.data.projects[0].name)
+    })
    },[])
   return (
     <>
-      <div className=" justify-around margin-left-3 width-75">
-        <div className="d-flex align-center width-fit-content divider-margin">
+      <div className=" justify-around margin-left-3 width-95">
+        <div style={{marginTop:"10px"}} className="d-flex align-center width-fit-content divider-margin">
           <div className="small-font-10 color-text-888888">
-            Ashok rathi residence
+           {designerName}
           </div>
           <span className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
@@ -51,14 +59,14 @@ function MomZeroState() {
         </div>
         <div className="d-flex align-center justify-between width-22">
             <button
-              className="savedata-button font-size-12 font-weight-400 border-radius-4"
-              onClick={() => handleSaveDraft()}
+              className="savedata-button small-font-12 font-weight-400 border-radius-4"
+              onClick={() => handleSaveDraft(projectId)}
             >
               Save as Draft
             </button>
             <button
-              className="submitdata-button bg-color border-none border-radius-4"
-              onClick={() => handleSubmitData()}>
+              className="submitdata-button small-font-12 bg-color border-none border-radius-4"
+              onClick={() => handleSubmitData(projectId)}>
               Submit
             </button>
           </div>
@@ -102,7 +110,7 @@ function MomZeroState() {
               <label className="label-text marign-top-5">Location:</label>
               <input
                 type="text"
-                placeholder="Where did you the meet?"
+                placeholder="Where did you do the meet?"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="border-df bg-color-fa padding-5 border-radius-4 width-75"
@@ -113,7 +121,7 @@ function MomZeroState() {
             {dateerror && (
               <small
                 className="position-absolute"
-                style={{ color: "red",marginLeft:"4.5%" }}
+                style={{ color: "red",marginLeft:"5%" }}
               >
                 date is required
               </small>

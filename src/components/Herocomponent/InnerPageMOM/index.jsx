@@ -3,7 +3,7 @@ import axios from "axios";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { HiOutlineShare } from "react-icons/hi";
 import { FiChevronRight } from "react-icons/fi";
-import { Link,useParams,useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import "./InnerPageMom.css";
 import { data } from "../../utils/index";
 import { allImagesList } from "../../utils/images";
@@ -11,11 +11,11 @@ import { MomContext } from "../../../App.jsx";
 
 function InnerPageMom() {
   const { projectId, id } = useParams();
-  const [shareIconsent,setShareIconsent]=useState(true)
-  const [sharedMomEmail,setSharedMomEmail]=useState([])
+  const [shareIconsent, setShareIconsent] = useState(true)
+  const [sharedMomEmail, setSharedMomEmail] = useState([])
   const navigate = useNavigate()
   // console.log(id);
-  const { BaseUrl, access_token} = data;
+  const { BaseUrl, access_token } = data;
   const { fullDots, crossCloseIcon } = allImagesList;
   const {
     pointsdetails,
@@ -31,7 +31,13 @@ function InnerPageMom() {
     sharedMOMWithEmail,
     getSingleMOMApiData,
     getClientProject,
-    makeMonthFormat
+    makeMonthFormat,
+    designerName,
+    setDesignerName,
+    designerLocation,
+    setDesignerLocation,
+    designerStatus,
+    setDesignerStatus,
     // navigateNewMOM
   } = useContext(MomContext);
   ///-----highlight the match point text---///
@@ -74,39 +80,41 @@ function InnerPageMom() {
     });
   }
 
- 
+
   useEffect(() => {
-    if(id){
-    getSingleMOMApiData(id)
+    if (id) {
+      getSingleMOMApiData(id)
+        .then((res) => {
+          setPointsdetails(
+            res?.data?.momData[0]
+          );
+          setShareIconsent(res.data.momData[0].isDraft)
+          setSharedMomEmail(res.data.momData[0].sharedWith)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      ///----read mom ----///
+      getReadMOM()
+        .then((response) => {
+          if (response.status === 200) {
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    //---get client name from client data----///
+    getClientProject(projectId)
       .then((res) => {
-        setPointsdetails(
-          res?.data?.momData[0]
-        );
-        setShareIconsent(res.data.momData[0].isDraft)
-        setSharedMomEmail(res.data.momData[0].sharedWith)
+        setClientEmail(res.data.projects[0].clientId.email);
+        setDesignerName(res.data.projects[0].name)
+        setDesignerLocation(res.data.projects[0].location)
       })
       .catch((error) => {
         console.error(error);
       });
-      ///----read mom ----///
-      getReadMOM()
-      .then((response) => {
-        if (response.status === 200) {
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-      
-    //---get client name from client data----///
-    getClientProject(projectId)
-    .then((res) => {
-      setClientEmail(res.data.projects[0].clientId.email);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
   }, []);
   ///----bullet points -----////
   const bullet = "\u2022";
@@ -143,7 +151,7 @@ function InnerPageMom() {
               <div className="actions">
                 <div
                   className="ui button submit-btn"
-                  onClick={() => sharedMOMWithEmail(projectId,id)}
+                  onClick={() => sharedMOMWithEmail(projectId, id)}
                 >
                   Submit
                 </div>
@@ -154,7 +162,7 @@ function InnerPageMom() {
 
         <div className="d-flex font-weight-500 small-font-10 width-fit-content justify-between align-center margin-top-10">
           <div id="ids" className="small-font-10 color-text-888888">
-            Ashok rathi residence
+            {designerName}
           </div>
           <span className="d-flex align-center small-font-12 color-text-888888">
             <FiChevronRight />
@@ -196,18 +204,18 @@ function InnerPageMom() {
             </div>
           </div>
           <Link to={`/newmom/${projectId}`}>
-            <button className="mom-btn" 
+            <button className="mom-btn"
             // onClick={navigateNewMOM(projectId)}
             >Create a MOM</button>
-            </Link>
+          </Link>
         </div>
         <div className="d-flex-col">
           <div className="d-flex align-center">
             <div className="points-field font-size-18 font-weight-400">
               {pointsdetails?.title}
             </div>
-            <div style={{marginLeft:"5px"}}>
-             { !shareIconsent &&  <HiOutlineShare
+            <div style={{ marginLeft: "5px" }}>
+              {!shareIconsent && <HiOutlineShare
                 className="color-text-888888"
                 onClick={() => setOpenShareModal(true)}
               />}
@@ -216,8 +224,7 @@ function InnerPageMom() {
           <div className="d-flex justify-between width-91">
             <div style={{ margin: "5px 0" }} className="color-text-888888">
               {pointsdetails?.date &&
-                `${pointsdetails?.date?.substring(8, 10)} ${
-                  makeMonthFormat(pointsdetails?.date?.substring(5, 7))
+                `${pointsdetails?.date?.substring(8, 10)} ${makeMonthFormat(pointsdetails?.date?.substring(5, 7))
                 } ${pointsdetails?.date?.substring(0, 4)}`}
               <img
                 style={{ margin: "0 5px" }}
@@ -260,18 +267,18 @@ function InnerPageMom() {
             <div className="share-with-wrapper padding-left-10">
               <div style={{ width: "104px" }} className="ui divider"></div>
               <div className="d-flex-col align-left justify-between word-break">
-                {shareIconsent && <div style={{width:"160%"}}>{clientEmail}</div>}
-                {!shareIconsent && sharedMomEmail?.map((email,i)=>{
-                  return(
-                    <div style={{width:"160%"}} key={i}>{email}</div>
+                {shareIconsent && <div style={{ width: "160%" }}>{clientEmail}</div>}
+                {!shareIconsent && sharedMomEmail?.map((email, i) => {
+                  return (
+                    <div style={{ width: "160%" }} key={i}>{email}</div>
                   )
                 })}
                 {/* {shareEmail && <div>{shareEmail}</div>} */}
-                { !shareIconsent && <div
+                {!shareIconsent && <div
                   className="color-text d-flex align-center width-fit-content cursor-pointer"
                   onClick={() => setOpenShareModal(true)}
                 >
-                   <AiFillPlusCircle /> Add Members
+                  <AiFillPlusCircle /> Add Members
                 </div>}
               </div>
             </div>

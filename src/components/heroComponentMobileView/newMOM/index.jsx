@@ -76,16 +76,17 @@ function NewMom() {
     let emailconvertArr = [];
     getClientProject(projectId)
     .then((res) => {
-            // console.log(res.data.projects)
-            setRoomName(res.data.projects[0].rooms);
-            emailconvertArr.push(res.data.projects[0].clientId.email);
-            setEmaillist(emailconvertArr);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      setRoomName(res.data.projects[0].rooms);
+      emailconvertArr.push(res.data.projects[0].clientId.email);
+      if(!id){
+        setEmaillist(emailconvertArr);
+      }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
-
+ console.log(emaillist)
   return (
     <>
       <div className="d-flex-col justify-around padding-3 height-90">

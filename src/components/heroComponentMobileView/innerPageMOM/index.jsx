@@ -13,11 +13,11 @@ function InnerPageMom() {
   const { projectId, id } = useParams();
   const navigate = useNavigate();
   const { BaseUrl, access_token } = data;
-  const { fullDots, doubleVector, searchIcon, createmom, crossCloseIcon } =
+  const { fullDots, doubleVector, searchIcon, createmom, crossCloseIcon, backArrow } =
     allImagesList;
   const [searchbarToggle, setSearchToggle] = useState(false);
   const [shareIconsent, setShareIconsent] = useState(true);
-  const [sharedMomEmail,setSharedMomEmail]=useState([])
+  const [sharedMomEmail, setSharedMomEmail] = useState([])
   const {
     pointsdetails,
     clientEmail,
@@ -33,6 +33,11 @@ function InnerPageMom() {
     openShareModal,
     emailValid,
     makeMonthFormat,
+    designerName,
+    setDesignerName,
+    designerLocation,
+    setDesignerLocation,
+    designerStatus,
   } = useContext(momContext);
   ///----toggle searchbar -----////
   const toggleSearchbarEffect = (value) => {
@@ -95,6 +100,8 @@ function InnerPageMom() {
     getClientProject(projectId)
       .then((res) => {
         setClientEmail(res.data.projects[0].clientId.email);
+        setDesignerName(res.data.projects[0].name)
+        setDesignerLocation(res.data.projects[0].location)
       })
       .catch((error) => {
         console.error(error);
@@ -155,9 +162,9 @@ function InnerPageMom() {
             </div>
           </div>
         )}
-        <div style={{flexWrap:"wrap",justifyContent:"start"}} className="d-flex font-weight-500 width-fit-content align-center margin-top-4 word-break">
+        <div style={{ flexWrap: "wrap", justifyContent: "start" }} className="d-flex font-weight-500 width-fit-content align-center margin-top-4 word-break">
           <div className="color-text-888888 small-font-10 cursor-pointer">
-            Pr's saini
+            {designerName}
           </div>
           <div className="d-flex align-center color-text-888888 small-font-12">
             <FiChevronRight />
@@ -184,9 +191,8 @@ function InnerPageMom() {
             Minutes of Meetings
           </div>
           <div
-            className={`search-box d-flex align-center position-absolute ${
-              !searchbarToggle ? "right-22" : "right-0"
-            }`}
+            className={`search-box d-flex align-center position-absolute ${!searchbarToggle ? "right-22" : "right-0"
+              }`}
           >
             <input
               type="text"
@@ -220,17 +226,17 @@ function InnerPageMom() {
         </div>
         <div className="d-flex-col">
           <div className="d-flex align-center">
-            <div style={{wordBreak: "break-word"}} className="font-size-14 font-weight-600 divider-margin width-fit-content">
+            <div style={{ wordBreak: "break-word" }} className="font-size-14 font-weight-600 divider-margin width-fit-content">
               {pointsdetails?.title}
-                </div>
-              <div style={{ marginLeft: "5px" }}>
-                {!shareIconsent && (
-                  <HiOutlineShare
-                    className="color-text-888888"
-                    onClick={() => setOpenShareModal(true)}
-                  />
-                )}
-              </div>
+            </div>
+            <div style={{ marginLeft: "5px" }}>
+              {!shareIconsent && (
+                <HiOutlineShare
+                  className="color-text-888888"
+                  onClick={() => setOpenShareModal(true)}
+                />
+              )}
+            </div>
           </div>
           <div className="d-flex justify-between">
             <div className="color-text-888888 font-size-13">
@@ -252,13 +258,13 @@ function InnerPageMom() {
         </div>
         <div className="ui divider"></div>
         <div>
-        <div style={{margin:"5px 0"}} className="font-weight-500 color-text-000000">ShareWith</div>
-        {shareIconsent && <div>{clientEmail}</div>}
-                {!shareIconsent && sharedMomEmail?.map((email,i)=>{
-                  return(
-                    <div key={i}>{email}</div>
-                  )
-                })}
+          <div style={{ margin: "5px 0" }} className="font-weight-500 color-text-000000">ShareWith</div>
+          {shareIconsent && <div>{clientEmail}</div>}
+          {!shareIconsent && sharedMomEmail?.map((email, i) => {
+            return (
+              <div key={i}>{email}</div>
+            )
+          })}
         </div>
         <div name="points" className="points-container border-none">
           {pointsdetails &&

@@ -57,14 +57,15 @@ function NewMom() {
     if (id) {
       getSingleMOMApiData(id)
         .then((res) => {
-          let respoonseWithId = res?.data?.momData[0];
-          setCategory(respoonseWithId.category)
+          let responseWithId = res?.data?.momData[0];
+          setCategory(responseWithId.category)
           setMomdate(
-            `${respoonseWithId?.date?.substring(0, 4)}-${respoonseWithId?.date.substring(5, 7)}-${respoonseWithId?.date?.substring(8, 10)}`
+            `${responseWithId?.date?.substring(0, 4)}-${responseWithId?.date.substring(5, 7)}-${responseWithId?.date?.substring(8, 10)}`
           );
-          setLocation(respoonseWithId?.location);
-          setTitle(respoonseWithId?.title)
-          setBulletPoints(respoonseWithId?.points?.filter((elem) => elem !== " \n").map((item) => { return (`${bullet} ${item.trim()}`) }).join("\n"));
+          setLocation(responseWithId?.location);
+          setTitle(responseWithId?.title)
+          setBulletPoints(responseWithId?.points?.filter((elem) => elem !== " \n").map((item) => { return(`${bullet} ${item.trim()}`) }).join("\n"));
+          setEmaillist([...responseWithId?.sharedWith])
         }
         )
         .catch((error) => {
@@ -74,11 +75,13 @@ function NewMom() {
     //---get client name from client data----///
     let emailconvertArr = [];
     getClientProject(projectId)
-      .then((res) => {
-        // console.log(res.data.projects)
-        setRoomName(res.data.projects[0].rooms);
-        emailconvertArr.push(res.data.projects[0].clientId.email);
+    .then((res) => {
+      // console.log(res.data.projects)
+      setRoomName(res.data.projects[0].rooms);
+      emailconvertArr.push(res.data.projects[0].clientId.email);
+      if(!id){
         setEmaillist(emailconvertArr);
+      }
       })
       .catch((error) => {
         console.error(error);
@@ -128,7 +131,7 @@ function NewMom() {
                 className="border-df bg-color-fa padding-5 border-radius-4 width-80"
                 value={momdate}
                 onChange={(newdate) =>
-                  setMomdate(newdate.target.value)
+                setMomdate(newdate.target.value)
                 }
                 placeholder="Select date"
                 onFocus={(e) => (e.target.type = "date")}
@@ -174,7 +177,7 @@ function NewMom() {
             {dateerror && (
               <small
                 className="position-absolute"
-                style={{ color: "red", marginLeft: "4.5%" }}
+                style={{ color: "red", marginLeft: "5%" }}
               >
                 date is required
               </small>

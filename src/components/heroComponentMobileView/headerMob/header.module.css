@@ -1,0 +1,78 @@
+.mainHeader {
+    background: #FFFFFF;
+    border-bottom: 1px solid #DFDFDF;
+    padding: 0.5rem 1rem;
+}
+
+.mainHeader2 {
+    background: #FFFFFF;
+    border-bottom: 1px solid #DFDFDF;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+}
+
+.mainDetails {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+
+.line {
+    border-right: 1px solid #DFDFDF;
+    transform: rotate(180deg);
+    height: 25px;
+    margin-bottom: 0.5rem;
+}
+
+.selectTabs {
+    border-bottom: 1px solid #dfdfdf;
+    display: flex;
+    padding: 0 1rem;
+}
+
+.activeTab {
+    border-bottom: 3px solid #3b5998;
+    color: #3b5998;
+    font-size: 14px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.inactiveTab {
+    color: black;
+    font-size: 14px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.activeState {
+    font-weight: 500;
+    font-size: 16px;
+    color: #3B5998;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    background: #ECEFF5;
+    margin-left: 1rem;
+    padding: 0.5rem;
+}
+
+.unactiveState {
+    font-weight: 500;
+    font-size: 16px;
+    color: #888888;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    margin-left: 1rem;
+    padding: 0.5rem;
+}
+
+.sideimg {
+    margin-right: 0.5rem;
+    margin-bottom: 0.2rem;
+}

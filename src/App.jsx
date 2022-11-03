@@ -39,6 +39,9 @@ function App() {
   const [openShareModal, setOpenShareModal] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [designerEmail, setDesignEmail] = useState("");
+  const [designerName,setDesignerName]=useState("")
+  const [designerLocation,setDesignerLocation]=useState("")
+  const [designerStatus,setDesignerStatus]=useState("")
   const { access_token, BaseUrl, monthList } = data;
   // const { projectId, id } = useParams;
   const navigate = useNavigate();
@@ -57,7 +60,6 @@ function App() {
     const todayupdate = yyyy + '-' + mm + '-' + dd;
     return todayupdate
   }
-  console.log(bulletPoints)
   ///-----share condition in draft threedots open mom with same id----///
   const handleShareMOM = (value, projectId,id) => {
     setShareMom(value);
@@ -460,6 +462,12 @@ async function saveSharedEmailApi(alreadySharedEmail,sharedemail,projectId,id){
           newSentUnread,
           shareEmail,
           emailCheck,
+          designerName,
+          setDesignerName,
+          designerLocation,
+          setDesignerLocation,
+          designerStatus,
+          setDesignerStatus,
           shareEmailFormat,
           sharedMOMWithEmail,
           shareEmailFormat,

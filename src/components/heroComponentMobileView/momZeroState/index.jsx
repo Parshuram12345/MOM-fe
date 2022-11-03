@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import "../newMOM/newMOM.css";
+import { useParams } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 import { AiFillCaretDown } from "react-icons/ai";
 import { momContext } from "../../../MobileApp.jsx";
-// import {}
 function MomZeroState() {
+  const { projectId, id } = useParams();
   const {
     selectdate,
     setSelectdate,
@@ -19,7 +20,6 @@ function MomZeroState() {
     categoryerror,
     pointserror,
     emailValid,
-    roomName,
     pointsdata,
     addEmail,
     removeEmail,
@@ -28,8 +28,21 @@ function MomZeroState() {
     handleSaveDraftData,
     handleSubmitData,
     navigateHome,
-    maxDateCurrent
+    maxDateCurrent,
+    roomName,
+    setRoomName,
+    getClientProject,
   } = useContext(momContext);
+  getClientProject(projectId)
+  .then((res) => {
+          // console.log(res.data.projects)
+          setRoomName(res.data.projects[0].rooms);
+          // emailconvertArr.push(res.data.projects[0].clientId.email);
+          // setEmaillist(emailconvertArr);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
   return (
     <>
       <div className="d-flex-col justify-around padding-3 height-90">
@@ -108,7 +121,7 @@ function MomZeroState() {
           <label className="label-text">Location:</label>
           <input
             type="text"
-            placeholder="wWere did you do the meet?"
+            placeholder="Where did you do the meet?"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className="border-df bg-color-fa padding-5 border-radius-4"
@@ -190,7 +203,7 @@ function MomZeroState() {
           </button>
           <button
             type="submit"
-            className="submitbtn bg-color border-radius-4 width-48"
+            className="submitbtn-mob bg-color border-radius-4 width-48"
             onClick={() => handleSubmitData()}
           >
             Submit
